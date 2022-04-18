@@ -1,0 +1,145 @@
+.navbar {
+	background-color: $white;
+	border-bottom: 1px solid $mystic;
+	width: 100%;
+	top: 0;
+	position: sticky;
+	z-index: 999;
+
+    .navbar-brand {
+        i {
+            color: $black;
+        }
+    }
+
+    .navbar-nav {
+        vertical-align: bottom;
+
+        #logo {
+            height: 30px;
+        }
+    }
+
+    .navbar-toggler {
+        background-color: $white;
+
+        i {
+            color: $white;
+        }
+    }
+
+    #nav-collapse {
+        button {
+            border: none !important;
+
+            &:hover {
+                opacity: 1;
+            }
+
+            &:focus {
+                box-shadow: none;
+            }
+        }
+
+		.dropdown-toggle {
+			background-color: $cloud-burst;
+      color: $white;
+      font-weight: bold;
+			min-width: 160px;
+		}
+
+        .btn-logout {
+            border-radius: 20px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+	.navbar-dark .navbar-toggler {
+		border-color: transparent;
+	}
+}
+
+#wrapper {
+	padding-left: 0;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+	position: relative;
+}
+
+#wrapper.toggled {
+	padding-left: 200px;
+}
+
+#sidebar-wrapper {
+	z-index: 1000;
+	position: fixed;
+	left: 200px;
+	width: 0;
+	height: 100%;
+	margin-left: -200px;
+	overflow-y: auto;
+	background: $cloud-burst;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+	width: 200px;
+}
+
+#page-content-wrapper {
+	width: 100%;
+	position: absolute;
+    overflow: hidden;
+
+    .view-page {
+        margin: 10px;
+    }
+}
+
+#wrapper.toggled #page-content-wrapper {
+	position: absolute;
+	margin-right: -200px;
+}
+
+.sidebar-nav {
+	position: absolute;
+	top: 0;
+	width: 200px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+@media (min-width: 768px) {
+	#wrapper {
+		padding-left: 200px;
+	}
+
+	#wrapper.toggled {
+		padding-left: 0;
+	}
+
+	#sidebar-wrapper {
+		width: 200px;
+	}
+
+	#wrapper.toggled #sidebar-wrapper {
+		width: 0;
+	}
+
+	#page-content-wrapper {
+		position: relative;
+	}
+
+	#wrapper.toggled #page-content-wrapper {
+		position: relative;
+		margin-right: 0;
+	}
+}
+
