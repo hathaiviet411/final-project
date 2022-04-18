@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 * {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 
     &:focus {
         outline: none;
@@ -45,77 +45,83 @@
 }
 
 .primary-btn {
-  min-width: 150px !important;
-  color: $white !important;
-  background-color: $cloud-burst !important;
+    min-width: 150px !important;
+    color: $white !important;
+    background-color: $cloud-burst !important;
 
-  &:hover {
-    opacity: .8;
-    color: $black !important;
-    background-color: $white !important;
-  }
+    &:hover {
+        opacity: 0.8;
+        color: $black !important;
+        background-color: $white !important;
+    }
 
-  &:active {
-    color: $black !important;
-      background-color: $white !important;
-  }
+    &:active {
+        color: $black !important;
+        background-color: $white !important;
+    }
 
-  &:focus {
-    color: $black !important;
-      background-color: $white !important;
-  }
+    &:focus {
+        color: $black !important;
+        background-color: $white !important;
+    }
 }
 
 .warning-btn {
-  min-width: 150px !important;
-  color: $white !important;
-  background-color: $cream-brulee !important;
+    min-width: 150px !important;
+    color: $white !important;
+    background-color: $cream-brulee !important;
 
-  &:hover {
-    opacity: .8;
-    color: $cream-brulee !important;
-    background-color: $white !important;
-  }
+    &:hover {
+        opacity: 0.8;
+        color: $cream-brulee !important;
+        background-color: $white !important;
+    }
 
-  &:active {
-    color: $cream-brulee !important;
-      background-color: $white !important;
-  }
+    &:active {
+        color: $cream-brulee !important;
+        background-color: $white !important;
+    }
 
-  &:focus {
-    color: $cream-brulee !important;
-      background-color: $white !important;
-  }
+    &:focus {
+        color: $cream-brulee !important;
+        background-color: $white !important;
+    }
 }
 
 .danger-btn {
-  min-width: 150px !important;
-  color: $white !important;
-  background-color: $froly !important;
+    min-width: 150px !important;
+    color: $white !important;
+    background-color: $froly !important;
 
-  &:hover {
-    opacity: .8;
-    color: $froly !important;
-    background-color: $white !important;
-  }
+    &:hover {
+        opacity: 0.8;
+        color: $froly !important;
+        background-color: $white !important;
+    }
 
-  &:active {
-    color: $froly !important;
-      background-color: $white !important;
-  }
+    &:active {
+        color: $froly !important;
+        background-color: $white !important;
+    }
 
-  &:focus {
-    color: $froly !important;
-      background-color: $white !important;
-  }
+    &:focus {
+        color: $froly !important;
+        background-color: $white !important;
+    }
+}
+
+.cornflower {
+    color: $white !important;
+    background-color: $cornflower-blue !important;
+    font-weight: bolder !important;
 }
 
 .tooltip-inner {
     min-width: 300px !important;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

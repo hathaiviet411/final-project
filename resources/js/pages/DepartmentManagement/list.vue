@@ -17,16 +17,10 @@
 
 				<v-row class="my-3 mx-3">
 					<v-col cols="12">
-						<v-card elevation="24" min-height="700">
+						<v-card elevation="24">
 							<v-card-title>
-								<v-row>
-									<v-col lg="4" sm="12">
-										<v-card elevation="3">
-											<vHeaderPage>{{ 'Tổng số phòng ban: ⭐ 24' }}</vHeaderPage>
-										</v-card>
-									</v-col>
-
-									<v-col lg="5" sm="12">
+								<b-row>
+									<b-col lg="6" md="12" sm="12" xs="12" class="text-center">
 										<v-text-field
 											v-model="search"
 											append-icon="mdi-magnify"
@@ -34,90 +28,90 @@
 											single-line
 											hide-details
 										/>
-									</v-col>
+									</b-col>
 
-									<v-col lg="3" sm="12" class="text-center">
-										<v-btn color="#1e2a55" dark block class="mt-3" @click="registerDialog = true">
+									<b-col lg="6" md="12" sm="12" xs="12" class="text-center">
+										<v-btn color="#1e2a55" width="285" dark class="mt-3" @click="registerDialog = true">
 											<span style="color: #FFFFFF;">{{ $t('DEPARTMENT_MANAGEMENT.NEW_DEPARTMENT') }}</span>
 										</v-btn>
-									</v-col>
-								</v-row>
+									</b-col>
+								</b-row>
 							</v-card-title>
 
 							<v-data-table
-								class="department-management-list-table"
+								class="department-management-list-table mt-3"
 								:headers="headers"
 								:items="items"
 								:search="search"
 								item-key="department_name"
-								sort-by="department_name"
-								:header-props="{
-									sortByText: $t('BUTTON.SORT_BY'),
-									sortIcon: null,
-								}"
 								:footer-props="{
 									itemsPerPageText: $t('PAGINATION.DISPLAY_PER_PAGE'),
 									itemsPerPageAllText: $t('PAGINATION.ALL'),
 									itemsPerPageOption: [10, 20, 50, 100, -1]
 								}"
-							/>
+							>
+								<template #[`item.total_staff`]="{ item }">
+									<span>{{ item.total_staff ? item.total_staff : 0 }}</span>
+								</template>
+
+								<template #[`item.actions`]="{ item }">
+									<v-row>
+										<v-col cols="6" class="text-right">
+											<v-icon small class="text-primary" @click="getSpecificDepartment(item.id)">fas fa-edit</v-icon>
+										</v-col>
+
+										<v-col cols="6" class="text-left">
+											<v-icon small class="text-danger" @click="deleteDialog = true, deleting_id = item.id">fas fa-trash-alt</v-icon>
+										</v-col>
+									</v-row>
+								</template>
+							</v-data-table>
 						</v-card>
 					</v-col>
 				</v-row>
 
 				<!-- Register Dialog -->
-				<v-dialog v-model="registerDialog" max-width="800px" persistent no-click-animation>
+				<v-dialog v-model="registerDialog" max-width="500" persistent no-click-animation>
 					<v-card>
-						<v-card-title>
-							<span>Cat</span>
-						</v-card-title>
+						<v-btn elevation="3" block tile class="mb-3 cornflower">
+							<span>{{ $t('DEPARTMENT_MANAGEMENT.NEW_DEPARTMENT') }}</span>
+						</v-btn>
 
 						<v-card-text>
-							<v-row>
+							<v-row class="mt-1">
 								<!-- Department Name -->
-								<v-col cols="12" sm="6" md="6">
+								<v-col cols="12">
 									<v-text-field
-										v-model="department.name"
+										v-model="department.department_name"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_NAME')"
 										solo
-									>
-										<template #prepend-inner>
-											<v-icon small :color="prependIconColor">fas fa-building</v-icon>
-										</template>
-									</v-text-field>
+									/>
 								</v-col>
 
 								<!-- Department Address -->
-								<v-col cols="12" sm="6" md="6">
+								<v-col cols="12">
 									<v-text-field
-										v-model="department.address"
+										v-model="department.department_address"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_ADDRESS')"
 										solo
-									>
-										<template #prepend-inner>
-											<v-icon small :color="prependIconColor">fas fa-map-marker-alt</v-icon>
-										</template>
-									</v-text-field>
+									/>
 								</v-col>
 
 								<!-- Department Manager -->
-								<v-col cols="12" sm="6" md="6">
+								<v-col cols="12">
 									<v-text-field
-										v-model="department.manager"
+										v-model="department.department_manager"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER')"
 										solo
-									>
-										<template #prepend-inner>
-											<v-icon small :color="prependIconColor">fas fa-user-crown</v-icon>
-										</template>
-									</v-text-field>
+									/>
 								</v-col>
 
 								<!-- Organized Date -->
-								<v-col cols="12" sm="6" md="6">
+								<v-col cols="12">
 									<v-dialog
 										v-model="modalOrganizedDate"
 										:scrollable="false"
+										max-width="250"
 									>
 										<template #activator="{ on, attrs }">
 											<v-text-field
@@ -127,11 +121,7 @@
 												solo
 												v-bind="attrs"
 												v-on="on"
-											>
-												<template #prepend-inner>
-													<v-icon small :color="prependIconColor">fas fa-calendar</v-icon>
-												</template>
-											</v-text-field>
+											/>
 										</template>
 
 										<v-date-picker
@@ -139,6 +129,7 @@
 											show-current
 											:locale="language"
 											elevation="24"
+											width="250"
 											color="green lighten-1"
 											@input="modalOrganizedDate = false"
 										/>
@@ -149,15 +140,140 @@
 
 						<v-card-actions>
 							<v-row>
-								<v-col cols="12">
-									<v-btn class="primary-btn float-right ml-3" @click="doRegister()">
-										<v-icon left>fas fa-plus-circle</v-icon>
-										<span>Register</span>
-									</v-btn>
-
-									<v-btn class="danger-btn float-right" @click="registerDialog = false">
+								<v-col cols="6" class="text-center">
+									<v-btn class="danger-btn" @click="registerDialog = false">
 										<v-icon left>mdi-close-box</v-icon>
-										<span>Cancel</span>
+										<span>{{ $t('BUTTON.CANCEL') }}</span>
+									</v-btn>
+								</v-col>
+
+								<v-col cols="6" class="text-center">
+									<v-btn class="primary-btn" @click="doRegisterDepartment()">
+										<v-icon left>fas fa-plus-circle</v-icon>
+										<span>{{ $t('BUTTON.REGISTER') }}</span>
+									</v-btn>
+								</v-col>
+							</v-row>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
+
+				<!-- Edit Dialog -->
+				<v-dialog v-model="editDialog" max-width="500" persistent no-click-animation>
+					<v-card>
+						<v-btn elevation="3" block tile class="mb-3 cornflower">
+							<span>{{ $t('DEPARTMENT_MANAGEMENT.EDIT_DEPARTMENT') }}</span>
+						</v-btn>
+
+						<v-card-text>
+							<v-row class="mt-1">
+								<!-- Department Name -->
+								<v-col cols="12">
+									<v-text-field
+										v-model="department.department_name"
+										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_NAME')"
+										solo
+									/>
+								</v-col>
+
+								<!-- Department Address -->
+								<v-col cols="12">
+									<v-text-field
+										v-model="department.department_address"
+										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_ADDRESS')"
+										solo
+									/>
+								</v-col>
+
+								<!-- Department Manager -->
+								<v-col cols="12">
+									<v-text-field
+										v-model="department.department_manager"
+										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER')"
+										solo
+									/>
+								</v-col>
+
+								<!-- Organized Date -->
+								<v-col cols="12">
+									<v-dialog
+										v-model="modalOrganizedDate"
+										:scrollable="false"
+										max-width="250"
+									>
+										<template #activator="{ on, attrs }">
+											<v-text-field
+												v-model="department.organized_date"
+												:label="$t('DEPARTMENT_MANAGEMENT.ORGANIZED_DATE')"
+												readonly
+												solo
+												v-bind="attrs"
+												v-on="on"
+											/>
+										</template>
+
+										<v-date-picker
+											v-model="department.organized_date"
+											show-current
+											:locale="language"
+											elevation="24"
+											width="250"
+											color="green lighten-1"
+											@input="modalOrganizedDate = false"
+										/>
+									</v-dialog>
+								</v-col>
+							</v-row>
+						</v-card-text>
+
+						<v-card-actions>
+							<v-row>
+								<v-col cols="6" class="text-center">
+									<v-btn class="danger-btn" @click="editDialog = false">
+										<v-icon left>mdi-close-box</v-icon>
+										<span>{{ $t('BUTTON.CANCEL') }}</span>
+									</v-btn>
+								</v-col>
+
+								<v-col cols="6" class="text-center">
+									<v-btn class="primary-btn" @click="doUpdateDepartment(department.id)">
+										<v-icon left>fas fa-plus-circle</v-icon>
+										<span>{{ $t('BUTTON.SAVE') }}</span>
+									</v-btn>
+								</v-col>
+							</v-row>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
+
+				<!-- Delete Dialog -->
+				<v-dialog v-model="deleteDialog" max-width="500" persistent no-click-animation>
+					<v-card>
+						<v-btn elevation="3" block tile class="mb-3 cornflower">
+							<span>{{ $t('DEPARTMENT_MANAGEMENT.DELETE_DEPARTMENT') }}</span>
+						</v-btn>
+
+						<v-card-text>
+							<v-row class="mt-1">
+								<v-col cols="12" class="text-center">
+									<h5>{{ $t('MODAL.DELETE_CONFIRMATION') }}</h5>
+								</v-col>
+							</v-row>
+						</v-card-text>
+
+						<v-card-actions>
+							<v-row>
+								<v-col cols="6" class="text-center">
+									<v-btn class="primary-btn" @click="deleteDialog = false">
+										<v-icon left>mdi-close-box</v-icon>
+										<span>{{ $t('MODAL.NO') }}</span>
+									</v-btn>
+								</v-col>
+
+								<v-col cols="6" class="text-center">
+									<v-btn class="danger-btn" @click="doRemoveDepartment(deleting_id)">
+										<v-icon left>fas fa-eraser</v-icon>
+										<span>{{ $t('MODAL.YES') }}</span>
 									</v-btn>
 								</v-col>
 							</v-row>
@@ -170,13 +286,22 @@
 </template>
 
 <script>
-import vHeaderPage from '@/components/atoms/vHeaderPage';
+import { getAllDepartment, getOneDepartment, createDepartment, updateDepartment, deleteDepartment } from '@/api/modules/department';
+
+import { getYMDFromString } from './helper';
+
+import { MakeToast } from '@/utils/MakeToast';
+
+const urlAPI = {
+    apiGetAllDepartment: '/department/list',
+    apiGetOneDepartment: '/department/detail/',
+    apiCreateDepartment: '/department/create',
+    apiUpdateDepartment: '/department/update/',
+    apiDeleteDepartment: '/department/delete/',
+};
 
 export default {
     name: 'DepartmentManagementList',
-    components: {
-        vHeaderPage,
-    },
     data() {
         return {
             DepartmentList: [],
@@ -190,76 +315,31 @@ export default {
             },
 
             department: {
-                name: '',
-                address: '',
-                manager: '',
+                department_name: '',
+                department_address: '',
+                department_manager: '',
                 organized_date: '',
             },
 
             modalOrganizedDate: false,
 
             headers: [
-                { text: this.$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_NAME') + ' ⇅', sortable: true, value: 'department_name' },
+                { text: this.$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_NAME'), sortable: false, value: 'department_name' },
                 { text: this.$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_ADDRESS'), sortable: false, value: 'department_address' },
-                { text: this.$t('DEPARTMENT_MANAGEMENT.TOTAL_STAFF') + ' ⇅', sortable: true, value: 'total_staff' },
+                { text: this.$t('DEPARTMENT_MANAGEMENT.TOTAL_STAFF'), sortable: false, value: 'total_staff' },
                 { text: this.$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER'), sortable: false, value: 'department_manager' },
-                { text: this.$t('DEPARTMENT_MANAGEMENT.ORGANIZED_DATE') + ' ⇅', sortable: true, value: 'organized_date' },
+                { text: this.$t('DEPARTMENT_MANAGEMENT.ORGANIZED_DATE'), sortable: false, value: 'organized_date' },
+                { text: this.$t('BUTTON.ACTIONS'), sortable: false, value: 'actions' },
             ],
 
-            items: [
-                {
-                    department_id: 1,
-                    department_name: 'Ban Lễ Tân',
-                    department_address: 'Toà A, Tầng 1',
-                    total_staff: 15,
-                    department_manager: 'Nguyễn Văn Cừ',
-                    organized_date: '2020-01-01',
-                },
-                {
-                    department_id: 2,
-                    department_name: 'Ban Vệ Sinh',
-                    department_address: 'Toà B, Tầng 1',
-                    total_staff: 15,
-                    department_manager: 'Nguyễn Bảo Linh',
-                    organized_date: '2020-01-01',
-                },
-                {
-                    department_id: 3,
-                    department_name: 'Ban Quản Lý',
-                    department_address: 'Toà C, Tầng 1',
-                    total_staff: 15,
-                    department_manager: 'Trần Thị Hồng Linh',
-                    organized_date: '2020-01-01',
-                },
-                {
-                    department_id: 4,
-                    department_name: 'Ban Dịch Vụ',
-                    department_address: 'Toà D, Tầng 1',
-                    total_staff: 15,
-                    department_manager: 'Vũ Thu Thuỷ',
-                    organized_date: '2020-01-01',
-                },
-                {
-                    department_id: 5,
-                    department_name: 'Ban Kỹ Thuật',
-                    department_address: 'Toà E, Tầng 1',
-                    total_staff: 15,
-                    department_manager: 'Nguyễn Thanh Hoàn',
-                    organized_date: '2020-01-01',
-                },
-                {
-                    department_id: 6,
-                    department_name: 'Ban An Ninh',
-                    department_address: 'Toà F, Tầng 1',
-                    total_staff: 15,
-                    department_manager: 'Nguyễn Văn Cừ',
-                    organized_date: '2020-01-01',
-                },
-            ],
-
-            prependIconColor: '#1E2A55',
+            items: [],
 
             registerDialog: false,
+
+            editDialog: false,
+
+            deleteDialog: false,
+            deleting_id: '',
 
             search: '',
 
@@ -270,12 +350,126 @@ export default {
         this.getDepartmentList();
     },
     methods: {
-        getDepartmentList() {
-            console.log('Get Department List');
+        async getDepartmentList() {
+            try {
+                const response = await getAllDepartment(urlAPI.apiGetAllDepartment);
+
+                if (response.code === 200) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        response.data[i].organized_date = getYMDFromString(response.data[i].organized_date);
+                    }
+
+                    this.items = response.data;
+                }
+            } catch (error) {
+                console.log(error);
+            }
         },
 
-        doRegister() {
-            console.log('Do Register');
+        async getSpecificDepartment(department_id) {
+            this.department = {
+                department_name: '',
+                department_address: '',
+                department_manager: '',
+                organized_date: '',
+            };
+
+            this.editDialog = true;
+
+            const URL = `${urlAPI.apiGetOneDepartment}${department_id}`;
+
+            try {
+                const response = await getOneDepartment(URL);
+
+                if (response.code === 200) {
+                    response.data.organized_date = getYMDFromString(response.data.organized_date);
+                    this.department = response.data;
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async doRegisterDepartment() {
+            try {
+                this.department.department_manager = parseInt(this.department.department_manager);
+                const response = await createDepartment(urlAPI.apiCreateDepartment, this.department);
+
+                if (response.code === 201) {
+                    await this.getDepartmentList();
+
+                    MakeToast({
+                        variant: 'success',
+                        title: this.$t('TOAST.TITLE.SUCCESS'),
+                        content: this.$t('TOAST.CONTENT.DEPARTMENT_MANAGEMENT.CREATE_DEPARTMENT_SUCCESS'),
+                    });
+
+                    this.registerDialog = false;
+                }
+            } catch (error) {
+                MakeToast({
+                    variant: 'warning',
+                    title: this.$t('TOAST.TITLE.WARNING'),
+                    content: error || this.$t('TOAST.CONTENT.DEPARTMENT_MANAGEMENT.CREATE_DEPARTMENT_FAILED'),
+                });
+
+                this.registerDialog = false;
+            }
+        },
+
+        async doUpdateDepartment(department_id) {
+            const URL = `${urlAPI.apiUpdateDepartment}${department_id}`;
+
+            try {
+                const response = await updateDepartment(URL, this.department);
+
+                if (response.code === 200) {
+                    await this.getDepartmentList();
+
+                    MakeToast({
+                        variant: 'success',
+                        title: this.$t('TOAST.TITLE.SUCCESS'),
+                        content: this.$t('TOAST.CONTENT.DEPARTMENT_MANAGEMENT.UPDATE_DEPARTMENT_SUCCESS'),
+                    });
+
+                    this.editDialog = false;
+                }
+            } catch (error) {
+                MakeToast({
+                    variant: 'warning',
+                    title: this.$t('TOAST.TITLE.WARNING'),
+                    content: error || this.$t('TOAST.CONTENT.DEPARTMENT_MANAGEMENT.UPDATE_DEPARTMENT_FAILED'),
+                });
+
+                this.editDialog = false;
+            }
+        },
+
+        async doRemoveDepartment(department_id) {
+            const URL = `${urlAPI.apiDeleteDepartment}${department_id}`;
+
+            try {
+                const response = await deleteDepartment(URL);
+                if (response.code === 200) {
+                    this.getDepartmentList();
+
+                    MakeToast({
+                        variant: 'success',
+                        title: this.$t('TOAST.TITLE.SUCCESS'),
+                        content: this.$t('TOAST.CONTENT.DEPARTMENT_MANAGEMENT.DELETE_DEPARTMENT_SUCCESS'),
+                    });
+
+                    this.deleteDialog = false;
+                }
+            } catch (error) {
+                MakeToast({
+                    variant: 'warning',
+                    title: this.$t('TOAST.TITLE.WARNING'),
+                    content: error || this.$t('TOAST.CONTENT.DEPARTMENT_MANAGEMENT.DELETE_DEPARTMENT_FAILED'),
+                });
+
+                this.deleteDialog = false;
+            }
         },
     },
 };
@@ -285,7 +479,6 @@ export default {
   @import "@/scss/variables.scss";
 
   .department-management {
-    max-height: 768px;
 
     ::v-deep .v-dialog {
       overflow-y: visible;

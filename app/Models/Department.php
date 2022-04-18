@@ -19,7 +19,10 @@ class Department extends Model
     protected $table = 'departments';
 
     protected $fillable = [
-        'name'
+        'department_name',
+        'department_address',
+        'department_manager',
+        'organized_date',
     ];
 
     protected $dates = ['deleted_at'];

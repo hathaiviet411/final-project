@@ -23,7 +23,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
 
         Route::group(['prefix' => 'department'], function () {
             Route::get('list', 'DepartmentController@index');
-            Route::post('detail:id', 'DepartmentController@show');
+            Route::post('create', 'DepartmentController@store');
+            Route::get('detail/{id}', 'DepartmentController@show');
+            Route::put('update/{id}', 'DepartmentController@update');
+            Route::delete('delete/{id}', 'DepartmentController@destroy');
         });
     });
 });

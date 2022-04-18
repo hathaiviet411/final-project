@@ -48,12 +48,39 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
     public function create(array $attribute)
     {
       $status = DB::transaction(function () use ($attribute) {
-        $department = $this->model->create([
+        $this->model->create([
           'department_name' => $attribute['department_name'],
+          'department_address' => $attribute['department_address'],
+          'department_manager' => $attribute['department_manager'],
+          'organized_date' => $attribute['organized_date'],
           'created_by' => Auth::id(),
         ]);
       });
 
       return $status;
+    }
+
+    public function update(array $request, $id)
+    {
+        $status = DB::transaction(function () use ($request, $id) {
+            $department = $this->model->where('id',$id)->first();
+            $department->department_name = $request['department_name'];
+            $department->department_address = $request['department_address'];
+            $department->department_manager = $request['department_manager'];
+            $department->organized_date = $request['organized_date'];
+            $department->save();
+        });
+        return $status;
+    }
+
+    public function getOne($id)
+    {
+        $department = $this->model->find($id);
+        return $department;
+    }
+    
+    public function destroy($id)
+    {
+        return $this->model->where('id', $id)->delete($id);
     }
 }

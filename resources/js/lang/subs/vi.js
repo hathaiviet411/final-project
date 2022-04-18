@@ -27,6 +27,15 @@ export default {
                 REQUIRE_PASSWORD: 'Vui lòng nhập mật khẩu',
             },
 
+            DEPARTMENT_MANAGEMENT: {
+                CREATE_DEPARTMENT_SUCCESS: 'Tạo phòng ban thành công.',
+                CREATE_DEPARTMENT_FAILED: 'Tạo phòng ban thất bại.',
+                UPDATE_DEPARTMENT_SUCCESS: 'Cập nhật phòng ban thành công.',
+                UPDATE_DEPARTMENT_FAILED: 'Cập nhật phòng ban thất bại.',
+                DELETE_DEPARTMENT_SUCCESS: 'Xóa phòng ban thành công.',
+                DELETE_DEPARTMENT_FAILED: 'Xóa phòng ban thất bại.',
+            },
+
             LOGOUT: {
                 SUCCESS: 'Đăng xuất thành công',
             },
@@ -57,6 +66,8 @@ export default {
         DEPARTMENT_MANAGER: 'Quản lí',
         ORGANIZED_DATE: 'Ngày thành lập',
         NEW_DEPARTMENT: 'Thêm phòng ban mới',
+        EDIT_DEPARTMENT: 'Chỉnh sửa thông tin phòng ban',
+        DELETE_DEPARTMENT: 'Xoá phòng ban',
     },
 
     STAFF_MANAGEMENT: {
@@ -137,6 +148,8 @@ export default {
         DEPARTMENT: 'Phòng ban',
         SEARCH: 'Tìm kiếm',
         SORT_BY: 'Sắp xếp theo',
+        ACTIONS: 'Thao tác',
+        CANCEL: 'Huỷ bỏ',
     },
 
     FILTER: {
@@ -152,7 +165,7 @@ export default {
     },
 
     MODAL: {
-        DELETE_CONFIRMATION: '【Bạn có chắc chắn muốn xoá {name} ?',
+        DELETE_CONFIRMATION: 'Bạn có chắc chắn muốn xoá ?',
         YES: 'Có',
         NO: 'Không',
     },

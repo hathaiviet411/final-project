@@ -14,23 +14,29 @@ class DepartmentSeeder extends Seeder
      */
     public function run()
     {
-        $listDepartmentName = [
-            'Ban Lễ Tân',
-            'Ban Quản Lí',
-            'Ban Vệ Sinh'
-        ];
+        Department::create([
+            'department_name' => 'Ban Lễ Tân',
+            'department_address' => 'Toà A',
+            'department_manager' => 0,
+            'total_staff' => 0,
+            'organized_date' => '2020-01-01',
+        ]);
 
-        foreach ($listDepartmentName as $key => $department_name) {
-            $check = Department::where('department_name', $department_name)->first();
+        Department::create([
+            'department_name' => 'Ban Quản L',
+            'department_address' => 'Toà B',
+            'department_manager' => 1,
+            'total_staff' => 0,
+            'organized_date' => '2020-01-01',
+        ]);
 
-            if (!$check) {
-                Department::create([
-                    'department_name' => $department_name,
-                    'department_address' => $department_name,
-                    'department_manager' => 0
-                ]);
-            }
-        }
+        Department::create([
+            'department_name' => 'Ban Vệ Sinh',
+            'department_address' => 'Toà C',
+            'department_manager' => 2,
+            'total_staff' => 0,
+            'organized_date' => '2020-01-01',
+        ]);
     }
 }
 

@@ -12,6 +12,7 @@ use App\Repositories\Contracts\DepartmentRepositoryInterface;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\DepartmentResource;
 use Illuminate\Http\Request;
+use Repository\DepartmentRepository;
 
 class DepartmentController extends Controller
 {
@@ -60,13 +61,62 @@ class DepartmentController extends Controller
         return $this->responseJson(200, DepartmentResource::collection($department));
     }
 
-    // public function show($id)
-    // {
-    //     try {
-    //         $department = $this->repository->find($id);
-    //         return $this->responseJson(200, new BaseResource($department));
-    //     } catch (\Exception $e) {
-    //         throw $e;
-    //     }
-    // }
+    /**
+     * @return \Illuminate\Http\JsonResponse 
+     * @throws \Exception
+    */
+    public function store(DepartmentRequest $request)
+    { 
+      if (isset($request)) {
+          $this->departmentRepository->create($request->all());
+          return $this->responseJson(201, null, 'Create department successfully !');
+      } else {
+          return $this->responseJson(500, null, 'Create department failed !');
+      }
+    }
+
+    /** 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+    */
+    public function update(DepartmentRequest $request, $id)
+    {
+      if (isset($request)) {
+          $this->departmentRepository->update($request->all(), $id);
+          return $this->responseJson(200, null, 'Update department successfully !');
+      } else {
+          return $this->responseJson(500, null, 'Update department failed !');
+      }
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+    */
+    public function show($id)
+    {
+        if (isset($id)) {
+            $department = $this->departmentRepository->getOne($id);
+            return $this->responseJson(200, new DepartmentResource($department));
+        } else {
+            return $this->responseJson(500, null, 'Get department failed !');
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+    */
+    public function destroy($id) 
+    {
+        if(isset($id)) {
+            $this->departmentRepository->delete($id);
+            return $this->responseJson(200, null, 'Delete department successfully !');
+        } else {
+            return $this->responseJson(500, null, 'Delete department failed !');
+        }
+    }
 }
