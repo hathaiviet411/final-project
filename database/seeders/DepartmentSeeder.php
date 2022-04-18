@@ -14,34 +14,20 @@ class DepartmentSeeder extends Seeder
      */
     public function run()
     {
-        $list = [
-            '東京',
-            '武蔵野',
-            '横浜第一',
-            '横浜第二',
-            '横浜第三',
-            '平塚',
-            '平塚',
-            '千葉',
-            '八千代',
-            '所沢',
-            '古河',
-            '新潟',
-            '富山',
-            '静岡',
-            '浜松',
-            '名古屋',
-            '名古屋',
-            '安城',
-            '大阪',
-            '神戸',
-            '本社'
+        $listDepartmentName = [
+            'Ban Lễ Tân',
+            'Ban Quản Lí',
+            'Ban Vệ Sinh'
         ];
-        foreach ($list as $key => $name) {
-            $check = Department::where('name', $name)->first();
+
+        foreach ($listDepartmentName as $key => $department_name) {
+            $check = Department::where('department_name', $department_name)->first();
+
             if (!$check) {
                 Department::create([
-                    'name' => $name
+                    'department_name' => $department_name,
+                    'department_address' => $department_name,
+                    'department_manager' => 0
                 ]);
             }
         }
