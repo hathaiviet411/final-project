@@ -6,6 +6,7 @@
 
 namespace Repository;
 
+use App\Http\Requests\DepartmentRequest;
 use App\Models\Department;
 use App\Repositories\Contracts\DepartmentRepositoryInterface;
 use Repository\BaseRepository;
@@ -35,14 +36,20 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
 
     public function getAll()
     {
-        return $this->model->select('id', 'name')->get();
+        return $this->model->select('id', 'department_name')->get();
+    }
+
+    public function getPagination(DepartmentRequest $request)
+    {
+        $result = $this->paginate($request->per_page);
+        return $result;
     }
 
     public function create(array $attribute)
     {
       $status = DB::transaction(function () use ($attribute) {
         $department = $this->model->create([
-          'name' => $attribute['name'],
+          'department_name' => $attribute['department_name'],
           'created_by' => Auth::id(),
         ]);
       });

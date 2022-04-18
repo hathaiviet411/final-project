@@ -38,7 +38,7 @@ class DepartmentRequest extends FormRequest
           }
     }
 
-     public function getCustomRule(){
+    public function getCustomRule(){
         if(Route::getCurrentRoute()->getActionMethod() == 'update'){
             return [
 
@@ -49,7 +49,7 @@ class DepartmentRequest extends FormRequest
 
             ];
         }
-     }
+    }
 
     public function messages()
     {

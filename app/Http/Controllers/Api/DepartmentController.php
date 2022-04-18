@@ -56,8 +56,8 @@ class DepartmentController extends Controller
      */
     public function index(DepartmentRequest $request)
     {
-        $data = $this->repository->getAll();
-        return $this->responseJson(200, new BaseResource($data));
+        $department = $this->departmentRepository->getPagination($request);
+        return $this->responseJson(200, DepartmentResource::collection($department));
     }
 
     // public function show($id)
