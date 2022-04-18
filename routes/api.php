@@ -22,7 +22,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
         });
 
         Route::group(['prefix' => 'department'], function () {
-            Route::post('list', 'DepartmentController@index');
+            Route::get('list', 'DepartmentController@index');
             Route::post('detail:id', 'DepartmentController@show');
         });
     });

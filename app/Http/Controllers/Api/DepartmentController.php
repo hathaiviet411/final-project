@@ -26,39 +26,39 @@ class DepartmentController extends Controller
         $this->departmentRepository = $departmentRepository;
     }
 
-    // /**
-    //  * @OA\Get(
-    //  *   path="/api/department",
-    //  *   tags={"Department"},
-    //  *   summary="List Department",
-    //  *   operationId="department_index",
-    //  *   @OA\Response(
-    //  *     response=200,
-    //  *     description="Send request success",
-    //  *     @OA\MediaType(
-    //  *      mediaType="application/json",
-    //  *      example={"code":200,"data":{{"id": 1,"name": "Ban Lễ Tân"}, {"id": 2,"name": "Ban Vệ Sinh"}, {"id": 3,"name": "Ban Quản Lí"}}}
-    //  *     )
-    //  *   ),
-    //  *   @OA\Response(
-    //  *     response=401,
-    //  *     description="Login false",
-    //  *     @OA\MediaType(
-    //  *      mediaType="application/json",
-    //  *      example={"code":401,"message":"Username or password invalid"}
-    //  *     )
-    //  *   ),
-    //  *   security={},
-    //  * )
-    //  * Display a listing of the resource.
-    //  *
-    //  * @return \Illuminate\Http\JsonResponse
-    //  */
-    // public function index(DepartmentRequest $request)
-    // {
-    //     $data = $this->repository->getAll();
-    //     return $this->responseJson(200, new BaseResource($data));
-    // }
+    /**
+     * @OA\Get(
+     *   path="/api/department",
+     *   tags={"Department"},
+     *   summary="List Department",
+     *   operationId="department_index",
+     *   @OA\Response(
+     *     response=200,
+     *     description="Send request success",
+     *     @OA\MediaType(
+     *      mediaType="application/json",
+     *      example={"code":200,"data":{{"id": 1,"name": "Ban Lễ Tân"}, {"id": 2,"name": "Ban Vệ Sinh"}, {"id": 3,"name": "Ban Quản Lí"}}}
+     *     )
+     *   ),
+     *   @OA\Response(
+     *     response=401,
+     *     description="Login false",
+     *     @OA\MediaType(
+     *      mediaType="application/json",
+     *      example={"code":401,"message":"Username or password invalid"}
+     *     )
+     *   ),
+     *   security={},
+     * )
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(DepartmentRequest $request)
+    {
+        $data = $this->repository->getAll();
+        return $this->responseJson(200, new BaseResource($data));
+    }
 
     // public function show($id)
     // {
