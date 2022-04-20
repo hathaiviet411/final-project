@@ -5,7 +5,7 @@ export default {
         SCHEDULE_MANAGEMENT: 'Thời khoá biểu',
         FACILITY_MAINTENANCE: 'Bảo trì cơ sở vật chất',
         ROOM_MANAGEMENT: 'Quản lí phòng ở',
-        JOB_MANAGEMENT: 'Quản lí công việc',
+        JOB_MANAGEMENT: 'Quản lí tác vụ',
         TIMESHEET: 'Quản lý chấm công',
         DEPARTMENT_MANAGEMENT: 'Quản lí phòng ban',
         FEEDBACK_MANAGEMENT: 'Quản lí phản hồi',
@@ -36,6 +36,15 @@ export default {
                 DELETE_DEPARTMENT_FAILED: 'Xóa phòng ban thất bại.',
             },
 
+            TASK_MANAGEMENT: {
+                CREATE_TASK_SUCCESS: 'Tạo công việc thành công.',
+                CREATE_TASK_FAILED: 'Tạo công việc thất bại.',
+                UPDATE_TASK_SUCCESS: 'Cập nhật công việc thành công.',
+                UPDATE_TASK_FAILED: 'Cập nhật công việc thất bại.',
+                DELETE_TASK_SUCCESS: 'Xóa công việc thành công.',
+                DELETE_TASK_FAILED: 'Xóa công việc thất bại.',
+            },
+
             LOGOUT: {
                 SUCCESS: 'Đăng xuất thành công',
             },
@@ -57,6 +66,13 @@ export default {
         ID: 'Tài khoản',
         PASSWORD: 'Mật khẩu',
         BUTTON_TEXT: 'Đăng nhập',
+    },
+
+    SCHEDULE_MANAGEMENT: {
+        DEPARTMENT: 'Phòng ban',
+        USER_NAME: 'Tên nhân viên',
+        POSITION: 'Chức vụ',
+        CONTRACT_TYPE: 'Loại hợp đồng',
     },
 
     DEPARTMENT_MANAGEMENT: {
@@ -97,12 +113,14 @@ export default {
         NEW_ROOM: 'Thêm phòng mới',
     },
 
-    JOB_MANAGEMENT: {
-        JOB_NAME: 'Tên công việc',
-        JOB_DESCRIPTION: 'Mô tả công việc',
+    TASK_MANAGEMENT: {
+        TASK_NAME: 'Tên tác vụ',
+        TASK_DESCRIPTION: 'Mô tả tác vụ',
         REQUIRED_POSITION: 'Yêu cầu chức vụ',
         REQUIRED_CONTRACT_TYPE: 'Yêu cầu loại hợp đồng',
-        NEW_JOB: 'Thêm công việc mới',
+        NEW_TASK: 'Thêm tác vụ mới',
+        EDIT_TASK: 'Chỉnh sửa thông tin tác vụ',
+        DELETE_TASK: 'Xoá tác vụ',
     },
 
     FACILITY_MAINTENANCE: {
@@ -150,6 +168,8 @@ export default {
         SORT_BY: 'Sắp xếp theo',
         ACTIONS: 'Thao tác',
         CANCEL: 'Huỷ bỏ',
+        SCHEDULE_DETAIL: 'Chi tiết',
+        ASSIGN_NEW_TASK: 'Giao tác vụ mới',
     },
 
     FILTER: {

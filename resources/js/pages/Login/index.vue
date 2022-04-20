@@ -84,7 +84,7 @@ export default {
 
                         const USER = {
                             id: PROFILE.id || '',
-                            name: PROFILE.full_name || '',
+                            name: PROFILE.user_name || '',
                             department_id: PROFILE.department_id || '',
                             current_year: PROFILE.current_year || '',
                             current_year_month: PROFILE.current_year_month || '',

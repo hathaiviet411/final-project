@@ -10,7 +10,7 @@ import timesheet from './modules/timesheet';
 import scheduleManagement from './modules/scheduleManagement';
 import facilityMaintenance from './modules/facilityMaintenance';
 import roomManagement from './modules/roomManagement';
-import jobManagement from './modules/jobManagement';
+import taskManagement from './modules/taskManagement';
 import staffManagement from './modules/staffManagement';
 import departmentManagement from './modules/departmentManagement';
 import feedbackManagement from './modules/feedbackManagement';
@@ -28,7 +28,7 @@ export const constantRoutes = [
     scheduleManagement,
     facilityMaintenance,
     roomManagement,
-    jobManagement,
+    taskManagement,
     staffManagement,
     departmentManagement,
     feedbackManagement,

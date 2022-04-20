@@ -1,6 +1,6 @@
 <template>
 	<div id="sidebar-wrapper">
-		<MenuSidebar class="sidebar-menu" style="height: 100%; font-weight: bold;" :routes="routes" :toggole="sideBar" />
+		<MenuSidebar class="sidebar-menu" style="height: 100%; font-weight: bold;" :routes="routes" :toggle="sideBar" />
 	</div>
 </template>
 

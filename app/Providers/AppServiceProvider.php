@@ -13,6 +13,7 @@ use App\Repositories\Contracts\NoticeViewerRepositoryInterface;
 use App\Repositories\Contracts\GroupChatRepositoryInterface;
 use App\Repositories\Contracts\GroupChatUserRepositoryInterface;
 use App\Repositories\Contracts\MessageRepositoryInterface;
+use App\Repositories\Contracts\TaskRepositoryInterface;
 use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 use Repository\BaseRepository;
@@ -25,6 +26,7 @@ use Repository\NoticeViewerRepository;
 use Repository\GroupChatRepository;
 use Repository\GroupChatUserRepository;
 use Repository\MessageRepository;
+use Repository\TaskRepository;
 use Laravel\Dusk\DuskServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -52,6 +54,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(GroupChatRepositoryInterface::class, GroupChatRepository::class);
         $this->app->bind(GroupChatUserRepositoryInterface::class, GroupChatUserRepository::class);
         $this->app->bind(MessageRepositoryInterface::class, MessageRepository::class);
+        $this->app->bind(TaskRepositoryInterface::class, TaskRepository::class);
     }
 
     /**
