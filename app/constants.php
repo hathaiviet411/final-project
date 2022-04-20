@@ -24,6 +24,9 @@ define("ROLE_ADMIN", 'admin');
 define("ROLE_MANAGER", 'manager');
 define("ROLE_STAFF", 'staff');
 
+define('FULL_TIME_CONTRACT', 'full_time');
+define('PART_TIME_CONTRACT', 'part_time');
+
 define("PERMISSION_ACCESSORIES_CREATE", 'accessories_create');
 define("PERMISSION_ACCESSORIES_DELETE", 'accessories_delete');
 define("PERMISSION_ACCESSORIES_EDIT", 'accessories_edit');

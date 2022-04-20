@@ -28,6 +28,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
             Route::put('update/{id}', 'DepartmentController@update');
             Route::delete('delete/{id}', 'DepartmentController@destroy');
         });
+
+        Route::group(['prefix' => 'task'], function () {
+            Route::get('list', 'TaskController@index');
+            Route::post('create', 'TaskController@store');
+            Route::get('detail/{id}', 'TaskController@show');
+            Route::put('update/{id}', 'TaskController@update');
+            Route::delete('delete/{id}', 'TaskController@destroy');
+        });
     });
 });
 

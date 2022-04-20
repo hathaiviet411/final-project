@@ -23,7 +23,7 @@ class DepartmentSeeder extends Seeder
         ]);
 
         Department::create([
-            'department_name' => 'Ban Quản L',
+            'department_name' => 'Ban Quản Lý',
             'department_address' => 'Toà B',
             'department_manager' => 1,
             'total_staff' => 0,

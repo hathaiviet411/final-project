@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<ul class="display-menu" :style="toggole ? `position: fixed;` : 'position: relative'">
+		<ul class="display-menu" :style="toggle ? `position: fixed;` : 'position: relative'">
 			<router-link
 				v-for="(itemRouter, indexRouter) in routes"
 				:key="indexRouter"
@@ -39,7 +39,7 @@ export default {
                 return [];
             },
         },
-        toggole: {
+        toggle: {
             type: Boolean,
             require: true,
             default: true,

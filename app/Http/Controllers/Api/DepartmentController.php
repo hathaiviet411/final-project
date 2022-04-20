@@ -9,11 +9,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DepartmentRequest;
 use App\Repositories\Contracts\DepartmentRepositoryInterface;
-use App\Http\Resources\BaseResource;
 use App\Http\Resources\DepartmentResource;
 use Illuminate\Http\Request;
-use Repository\DepartmentRepository;
-
 class DepartmentController extends Controller
 {
 
@@ -101,7 +98,7 @@ class DepartmentController extends Controller
             $department = $this->departmentRepository->getOne($id);
             return $this->responseJson(200, new DepartmentResource($department));
         } else {
-            return $this->responseJson(500, null, 'Get department failed !');
+            return $this->responseJson(500, null, 'Get detail department failed !');
         }
     }
 

@@ -20,7 +20,8 @@ class UserSeeder extends Seeder
             $user = User::create([
                 'user_code' => 111111,
                 'password' => '123456789',
-                'user_name' => 'Super Admin'
+                'user_name' => 'Super Admin',
+                'department_id' => 1,
             ]);
 
             $role = Role::findByName(ROLE_ADMIN, 'api');
@@ -30,6 +31,7 @@ class UserSeeder extends Seeder
                 'user_code' => 222222,
                 'password' => '123456789',
                 'user_name' => 'Manager',
+                'department_id' => 2,
             ]);
 
             $role = Role::findByName(ROLE_MANAGER, 'api');
@@ -39,6 +41,7 @@ class UserSeeder extends Seeder
                 'user_code' => 666666,
                 'password' => '123456789',
                 'user_name' => 'Staff',
+                'department_id' => 3,
             ]);
 
             $role = Role::findByName(ROLE_STAFF, 'api');
