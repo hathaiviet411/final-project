@@ -9,7 +9,7 @@ export default {
     name: 'App',
     created() {
         console.log(
-            '%cHomestay Internal Management System',
+            '%cHIMS',
             'font-size: 20px; padding: 5px 10px 5px 10px; border-radius: .25rem; color: rgb(255, 209, 84); background-color: rgb(0, 39, 149); text-align: center;'
         );
     },
