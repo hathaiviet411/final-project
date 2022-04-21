@@ -31,7 +31,7 @@
 									</b-col>
 
 									<b-col lg="6" md="12" sm="12" class="text-center mt-3">
-										<v-btn dark class="primary-btn" @click="registerDialog = true">
+										<v-btn dark class="primary-btn" @click="openRegisterDialog()">
 											<span>{{ $t('TASK_MANAGEMENT.NEW_TASK') }}</span>
 										</v-btn>
 									</b-col>
@@ -71,9 +71,9 @@
 				</v-row>
 
 				<!-- Register Dialog -->
-				<v-dialog v-model="registerDialog" max-width="500" persistent no-click-animation>
+				<v-dialog v-model="registerDialog" max-width="500" persistent>
 					<v-card>
-						<v-btn elevation="3" block tile class="mb-3 cornflower" @click="registerDialog = true">
+						<v-btn elevation="3" block tile class="mb-3 cornflower">
 							<span>{{ $t('TASK_MANAGEMENT.NEW_TASK') }}</span>
 						</v-btn>
 
@@ -137,7 +137,7 @@
 				</v-dialog>
 
 				<!-- Edit Dialog -->
-				<v-dialog v-model="editDialog" max-width="500" persistent no-click-animation>
+				<v-dialog v-model="editDialog" max-width="500" persistent>
 					<v-card>
 						<v-btn elevation="3" block tile class="mb-3 cornflower" @click="editDialog = true">
 							<span>{{ $t('TASK_MANAGEMENT.EDIT_TASK') }}</span>
@@ -203,7 +203,7 @@
 				</v-dialog>
 
 				<!-- Delete Dialog -->
-				<v-dialog v-model="deleteDialog" max-width="500" persistent no-click-animation>
+				<v-dialog v-model="deleteDialog" max-width="500" persistent>
 					<v-card>
 						<v-btn elevation="3" block tile class="mb-3 cornflower">
 							<span>{{ $t('TASK_MANAGEMENT.DELETE_TASK') }}</span>
@@ -292,6 +292,10 @@ export default {
 
             items: [],
 
+            positions: [],
+
+            contractTypes: [],
+
             search: '',
 
             modalOrganizedDate: false,
@@ -349,6 +353,17 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+
+        openRegisterDialog() {
+            this.task = {
+                task_name: '',
+                task_description: '',
+                required_position: 1,
+                required_contract_type: 1,
+            };
+
+            this.registerDialog = true;
         },
 
         async doRegisterTask() {

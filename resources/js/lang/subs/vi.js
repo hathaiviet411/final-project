@@ -5,7 +5,7 @@ export default {
         SCHEDULE_MANAGEMENT: 'Thời khoá biểu',
         FACILITY_MAINTENANCE: 'Bảo trì cơ sở vật chất',
         ROOM_MANAGEMENT: 'Quản lí phòng ở',
-        JOB_MANAGEMENT: 'Quản lí tác vụ',
+        TASK_MANAGEMENT: 'Quản lí tác vụ',
         TIMESHEET: 'Quản lý chấm công',
         DEPARTMENT_MANAGEMENT: 'Quản lí phòng ban',
         FEEDBACK_MANAGEMENT: 'Quản lí phản hồi',

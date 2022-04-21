@@ -31,7 +31,7 @@
 									</b-col>
 
 									<b-col lg="6" md="12" sm="12" xs="12" class="text-center">
-										<v-btn color="#1e2a55" width="285" dark class="mt-3" @click="registerDialog = true">
+										<v-btn color="#1e2a55" width="285" dark class="mt-3" @click="openRegisterDialog()">
 											<span style="color: #FFFFFF;">{{ $t('DEPARTMENT_MANAGEMENT.NEW_DEPARTMENT') }}</span>
 										</v-btn>
 									</b-col>
@@ -71,7 +71,7 @@
 				</v-row>
 
 				<!-- Register Dialog -->
-				<v-dialog v-model="registerDialog" max-width="500" persistent no-click-animation>
+				<v-dialog v-model="registerDialog" max-width="500" persistent>
 					<v-card>
 						<v-btn elevation="3" block tile class="mb-3 cornflower">
 							<span>{{ $t('DEPARTMENT_MANAGEMENT.NEW_DEPARTMENT') }}</span>
@@ -159,7 +159,7 @@
 				</v-dialog>
 
 				<!-- Edit Dialog -->
-				<v-dialog v-model="editDialog" max-width="500" persistent no-click-animation>
+				<v-dialog v-model="editDialog" max-width="500" persistent>
 					<v-card>
 						<v-btn elevation="3" block tile class="mb-3 cornflower">
 							<span>{{ $t('DEPARTMENT_MANAGEMENT.EDIT_DEPARTMENT') }}</span>
@@ -247,7 +247,7 @@
 				</v-dialog>
 
 				<!-- Delete Dialog -->
-				<v-dialog v-model="deleteDialog" max-width="500" persistent no-click-animation>
+				<v-dialog v-model="deleteDialog" max-width="500" persistent>
 					<v-card>
 						<v-btn elevation="3" block tile class="mb-3 cornflower">
 							<span>{{ $t('DEPARTMENT_MANAGEMENT.DELETE_DEPARTMENT') }}</span>
@@ -388,6 +388,17 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+
+        openRegisterDialog() {
+            this.department = {
+                department_name: '',
+                department_address: '',
+                department_manager: '',
+                organized_date: '',
+            };
+
+            this.registerDialog = true;
         },
 
         async doRegisterDepartment() {
