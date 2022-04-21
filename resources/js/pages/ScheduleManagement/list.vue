@@ -39,7 +39,7 @@
 											style="max-width: 200px !important;"
 											:items="DepartmentList"
 											:label="$t('SCHEDULE_MANAGEMENT.DEPARTMENT')"
-											solo
+											outlined
 										/>
 									</b-col>
 								</b-row>

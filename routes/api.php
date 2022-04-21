@@ -36,6 +36,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
             Route::put('update/{id}', 'TaskController@update');
             Route::delete('delete/{id}', 'TaskController@destroy');
         });
+
+        Route::group(['prefix' => 'feedback'], function () {
+            Route::get('list', 'FeedbackController@index');
+            Route::post('create', 'FeedbackController@store');
+            Route::get('detail/{id}', 'FeedbackController@show');
+            Route::put('update/{id}', 'FeedbackController@update');
+            Route::delete('delete/{id}', 'FeedbackController@destroy');
+        });
     });
 });
 

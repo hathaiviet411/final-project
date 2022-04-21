@@ -84,7 +84,7 @@
 									<v-text-field
 										v-model="department.department_name"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_NAME')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -93,7 +93,7 @@
 									<v-text-field
 										v-model="department.department_address"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_ADDRESS')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -102,7 +102,7 @@
 									<v-text-field
 										v-model="department.department_manager"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -118,7 +118,7 @@
 												v-model="department.organized_date"
 												:label="$t('DEPARTMENT_MANAGEMENT.ORGANIZED_DATE')"
 												readonly
-												solo
+												outlined
 												v-bind="attrs"
 												v-on="on"
 											/>
@@ -172,7 +172,7 @@
 									<v-text-field
 										v-model="department.department_name"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_NAME')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -181,7 +181,7 @@
 									<v-text-field
 										v-model="department.department_address"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_ADDRESS')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -190,7 +190,7 @@
 									<v-text-field
 										v-model="department.department_manager"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -206,7 +206,7 @@
 												v-model="department.organized_date"
 												:label="$t('DEPARTMENT_MANAGEMENT.ORGANIZED_DATE')"
 												readonly
-												solo
+												outlined
 												v-bind="attrs"
 												v-on="on"
 											/>

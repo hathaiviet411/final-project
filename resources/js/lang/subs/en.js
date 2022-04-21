@@ -45,6 +45,15 @@ export default {
                 DELETE_TASK_FAILED: 'Delete task failed.',
             },
 
+            FEEDBACK_MANAGEMENT: {
+                CREATE_FEEDBACK_SUCCESS: 'Create feedback successfully.',
+                CREATE_FEEDBACK_FAILED: 'Create feedback failed.',
+                UPDATE_FEEDBACK_SUCCESS: 'Update feedback successfully.',
+                UPDATE_FEEDBACK_FAILED: 'Update feedback failed.',
+                DELETE_FEEDBACK_SUCCESS: 'Delete feedback successfully.',
+                DELETE_FEEDBACK_FAILED: 'Delete feedback failed.',
+            },
+
             LOGOUT: {
                 SUCCESS: 'You have successfully logged out.',
             },
@@ -140,7 +149,16 @@ export default {
         USER_NAME: 'User Name',
         DEPARTMENT: 'Department',
         POSITION: 'Position',
+        STATUS: {
+            STATUS: 'Status',
+            PENDING: 'Pending',
+            PROCESSING: 'Processing',
+            CLOSED: 'Closed',
+            CANCELED: 'Canceled',
+        },
         NEW_FEEDBACK: 'New Feedback',
+        EDIT_FEEDBACK: 'Edit Feedback',
+        DELETE_FEEDBACK: 'Delete Feedback',
     },
 
     PAGE_TITLE: {

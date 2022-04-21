@@ -45,6 +45,15 @@ export default {
                 DELETE_TASK_FAILED: 'Xóa công việc thất bại.',
             },
 
+            FEEDBACK_MANAGEMENT: {
+                CREATE_FEEDBACK_SUCCESS: 'Tạo phản hồi thành công.',
+                CREATE_FEEDBACK_FAILED: 'Tạo phản hồi thất bại.',
+                UPDATE_FEEDBACK_SUCCESS: 'Cập nhật phản hồi thành công.',
+                UPDATE_FEEDBACK_FAILED: 'Cập nhật phản hồi thất bại.',
+                DELETE_FEEDBACK_SUCCESS: 'Xóa phản hồi thành công.',
+                DELETE_FEEDBACK_FAILED: 'Xóa phản hồi thất bại.',
+            },
+
             LOGOUT: {
                 SUCCESS: 'Đăng xuất thành công',
             },
@@ -140,7 +149,16 @@ export default {
         USER_NAME: 'Tên người gửi',
         DEPARTMENT: 'Phòng ban',
         POSITION: 'Chức vụ',
+        STATUS: {
+            STATUS: 'Trạng thái',
+            PENDING: 'Hàng chờ',
+            PROCESSING: 'Đang xử lý',
+            CLOSED: 'Đã đóng',
+            CANCELED: 'Đã hủy',
+        },
         NEW_FEEDBACK: 'Thêm phản hồi mới',
+        EDIT_FEEDBACK: 'Chỉnh sửa thông tin phản hồi',
+        DELETE_FEEDBACK: 'Xoá phản hồi',
     },
 
     PAGE_TITLE: {

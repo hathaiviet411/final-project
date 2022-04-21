@@ -83,14 +83,14 @@
 									<v-text-field
 										v-model="task.task_name"
 										:label="$t('TASK_MANAGEMENT.TASK_NAME')"
-										solo
+										outlined
 									/>
 								</v-col>
 
 								<v-col cols="12">
 									<v-textarea
 										v-model="task.task_description"
-										solo
+										outlined
 										no-resize
 										:label="$t('TASK_MANAGEMENT.TASK_DESCRIPTION')"
 									/>
@@ -101,7 +101,7 @@
 										v-model="task.required_position"
 										:items="positions"
 										:label="$t('TASK_MANAGEMENT.REQUIRED_POSITION')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -110,7 +110,7 @@
 										v-model="task.required_contract_type"
 										:items="contractTypes"
 										:label="$t('TASK_MANAGEMENT.REQUIRED_CONTRACT_TYPE')"
-										solo
+										outlined
 									/>
 								</v-col>
 							</v-row>
@@ -149,14 +149,14 @@
 									<v-text-field
 										v-model="task.task_name"
 										:label="$t('TASK_MANAGEMENT.TASK_NAME')"
-										solo
+										outlined
 									/>
 								</v-col>
 
 								<v-col cols="12">
 									<v-textarea
 										v-model="task.task_description"
-										solo
+										outlined
 										no-resize
 										:label="$t('TASK_MANAGEMENT.TASK_DESCRIPTION')"
 									/>
@@ -167,7 +167,7 @@
 										v-model="task.required_position"
 										:items="positions"
 										:label="$t('TASK_MANAGEMENT.REQUIRED_POSITION')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -176,7 +176,7 @@
 										v-model="task.required_contract_type"
 										:items="contractTypes"
 										:label="$t('TASK_MANAGEMENT.REQUIRED_CONTRACT_TYPE')"
-										solo
+										outlined
 									/>
 								</v-col>
 							</v-row>
