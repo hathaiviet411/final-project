@@ -17,7 +17,7 @@
 
 				<v-row class="my-3 mx-3">
 					<v-col cols="12">
-						<v-card elevation="24" min-height="700">
+						<v-card elevation="24">
 							<v-card-title>
 								<b-row>
 									<b-col lg="6" md="12" sm="12" class="text-center">
@@ -315,6 +315,8 @@ export default {
     },
     methods: {
         async getTaskList() {
+            this.overlay.show = true;
+
             try {
                 const response = await getAllTask(urlAPI.apiGetAllTask);
 
@@ -330,6 +332,8 @@ export default {
                     content: error || this.$t('TOAST.TITLE.ERROR'),
                 });
             }
+
+            this.overlay.show = false;
         },
 
         async getSpecificTask(task_id) {

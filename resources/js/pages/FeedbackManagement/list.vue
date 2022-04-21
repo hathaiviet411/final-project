@@ -17,7 +17,7 @@
 
 				<v-row class="my-3 mx-3">
 					<v-col cols="12">
-						<v-card elevation="24" min-height="700">
+						<v-card elevation="24">
 							<v-card-title><b-row>
 								<b-col lg="6" md="12" sm="12" class="text-center">
 									<v-text-field
@@ -54,7 +54,7 @@
 								}"
 							>
 								<template #[`item.upload_date`]="{ item }">
-									<span>{{ (item.upload_date).split(' ')[0] }}</span>
+									<span class="d-block" style="min-width: 150px">{{ (item.upload_date).split(' ')[0] }}</span>
 								</template>
 
 								<template #[`item.status`]="{ item }">
@@ -356,7 +356,6 @@ export default {
 
                 if (response.code === 200) {
                     this.items = response.data;
-                    this.overlay.show = false;
                 }
             } catch (error) {
                 MakeToast({
@@ -364,9 +363,9 @@ export default {
                     title: this.$t('TOAST.TITLE.WARNING'),
                     content: error || this.$t('TOAST.TITLE.ERROR'),
                 });
-
-                this.overlay.show = false;
             }
+
+            this.overlay.show = false;
         },
 
         async getSpecificFeedback(feedback_id) {

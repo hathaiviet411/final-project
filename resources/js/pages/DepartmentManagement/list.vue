@@ -351,6 +351,8 @@ export default {
     },
     methods: {
         async getDepartmentList() {
+            this.overlay.show = true;
+
             try {
                 const response = await getAllDepartment(urlAPI.apiGetAllDepartment);
 
@@ -364,6 +366,8 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+
+            this.overlay.show = false;
         },
 
         async getSpecificDepartment(department_id) {
