@@ -157,8 +157,6 @@ export default {
             try {
                 const response = await getAllDepartment(urlAPI.apiGetAllDepartment);
 
-                console.log(response);
-
                 if (response.code === 200) {
                     for (let i = 0; i < response.data.length; i++) {
                         this.DepartmentList.push({

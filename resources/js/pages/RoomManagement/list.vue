@@ -64,6 +64,27 @@
 											<v-icon small class="text-danger" @click="deleteDialog = true, deleting_id = item.id">fas fa-trash-alt</v-icon>
 										</v-col>
 									</v-row>
+
+								</template>
+
+								<template #[`item.room_type`]="{ item }">
+									<span>{{ convertFromIDToName(item.room_type, RoomTypes) }}</span>
+								</template>
+
+								<template #[`item.room_status`]="{ item }">
+									<span>{{ convertFromIDToName(item.room_status, RoomStatus) }}</span>
+								</template>
+
+								<template #[`item.room_capacity`]="{ item }">
+									<span>{{ convertFromIDToName(item.room_capacity, RoomCapacity) }}</span>
+								</template>
+
+								<template #[`item.level`]="{ item }">
+									<span>{{ convertFromIDToName(item.level, Levels) }}</span>
+								</template>
+
+								<template #[`item.building_id`]="{ item }">
+									<span>{{ convertFromIDToName(item.building_id, Buildings) }}</span>
 								</template>
 							</v-data-table>
 						</v-card>
@@ -311,6 +332,8 @@ from '@/api/modules/room';
 
 import { MakeToast } from '@/utils/MakeToast';
 
+import { convertFromIDToName } from '@/utils/convertFromIdToName';
+
 const urlAPI = {
     apiGetAllRoom: '/room/list',
     apiGetOneRoom: '/room/detail/',
@@ -329,6 +352,8 @@ export default {
                 blur: '1rem',
                 rounded: 'sm',
             },
+
+            convertFromIDToName: convertFromIDToName,
 
             RoomTypes: [
                 { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },

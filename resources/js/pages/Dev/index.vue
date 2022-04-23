@@ -51,7 +51,13 @@ export default {
         },
     },
     created() {
-        this.setLanguage(this.language);
+        if (this.language === 'en') {
+            this.isDisabledEnBtn = true;
+            this.isDisabledVnBtn = false;
+        } else if (this.language === 'vi') {
+            this.isDisabledEnBtn = false;
+            this.isDisabledVnBtn = true;
+        }
     },
     methods: {
         setLanguage(lang) {

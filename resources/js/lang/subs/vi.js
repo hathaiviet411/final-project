@@ -63,6 +63,15 @@ export default {
                 DELETE_FEEDBACK_FAILED: 'Xóa phản hồi thất bại.',
             },
 
+            FACILITY_MANAGEMENT: {
+                CREATE_FACILITY_SUCCESS: 'Thêm bảo trì thiết bị thành công.',
+                CREATE_FACILITY_FAILED: 'Thêm bảo trì thiết bị thất bại.',
+                UPDATE_FACILITY_SUCCESS: 'Cập nhật bảo trì thiết bị thành công.',
+                UPDATE_FACILITY_FAILED: 'Cập nhật bảo trì thiết bị thất bại.',
+                DELETE_FACILITY_SUCCESS: 'Xóa bảo trì thiết bị thành công.',
+                DELETE_FACILITY_FAILED: 'Xóa bảo trì thiết bị thất bại.',
+            },
+
             LOGOUT: {
                 SUCCESS: 'Đăng xuất thành công',
             },
@@ -211,12 +220,20 @@ export default {
     },
 
     FACILITY_MAINTENANCE: {
-        FACILITY_NAME: 'Tên cơ sở vật chất',
-        DESCRIPTION: 'Mô tả cơ sở vật chất',
-        STATUS: 'Trạng thái',
-        MAINTAINED_START_DATE: 'Ngày bắt đầu bảo trì',
+        FACILITY_TITLE: 'Tên thiết bị',
+        FACILITY_DETAIL: 'Thông tin thiết bị',
+        START_DATE: 'Ngày bắt đầu bảo trì',
+        END_DATE: 'Ngày kết thúc bảo trì',
         RESPONSIBLE_STAFF: 'Nhân viên chịu trách nhiệm',
-        NEW_FACILITY: 'Thêm yêu cầu bảo trì mới',
+        STATUS: {
+            TITLE: 'Trạng thái',
+            PENDING: 'Đang chờ xử lí',
+            MAINTAINING: 'Đang bảo trì',
+            FINISHED: 'Đã hoàn thành',
+        },
+        NEW_FACILITY: 'Thêm bảo trì',
+        EDIT_FACILITY: 'Chỉnh sửa thông tin bảo trì',
+        DELETE_FACILITY: 'Xoá bảo trì',
     },
 
     FEEDBACK_MANAGEMENT: {

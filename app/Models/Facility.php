@@ -17,7 +17,14 @@ class Facility extends Model
 
     protected $table = 'facilitys';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'facility_title',
+        'facility_detail',
+        'user_id',
+        'start_date',
+        'end_date',
+        'status',
+    ];
 
     protected $dates = ['deleted_at'];
 

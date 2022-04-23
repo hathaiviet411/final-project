@@ -15,7 +15,14 @@ class CreateFacilitysTable extends Migration
     {
         Schema::create('facilitys', function (Blueprint $table) {
             $table->id();
+            $table->string('facility_title')->required();
+            $table->string('facility_detail')->required();
+            $table->integer('user_id')->required();
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
+            $table->integer('status')->required();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

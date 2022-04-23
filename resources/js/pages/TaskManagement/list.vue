@@ -67,11 +67,11 @@
 								</template>
 
 								<template #[`item.required_position`]="{ item }">
-									<span>{{ toPositionName(item.required_position, PositionList) }}</span>
+									<span>{{ convertFromIDToName(item.required_position, PositionList) }}</span>
 								</template>
 
 								<template #[`item.required_contract_type`]="{ item }">
-									<span>{{ toContractType(item.required_contract_type, ContractType) }}</span>
+									<span>{{ convertFromIDToName(item.required_contract_type, ContractType) }}</span>
 								</template>
 							</v-data-table>
 						</v-card>
@@ -273,7 +273,7 @@ import { getAllContract } from '@/api/modules/contract';
 
 import { MakeToast } from '@/utils/MakeToast';
 
-import { toPositionName, toContractType } from '@/utils/convertFromIdToName';
+import { convertFromIDToName } from '@/utils/convertFromIdToName';
 
 const urlAPI = {
     apiGetAllTask: '/task/list',
@@ -299,9 +299,7 @@ export default {
                 { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
             ],
 
-            toPositionName: toPositionName,
-
-            toContractType: toContractType,
+            convertFromIDToName: convertFromIDToName,
 
             overlay: {
                 show: false,

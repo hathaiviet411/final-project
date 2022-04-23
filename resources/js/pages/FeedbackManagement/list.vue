@@ -58,25 +58,7 @@
 								</template>
 
 								<template #[`item.status`]="{ item }">
-									<span v-if="item.status === 1" class="d-block" style="min-width: 100px">
-										<v-icon small class="mr-3">fab fa-stack-overflow</v-icon>
-										{{ $t('FEEDBACK_MANAGEMENT.STATUS.PENDING') }}
-									</span>
-
-									<span v-else-if="item.status === 2" class="d-block" style="min-width: 100px">
-										<v-icon small class="mr-3">fas fa-hourglass-half</v-icon>
-										{{ $t('FEEDBACK_MANAGEMENT.STATUS.PROCESSING') }}
-									</span>
-
-									<span v-else-if="item.status === 3" class="d-block" style="min-width: 100px">
-										<v-icon small class="mr-3">fas fa-door-closed</v-icon>
-										{{ $t('FEEDBACK_MANAGEMENT.STATUS.CLOSED') }}
-									</span>
-
-									<span v-else-if="item.status === 4" class="d-block" style="min-width: 100px">
-										<v-icon small class="mr-3">fas fa-times-circle</v-icon>
-										{{ $t('FEEDBACK_MANAGEMENT.STATUS.CANCELED') }}
-									</span>
+									<span>{{ convertFromIDToName(item.status, statusList) }}</span>
 								</template>
 
 								<template #[`item.actions`]="{ item }">
@@ -275,6 +257,8 @@ from '@/api/modules/Feedback';
 
 import { MakeToast } from '@/utils/MakeToast';
 
+import { convertFromIDToName } from '@/utils/convertFromIdToName';
+
 const urlAPI = {
     apiGetAllFeedback: '/feedback/list',
     apiGetOneFeedback: '/feedback/detail/',
@@ -294,6 +278,8 @@ export default {
                 blur: '1rem',
                 rounded: 'sm',
             },
+
+            convertFromIDToName: convertFromIDToName,
 
             feedback: {
                 feedback_title: '',
@@ -350,8 +336,6 @@ export default {
 
             try {
                 const response = await getAllFeedback(urlAPI.apiGetAllFeedback);
-
-                console.log(response);
 
                 if (response.code === 200) {
                     this.items = response.data;

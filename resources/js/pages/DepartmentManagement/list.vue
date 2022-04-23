@@ -288,7 +288,7 @@
 <script>
 import { getAllDepartment, getOneDepartment, createDepartment, updateDepartment, deleteDepartment } from '@/api/modules/department';
 
-import { getYMDFromString } from './helper';
+import { getYMDFromString } from '@/utils/getYMDFromString';
 
 import { MakeToast } from '@/utils/MakeToast';
 

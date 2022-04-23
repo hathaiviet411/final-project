@@ -63,6 +63,15 @@ export default {
                 DELETE_FEEDBACK_FAILED: 'Delete feedback failed.',
             },
 
+            FACILITY_MANAGEMENT: {
+                CREATE_FACILITY_SUCCESS: 'Create facility successfully.',
+                CREATE_FACILITY_FAILED: 'Create facility failed.',
+                UPDATE_FACILITY_SUCCESS: 'Update facility successfully.',
+                UPDATE_FACILITY_FAILED: 'Update facility failed.',
+                DELETE_FACILITY_SUCCESS: 'Delete facility successfully.',
+                DELETE_FACILITY_FAILED: 'Delete facility failed.',
+            },
+
             LOGOUT: {
                 SUCCESS: 'You have successfully logged out.',
             },
@@ -211,12 +220,20 @@ export default {
     },
 
     FACILITY_MAINTENANCE: {
-        FACILITY_NAME: 'Facility Name',
-        DESCRIPTION: 'Description',
-        STATUS: 'Facility Status',
-        MAINTAINED_START_DATE: 'Maintained Start Date',
+        FACILITY_TITLE: 'Facility Title',
+        FACILITY_DETAIL: 'Facility Detail',
+        START_DATE: 'Start Maintenance',
+        END_DATE: 'End Maintenance Date',
         RESPONSIBLE_STAFF: 'Responsible Staff',
-        NEW_FACILITY: 'New Issue',
+        STATUS: {
+            TITLE: 'Status',
+            PENDING: 'Pending',
+            MAINTAINING: 'Maintaining',
+            FINISHED: 'Finished',
+        },
+        NEW_FACILITY: 'New Maintenance',
+        EDIT_FACILITY: 'Edit Maintenance',
+        DELETE_FACILITY: 'Delete Maintenance',
     },
 
     FEEDBACK_MANAGEMENT: {

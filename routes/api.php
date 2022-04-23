@@ -53,6 +53,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
             Route::delete('delete/{id}', 'RoomController@destroy');
         });
 
+        Route::group(['prefix' => 'facility-maintenance'], function () {
+            Route::get('list', 'FacilityController@index');
+            Route::post('create', 'FacilityController@store');
+            Route::get('detail/{id}', 'FacilityController@show');
+            Route::put('update/{id}', 'FacilityController@update');
+            Route::delete('delete/{id}', 'FacilityController@destroy');
+        });
+
         Route::group(['prefix' => 'position'], function () {
             Route::get('list', 'PositionController@index');
             // Route::post('create', 'PositionController@store');
