@@ -44,6 +44,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
             Route::put('update/{id}', 'FeedbackController@update');
             Route::delete('delete/{id}', 'FeedbackController@destroy');
         });
+
+        Route::group(['prefix' => 'position'], function () {
+            Route::get('list', 'PositionController@index');
+            // Route::post('create', 'PositionController@store');
+            // Route::get('detail/{id}', 'PositionController@show');
+            // Route::put('update/{id}', 'PositionController@update');
+            // Route::delete('delete/{id}', 'PositionController@destroy');
+        });
     });
 });
 
