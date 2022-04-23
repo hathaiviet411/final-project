@@ -304,8 +304,6 @@ export default {
     name: 'DepartmentManagementList',
     data() {
         return {
-            DepartmentList: [],
-
             overlay: {
                 show: false,
                 variant: 'light',

@@ -45,6 +45,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
             Route::delete('delete/{id}', 'FeedbackController@destroy');
         });
 
+        Route::group(['prefix' => 'room'], function () {
+            Route::get('list', 'RoomController@index');
+            Route::post('create', 'RoomController@store');
+            Route::get('detail/{id}', 'RoomController@show');
+            Route::put('update/{id}', 'RoomController@update');
+            Route::delete('delete/{id}', 'RoomController@destroy');
+        });
+
         Route::group(['prefix' => 'position'], function () {
             Route::get('list', 'PositionController@index');
             // Route::post('create', 'PositionController@store');

@@ -7,7 +7,7 @@ export default {
         ROOM_MANAGEMENT: 'Quản lý phòng ở',
         TASK_MANAGEMENT: 'Quản lý tác vụ',
         TIMESHEET: 'Quản lý chấm công',
-        DEPARTMENT_MANAGEMENT: 'Quản lý phòng ban',
+        DEPARTMENT_MANAGEMENT: 'Quản lý bộ phận',
         FEEDBACK_MANAGEMENT: 'Quản lý phản hồi',
         DEV: 'Phát triển',
     },
@@ -28,12 +28,12 @@ export default {
             },
 
             DEPARTMENT_MANAGEMENT: {
-                CREATE_DEPARTMENT_SUCCESS: 'Tạo phòng ban thành công.',
-                CREATE_DEPARTMENT_FAILED: 'Tạo phòng ban thất bại.',
-                UPDATE_DEPARTMENT_SUCCESS: 'Cập nhật phòng ban thành công.',
-                UPDATE_DEPARTMENT_FAILED: 'Cập nhật phòng ban thất bại.',
-                DELETE_DEPARTMENT_SUCCESS: 'Xóa phòng ban thành công.',
-                DELETE_DEPARTMENT_FAILED: 'Xóa phòng ban thất bại.',
+                CREATE_DEPARTMENT_SUCCESS: 'Tạo bộ phận thành công.',
+                CREATE_DEPARTMENT_FAILED: 'Tạo bộ phận thất bại.',
+                UPDATE_DEPARTMENT_SUCCESS: 'Cập nhật bộ phận thành công.',
+                UPDATE_DEPARTMENT_FAILED: 'Cập nhật bộ phận thất bại.',
+                DELETE_DEPARTMENT_SUCCESS: 'Xóa bộ phận thành công.',
+                DELETE_DEPARTMENT_FAILED: 'Xóa bộ phận thất bại.',
             },
 
             TASK_MANAGEMENT: {
@@ -43,6 +43,15 @@ export default {
                 UPDATE_TASK_FAILED: 'Cập nhật công việc thất bại.',
                 DELETE_TASK_SUCCESS: 'Xóa công việc thành công.',
                 DELETE_TASK_FAILED: 'Xóa công việc thất bại.',
+            },
+
+            ROOM_MANAGEMENT: {
+                CREATE_ROOM_SUCCESS: 'Thêm mới phòng thành công.',
+                CREATE_ROOM_FAILED: 'Thêm mới phòng thất bại.',
+                UPDATE_ROOM_SUCCESS: 'Cập nhật phòng thành công.',
+                UPDATE_ROOM_FAILED: 'Cập nhật phòng thất bại.',
+                DELETE_ROOM_SUCCESS: 'Xóa phòng thành công.',
+                DELETE_ROOM_FAILED: 'Xóa phòng thất bại.',
             },
 
             FEEDBACK_MANAGEMENT: {
@@ -78,21 +87,21 @@ export default {
     },
 
     SCHEDULE_MANAGEMENT: {
-        DEPARTMENT: 'Phòng ban',
+        DEPARTMENT: 'Bộ phận',
         USER_NAME: 'Tên nhân viên',
         POSITION: 'Chức vụ',
         CONTRACT_TYPE: 'Loại hợp đồng',
     },
 
     DEPARTMENT_MANAGEMENT: {
-        DEPARTMENT_NAME: 'Tên phòng ban',
-        DEPARTMENT_ADDRESS: 'Địa chỉ phòng ban',
+        DEPARTMENT_NAME: 'Tên bộ phận',
+        DEPARTMENT_ADDRESS: 'Địa chỉ bộ phận',
         TOTAL_STAFF: 'Tổng số nhân viên',
         DEPARTMENT_MANAGER: 'Quản lý',
         ORGANIZED_DATE: 'Ngày thành lập',
-        NEW_DEPARTMENT: 'Thêm phòng ban mới',
-        EDIT_DEPARTMENT: 'Chỉnh sửa thông tin phòng ban',
-        DELETE_DEPARTMENT: 'Xoá phòng ban',
+        NEW_DEPARTMENT: 'Thêm bộ phận mới',
+        EDIT_DEPARTMENT: 'Chỉnh sửa thông tin bộ phận',
+        DELETE_DEPARTMENT: 'Xoá bộ phận',
     },
 
     STAFF_MANAGEMENT: {
@@ -101,7 +110,7 @@ export default {
         EMAIL: 'Email',
         DOB: 'Ngày sinh',
         PARTICIPATED_DATE: 'Ngày gia nhập',
-        DEPARTMENT: 'Phòng ban',
+        DEPARTMENT: 'Bộ phận',
         ROLE: 'Vai trò',
         POSITION: 'Chức vụ',
         CONTRACT_TYPE: 'Loại hợp đồng',
@@ -187,6 +196,8 @@ export default {
         ROOM_INFORMATION: 'Thông tin phòng',
         BUILDING: 'Toà',
         NEW_ROOM: 'Thêm phòng mới',
+        EDIT_ROOM: 'Sửa thông tin phòng',
+        DELETE_ROOM: 'Xóa phòng',
     },
 
     TASK_MANAGEMENT: {
@@ -214,7 +225,7 @@ export default {
         UPLOADED_DATE: 'Ngày gửi',
         SUBJECT: 'Chủ đề',
         USER_NAME: 'Tên người gửi',
-        DEPARTMENT: 'Phòng ban',
+        DEPARTMENT: 'Bộ phận',
         POSITION: 'Chức vụ',
         STATUS: {
             STATUS: 'Trạng thái',
@@ -232,7 +243,7 @@ export default {
         STAFF_MANAGEMENT: 'Quản lý nhân viên',
         FACILITY_MANAGEMENT: 'Quản lý cơ sở vật chất',
         TIMESHEET: 'Quản lý chấm công',
-        DEPARTMENT_MANAGEMENT: 'Quản lý phòng ban',
+        DEPARTMENT_MANAGEMENT: 'Quản lý bộ phận',
         DEV: 'Phát triển',
     },
 
@@ -248,7 +259,7 @@ export default {
         EDIT: 'Sửa',
         ADD: 'Thêm',
         MONTH_YEAR: 'Tháng năm',
-        DEPARTMENT: 'Phòng ban',
+        DEPARTMENT: 'Bộ phận',
         SEARCH: 'Tìm kiếm',
         SORT_BY: 'Sắp xếp theo',
         ACTIONS: 'Thao tác',
@@ -282,7 +293,7 @@ export default {
     PLACE_HOLDER: {
         PLEASE_SELECT: 'Vui lòng chọn',
         USER_ROLE: 'Vui lòng chọn quyền người dùng',
-        DEPARTMENT: 'Vui lòng lựa chọn phòng ban',
+        DEPARTMENT: 'Vui lòng lựa chọn bộ phận',
         USER_ID: 'Vui lòng nhập tên đăng nhập',
         USER_NAME: 'Vui lòng nhập tên người dùng',
         PWD: 'Vui lòng nhập mật khẩu',

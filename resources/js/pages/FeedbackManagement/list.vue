@@ -287,8 +287,6 @@ export default {
     name: 'FeedbackManagementList',
     data() {
         return {
-            FeedbackList: [],
-
             overlay: {
                 show: false,
                 variant: 'light',
@@ -301,7 +299,7 @@ export default {
                 feedback_title: '',
                 feedback_content: '',
                 subject: '',
-                status: 1,
+                status: null,
             },
 
             headers: [
@@ -319,6 +317,7 @@ export default {
             items: [],
 
             statusList: [
+                { text: this.$t('PLACE_HOLDER.PLEASE_SELECT'), value: null },
                 { text: this.$t('FEEDBACK_MANAGEMENT.STATUS.PENDING'), value: 1 },
                 { text: this.$t('FEEDBACK_MANAGEMENT.STATUS.PROCESSING'), value: 2 },
                 { text: this.$t('FEEDBACK_MANAGEMENT.STATUS.CLOSED'), value: 3 },
@@ -374,7 +373,7 @@ export default {
                 feedback_content: '',
                 upload_date: '',
                 subject: '',
-                status: 1,
+                status: null,
             };
 
             this.editDialog = true;
@@ -398,7 +397,7 @@ export default {
                 feedback_content: '',
                 upload_date: '',
                 subject: '',
-                status: 1,
+                status: null,
             };
 
             this.registerDialog = true;

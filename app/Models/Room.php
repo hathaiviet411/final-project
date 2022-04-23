@@ -17,12 +17,19 @@ class Room extends Model
 
     protected $table = 'rooms';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'room_number',
+        'building_id',
+        'room_type',
+        'room_capacity',
+        'level',
+        'room_information',
+        'room_status',
+    ];
 
     protected $dates = ['deleted_at'];
 
     protected $casts = [
         'data' => 'array'
     ];
-
 }

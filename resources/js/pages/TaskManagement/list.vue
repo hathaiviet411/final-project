@@ -289,16 +289,14 @@ export default {
     name: 'TaskManagementIndex',
     data() {
         return {
-            TaskList: [],
-
             PositionList: [
-                { value: -1, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
+                { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
             ],
 
             PositionListCopy: [],
 
             ContractType: [
-                { value: -1, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
+                { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
             ],
 
             toPositionName: toPositionName,
@@ -316,8 +314,8 @@ export default {
             task: {
                 task_name: '',
                 task_description: '',
-                required_position: -1,
-                required_contract_type: -1,
+                required_position: null,
+                required_contract_type: null,
             },
 
             headers: [
@@ -412,8 +410,8 @@ export default {
             this.task = {
                 task_name: '',
                 task_description: '',
-                required_position: -1,
-                required_contract_type: -1,
+                required_position: null,
+                required_contract_type: null,
             };
 
             this.editDialog = true;
@@ -435,8 +433,8 @@ export default {
             this.task = {
                 task_name: '',
                 task_description: '',
-                required_position: -1,
-                required_contract_type: -1,
+                required_position: null,
+                required_contract_type: null,
             };
 
             this.registerDialog = true;

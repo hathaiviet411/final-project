@@ -15,7 +15,15 @@ class CreateRoomsTable extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('room_number')->required();
+            $table->unsignedBigInteger('building_id')->required();
+            $table->unsignedBigInteger('room_type')->required();
+            $table->unsignedBigInteger('room_capacity')->required();
+            $table->unsignedBigInteger('level')->required();
+            $table->string('room_information')->nullable();
+            $table->unsignedBigInteger('room_status')->required();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

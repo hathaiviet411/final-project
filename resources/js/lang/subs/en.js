@@ -45,6 +45,15 @@ export default {
                 DELETE_TASK_FAILED: 'Delete task failed.',
             },
 
+            ROOM_MANAGEMENT: {
+                CREATE_ROOM_SUCCESS: 'Create room successfully.',
+                CREATE_ROOM_FAILED: 'Create room failed.',
+                UPDATE_ROOM_SUCCESS: 'Update room successfully.',
+                UPDATE_ROOM_FAILED: 'Update room failed.',
+                DELETE_ROOM_SUCCESS: 'Delete room successfully.',
+                DELETE_ROOM_FAILED: 'Delete room failed.',
+            },
+
             FEEDBACK_MANAGEMENT: {
                 CREATE_FEEDBACK_SUCCESS: 'Create feedback successfully.',
                 CREATE_FEEDBACK_FAILED: 'Create feedback failed.',
@@ -187,6 +196,8 @@ export default {
         ROOM_INFORMATION: 'Room Information',
         BUILDING: 'Building',
         NEW_ROOM: 'New Room',
+        EDIT_ROOM: 'Edit Room',
+        DELETE_ROOM: 'Delete Room',
     },
 
     TASK_MANAGEMENT: {

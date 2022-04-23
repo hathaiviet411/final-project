@@ -3,7 +3,7 @@ import Layout from '@/layout';
 const roomManagement = {
     path: '/room-management',
     component: Layout,
-    redirect: { name: 'RoomManagementIndex' },
+    redirect: { name: 'RoomManagementList' },
     name: 'RoomManagement',
     meta: {
         title: 'ROUTER.ROOM_MANAGEMENT',
@@ -12,11 +12,11 @@ const roomManagement = {
     children: [
         {
             path: 'index',
-            name: 'RoomManagementIndex',
+            name: 'RoomManagementList',
             meta: {
                 title: 'ROUTER.ROOM_MANAGEMENT',
             },
-            component: () => import(/* webpackChunkName: "RoomManagementIndex" */ '@/pages/RoomManagement/Index'),
+            component: () => import(/* webpackChunkName: "RoomManagementList" */ '@/pages/RoomManagement/List'),
         },
     ],
 };
