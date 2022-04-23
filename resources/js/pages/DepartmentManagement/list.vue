@@ -327,7 +327,7 @@ export default {
                 { text: this.$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_NAME'), sortable: false, value: 'department_name' },
                 { text: this.$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_ADDRESS'), sortable: false, value: 'department_address' },
                 { text: this.$t('DEPARTMENT_MANAGEMENT.TOTAL_STAFF'), sortable: false, value: 'total_staff' },
-                { text: this.$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER'), sortable: false, value: 'department_manager' },
+                { text: this.$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER'), sortable: false, value: 'user.user_name' },
                 { text: this.$t('DEPARTMENT_MANAGEMENT.ORGANIZED_DATE'), sortable: false, value: 'organized_date' },
                 { text: this.$t('BUTTON.ACTIONS'), sortable: false, value: 'actions' },
             ],

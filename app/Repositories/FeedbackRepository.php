@@ -46,7 +46,6 @@ class FeedbackRepository extends BaseRepository implements FeedbackRepositoryInt
           $query->with('department')->select(['*']);
         },
       ])->paginate($request->per_page);
-      //$this->paginate($request->per_page);
       return $result;
   }
 

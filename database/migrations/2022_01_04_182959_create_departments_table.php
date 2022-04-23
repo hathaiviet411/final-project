@@ -17,7 +17,7 @@ class CreateDepartmentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('department_name')->required();
             $table->string('department_address')->required();
-            $table->integer('department_manager')->nullable();
+            $table->integer('user_id')->nullable();
             $table->integer('total_staff')->nullable();
             $table->dateTime('organized_date')->required();
             $table->timestamps();

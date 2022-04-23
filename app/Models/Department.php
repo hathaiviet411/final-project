@@ -35,4 +35,9 @@ class Department extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
 }

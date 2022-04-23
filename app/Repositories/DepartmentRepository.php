@@ -41,7 +41,7 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
 
     public function getPagination(DepartmentRequest $request)
     {
-        $result = $this->paginate($request->per_page);
+        $result = $this->model->with('user')->paginate($request->per_page);
         return $result;
     }
 
