@@ -17,6 +17,7 @@ class CreatePositionsTable extends Migration
             $table->id();
             $table->string('position_name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

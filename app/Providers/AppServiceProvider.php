@@ -10,6 +10,7 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Repositories\Contracts\DepartmentRepositoryInterface;
 use App\Repositories\Contracts\TaskRepositoryInterface;
 use App\Repositories\Contracts\PositionRepositoryInterface;
+use App\Repositories\Contracts\ContractRepositoryInterface;
 use App\Repositories\Contracts\FeedbackRepositoryInterface;
 
 use Illuminate\Support\ServiceProvider;
@@ -21,6 +22,7 @@ use Repository\RoleRepository;
 use Repository\DepartmentRepository;
 use Repository\TaskRepository;
 use Repository\PositionRepository;
+use Repository\ContractRepository;
 use Repository\FeedbackRepository;
 use Laravel\Dusk\DuskServiceProvider;
 
@@ -37,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(PositionRepositoryInterface::class, PositionRepository::class);
+        $this->app->bind(ContractRepositoryInterface::class, ContractRepository::class);
         $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
 
         //Customer

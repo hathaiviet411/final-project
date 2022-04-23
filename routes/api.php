@@ -52,6 +52,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
             // Route::put('update/{id}', 'PositionController@update');
             // Route::delete('delete/{id}', 'PositionController@destroy');
         });
+
+        Route::group(['prefix' => 'contract'], function () {
+            Route::get('list', 'ContractController@index');
+            // Route::post('create', 'ContractController@store');
+            // Route::get('detail/{id}', 'ContractController@show');
+            // Route::put('update/{id}', 'ContractController@update');
+            // Route::delete('delete/{id}', 'ContractController@destroy');
+        });
     });
 });
 

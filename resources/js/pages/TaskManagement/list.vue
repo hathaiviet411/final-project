@@ -65,6 +65,14 @@
 										</v-col>
 									</v-row>
 								</template>
+
+								<template #[`item.required_position`]="{ item }">
+									<span>{{ toPositionName(item.required_position, PositionList) }}</span>
+								</template>
+
+								<template #[`item.required_contract_type`]="{ item }">
+									<span>{{ toContractType(item.required_contract_type, ContractType) }}</span>
+								</template>
 							</v-data-table>
 						</v-card>
 					</v-col>
@@ -97,18 +105,22 @@
 								</v-col>
 
 								<v-col cols="12">
-									<v-select
-										v-model="task.required_position"
-										:items="positions"
-										:label="$t('TASK_MANAGEMENT.REQUIRED_POSITION')"
-										outlined
-									/>
+									<v-select v-model="task.required_position" :items="PositionList" outlined :label="$t('TASK_MANAGEMENT.REQUIRED_POSITION')">
+										<template #prepend-item>
+											<v-list-item>
+												<v-list-item-content>
+													<v-text-field v-model="search_position" :placeholder="$t('BUTTON.SEARCH')" @input="searchPositions" />
+												</v-list-item-content>
+											</v-list-item>
+											<v-divider class="mt-2" />
+										</template>
+									</v-select>
 								</v-col>
 
 								<v-col cols="12">
 									<v-select
 										v-model="task.required_contract_type"
-										:items="contractTypes"
+										:items="ContractType"
 										:label="$t('TASK_MANAGEMENT.REQUIRED_CONTRACT_TYPE')"
 										outlined
 									/>
@@ -163,18 +175,22 @@
 								</v-col>
 
 								<v-col cols="12">
-									<v-select
-										v-model="task.required_position"
-										:items="positions"
-										:label="$t('TASK_MANAGEMENT.REQUIRED_POSITION')"
-										outlined
-									/>
+									<v-select v-model="task.required_position" :items="PositionList" outlined :label="$t('TASK_MANAGEMENT.REQUIRED_POSITION')">
+										<template #prepend-item>
+											<v-list-item>
+												<v-list-item-content>
+													<v-text-field v-model="search_position" :placeholder="$t('BUTTON.SEARCH')" @input="searchPositions" />
+												</v-list-item-content>
+											</v-list-item>
+											<v-divider class="mt-2" />
+										</template>
+									</v-select>
 								</v-col>
 
 								<v-col cols="12">
 									<v-select
 										v-model="task.required_contract_type"
-										:items="contractTypes"
+										:items="ContractType"
 										:label="$t('TASK_MANAGEMENT.REQUIRED_CONTRACT_TYPE')"
 										outlined
 									/>
@@ -251,10 +267,18 @@ import {
 }
 from '@/api/modules/task';
 
+import { getAllPosition } from '@/api/modules/position';
+
+import { getAllContract } from '@/api/modules/contract';
+
 import { MakeToast } from '@/utils/MakeToast';
+
+import { toPositionName, toContractType } from '@/utils/convertFromIdToName';
 
 const urlAPI = {
     apiGetAllTask: '/task/list',
+    apiGetAllPosition: '/position/list',
+    apiGetAllContract: '/contract/list',
     apiGetOneTask: '/task/detail/',
     apiCreateTask: '/task/create',
     apiUpdateTask: '/task/update/',
@@ -267,6 +291,20 @@ export default {
         return {
             TaskList: [],
 
+            PositionList: [
+                { value: -1, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
+            ],
+
+            PositionListCopy: [],
+
+            ContractType: [
+                { value: -1, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
+            ],
+
+            toPositionName: toPositionName,
+
+            toContractType: toContractType,
+
             overlay: {
                 show: false,
                 variant: 'light',
@@ -278,8 +316,8 @@ export default {
             task: {
                 task_name: '',
                 task_description: '',
-                required_position: 1,
-                required_contract_type: 1,
+                required_position: -1,
+                required_contract_type: -1,
             },
 
             headers: [
@@ -292,11 +330,9 @@ export default {
 
             items: [],
 
-            positions: [],
-
-            contractTypes: [],
-
             search: '',
+
+            search_position: '',
 
             modalOrganizedDate: false,
 
@@ -312,6 +348,8 @@ export default {
     },
     created() {
         this.getTaskList();
+        this.getPositionList();
+        this.getContractType();
     },
     methods: {
         async getTaskList() {
@@ -319,8 +357,6 @@ export default {
 
             try {
                 const response = await getAllTask(urlAPI.apiGetAllTask);
-
-                console.log(response);
 
                 if (response.code === 200) {
                     this.items = response.data;
@@ -336,12 +372,48 @@ export default {
             this.overlay.show = false;
         },
 
+        async getPositionList() {
+            try {
+                const response = await getAllPosition(urlAPI.apiGetAllPosition);
+
+                if (response.code === 200) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        this.PositionList.push({
+                            text: this.$t(`POSITION.${response.data[i].position_name}`),
+                            value: response.data[i].id,
+                        });
+                    }
+
+                    this.PositionListCopy = [...this.PositionList];
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async getContractType() {
+            try {
+                const response = await getAllContract(urlAPI.apiGetAllContract);
+
+                if (response.code === 200) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        this.ContractType.push({
+                            text: this.$t(`CONTRACT.${response.data[i].contract_type}`),
+                            value: response.data[i].id,
+                        });
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
         async getSpecificTask(task_id) {
             this.task = {
                 task_name: '',
                 task_description: '',
-                required_position: '',
-                required_contract_type: '',
+                required_position: -1,
+                required_contract_type: -1,
             };
 
             this.editDialog = true;
@@ -363,8 +435,8 @@ export default {
             this.task = {
                 task_name: '',
                 task_description: '',
-                required_position: 1,
-                required_contract_type: 1,
+                required_position: -1,
+                required_contract_type: -1,
             };
 
             this.registerDialog = true;
@@ -449,6 +521,16 @@ export default {
 
                 this.deleteDialog = false;
             }
+        },
+
+        searchPositions() {
+            if (!this.search_position) {
+                this.PositionList = this.PositionListCopy;
+            }
+
+            this.PositionList = this.PositionListCopy.filter((position) => {
+                return position.text.toLowerCase().indexOf(this.search_position.toLowerCase()) > -1;
+            });
         },
 
     },

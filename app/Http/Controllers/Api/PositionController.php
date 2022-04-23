@@ -71,7 +71,7 @@ class PositionController extends Controller
    */
   public function index(PositionRequest $request)
   {
-    $positions = $this->positionRepository->getPagination($request);
+    $positions = $this->positionRepository->getAll($request);
     return $this->responseJson(200, PositionResource::collection($positions));
   }
 
