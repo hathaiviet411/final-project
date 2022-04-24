@@ -41,6 +41,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
 
     Route::group(['prefix' => 'task'], function () {
       Route::get('list', 'TaskController@index');
+      Route::get('all', 'TaskController@all');
       Route::post('create', 'TaskController@store');
       Route::get('detail/{id}', 'TaskController@show');
       Route::put('update/{id}', 'TaskController@update');
@@ -73,18 +74,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
 
     Route::group(['prefix' => 'position'], function () {
       Route::get('list', 'PositionController@index');
-      // Route::post('create', 'PositionController@store');
-      // Route::get('detail/{id}', 'PositionController@show');
-      // Route::put('update/{id}', 'PositionController@update');
-      // Route::delete('delete/{id}', 'PositionController@destroy');
     });
 
     Route::group(['prefix' => 'contract'], function () {
       Route::get('list', 'ContractController@index');
-      // Route::post('create', 'ContractController@store');
-      // Route::get('detail/{id}', 'ContractController@show');
-      // Route::put('update/{id}', 'ContractController@update');
-      // Route::delete('delete/{id}', 'ContractController@destroy');
+    });
+
+    Route::group(['prefix' => 'building'], function () {
+      Route::get('list', 'BuildingController@index');
     });
   });
 });

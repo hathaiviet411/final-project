@@ -108,7 +108,18 @@ export default {
         DEPARTMENT: 'Department',
         USER_NAME: 'User Name',
         POSITION: 'Position',
+        ROLE: 'Role',
         CONTRACT_TYPE: 'Contract Type',
+        BUILDING: 'Building',
+        LEVEL: 'Level',
+        ROOM: 'Room',
+        START_TIME: 'Start Time',
+        END_TIME: 'End Time',
+        NEW_SCHEDULE: 'New Schedule',
+        DETAIL_SCHEDULE: 'Detail Schedule',
+        USER_INFORMATION: 'User Information',
+        WORKING_PLACE_INFORMATION: 'Working Place Information',
+        WORKING_TIME_INFORMATION: 'Working Time Information',
     },
 
     DEPARTMENT_MANAGEMENT: {

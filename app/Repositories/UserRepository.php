@@ -27,7 +27,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
   public function getAll()
   {
-    return User::with('roles')->select('id', 'user_name')->get();
+    return User::with('roles')->select('*')->get();
   }
 
   public function getOne($id)

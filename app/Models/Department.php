@@ -40,4 +40,8 @@ class Department extends Model
     {
         return $this->hasOne('App\Models\User', 'id', 'user_id');
     }
+
+    public function users() {
+      return $this->hasMany('App\Models\User', 'department_id', 'id');
+    }
 }

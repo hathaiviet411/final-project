@@ -74,6 +74,12 @@ class TaskController extends Controller
     return $this->responseJson(200, TaskResource::collection($task));
   }
 
+  public function all(Request $request)
+  {
+      $users = $this->taskRepository->getAll($request);
+      return $this->responseJson(200, TaskResource::collection($users));
+  }
+
   /**
    * @OA\Post(
    *   path="/api/task",

@@ -330,12 +330,15 @@ import {
 }
 from '@/api/modules/room';
 
+import { getAllBuilding } from '@/api/modules/building';
+
 import { MakeToast } from '@/utils/MakeToast';
 
 import { convertFromIDToName } from '@/utils/convertFromIdToName';
 
 const urlAPI = {
     apiGetAllRoom: '/room/list',
+    apiGetAllBuilding: '/building/list',
     apiGetOneRoom: '/room/detail/',
     apiCreateRoom: '/room/create',
     apiUpdateRoom: '/room/update/',
@@ -435,9 +438,14 @@ export default {
         };
     },
     created() {
-        this.getRoomList();
+        this.getRoomManagementData();
     },
     methods: {
+        async getRoomManagementData() {
+            await this.getRoomList();
+            await this.getListBuilding();
+        },
+
         async getRoomList() {
             this.overlay.show = true;
 
@@ -446,6 +454,23 @@ export default {
 
                 if (response.code === 200) {
                     this.items = response.data;
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async getListBuilding() {
+            try {
+                const response = await getAllBuilding(urlAPI.apiGetAllBuilding);
+
+                if (response.code === 200) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        this.Buildings.push({
+                            text: response.data[i].building_name,
+                            value: response.data[i].id,
+                        });
+                    }
                 }
             } catch (error) {
                 console.log(error);
@@ -499,15 +524,15 @@ export default {
                 const response = await createRoom(urlAPI.apiCreateRoom, this.room);
 
                 if (response.code === 201) {
-                    await this.getRoomList();
+                    this.registerDialog = false;
+
+                    await this.getRoomManagementData();
 
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
                         content: this.$t('TOAST.CONTENT.ROOM_MANAGEMENT.CREATE_ROOM_SUCCESS'),
                     });
-
-                    this.registerDialog = false;
                 }
             } catch (error) {
                 MakeToast({
@@ -527,15 +552,15 @@ export default {
                 const response = await updateRoom(URL, this.room);
 
                 if (response.code === 200) {
-                    await this.getRoomList();
+                    this.editDialog = false;
+
+                    await this.getRoomManagementData();
 
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
                         content: this.$t('TOAST.CONTENT.ROOM_MANAGEMENT.UPDATE_ROOM_SUCCESS'),
                     });
-
-                    this.editDialog = false;
                 }
             } catch (error) {
                 MakeToast({
@@ -554,15 +579,15 @@ export default {
             try {
                 const response = await deleteRoom(URL);
                 if (response.code === 200) {
-                    this.getRoomList();
+                    this.deleteDialog = false;
+
+                    this.getRoomManagementData();
 
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
                         content: this.$t('TOAST.CONTENT.ROOM_MANAGEMENT.DELETE_ROOM_SUCCESS'),
                     });
-
-                    this.deleteDialog = false;
                 }
             } catch (error) {
                 MakeToast({

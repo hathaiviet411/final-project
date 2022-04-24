@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by VeHo.
- * Year: 2022-04-21
+ * Year: 2022-04-24
  */
 
 namespace App\Models;
@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Building extends Model
+class Schedule extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'buildings';
+    protected $table = 'schedules';
 
     protected $fillable = [];
 
@@ -24,10 +24,5 @@ class Building extends Model
     protected $casts = [
         'data' => 'array'
     ];
-
-    public function rooms()
-    {
-        return $this->hasMany('App\Models\Room', 'building_id', 'id');
-    }
 
 }

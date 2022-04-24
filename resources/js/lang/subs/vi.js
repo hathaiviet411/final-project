@@ -108,7 +108,18 @@ export default {
         DEPARTMENT: 'Bộ phận',
         USER_NAME: 'Tên nhân viên',
         POSITION: 'Chức vụ',
+        ROLE: 'Vai trò',
         CONTRACT_TYPE: 'Loại hợp đồng',
+        BUILDING: 'Building',
+        LEVEL: 'Level',
+        ROOM: 'Room',
+        START_TIME: 'Thời gian bắt đầu',
+        END_TIME: 'Thời gian kết thúc',
+        NEW_SCHEDULE: 'Thêm lịch làm việc',
+        DETAIL_SCHEDULE: 'Chi tiết lịch làm việc',
+        USER_INFORMATION: 'Thông tin nhân viên',
+        WORKING_PLACE_INFORMATION: 'Thông tin địa điểm làm việc',
+        WORKING_TIME_INFORMATION: 'Thông tin thời gian làm việc',
     },
 
     DEPARTMENT_MANAGEMENT: {
