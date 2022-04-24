@@ -72,6 +72,15 @@ export default {
                 DELETE_FACILITY_FAILED: 'Xóa bảo trì thiết bị thất bại.',
             },
 
+            STAFF_MANAGEMENT: {
+                CREATE_STAFF_SUCCESS: 'Thêm nhân viên thành công.',
+                CREATE_STAFF_FAILED: 'Thêm nhân viên thất bại.',
+                UPDATE_STAFF_SUCCESS: 'Cập nhật nhân viên thành công.',
+                UPDATE_STAFF_FAILED: 'Cập nhật nhân viên thất bại.',
+                DELETE_STAFF_SUCCESS: 'Xóa nhân viên thành công.',
+                DELETE_STAFF_FAILED: 'Xóa nhân viên thất bại.',
+            },
+
             LOGOUT: {
                 SUCCESS: 'Đăng xuất thành công',
             },
@@ -114,19 +123,23 @@ export default {
     },
 
     STAFF_MANAGEMENT: {
-        STAFF_CODE: 'Mã nhân viên',
-        FULL_NAME: 'Họ và tên',
+        USER_NAME: 'Tên nhân viên',
+        USER_CODE: 'Mã nhân viên',
+        PASSWORD: 'Mật khẩu',
         EMAIL: 'Email',
         DOB: 'Ngày sinh',
-        PARTICIPATED_DATE: 'Ngày gia nhập',
-        DEPARTMENT: 'Bộ phận',
-        ROLE: 'Vai trò',
-        POSITION: 'Chức vụ',
-        CONTRACT_TYPE: 'Loại hợp đồng',
+        PARTICIPATED_DATE: 'Ngày tham gia',
         ADDRESS: 'Địa chỉ',
         PHONE_NUMBER: 'Số điện thoại',
         IS_RETIRED: 'Trạng thái',
+        AVATAR: 'Ảnh đại diện',
+        ROLE: 'Vai trò',
+        DEPARTMENT: 'Bộ phận',
+        POSITION: 'Chức vụ',
+        CONTRACT: 'Loại hợp đồng',
         NEW_STAFF: 'Thêm nhân viên mới',
+        EDIT_STAFF: 'Chỉnh sửa thông tin nhân viên',
+        DELETE_STAFF: 'Xoá nhân viên',
     },
 
     POSITION: {
@@ -254,6 +267,12 @@ export default {
         NEW_FEEDBACK: 'Thêm phản hồi mới',
         EDIT_FEEDBACK: 'Chỉnh sửa thông tin phản hồi',
         DELETE_FEEDBACK: 'Xoá phản hồi',
+    },
+
+    ROLE: {
+        ADMIN: 'Quản trị viên',
+        MANAGER: 'Quản lý',
+        STAFF: 'Nhân viên',
     },
 
     PAGE_TITLE: {

@@ -330,8 +330,6 @@ export default {
 
             search_position: '',
 
-            modalOrganizedDate: false,
-
             registerDialog: false,
 
             editDialog: false,

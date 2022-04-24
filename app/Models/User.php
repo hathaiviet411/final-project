@@ -33,10 +33,19 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'user_code',
-        'department_id',
         'user_name',
+        'user_code',
         'password',
+        'email',
+        'dob',
+        'participated_date',
+        'address',
+        'phone_number',
+        'is_retired',
+        'avatar',
+        'department_id',
+        'position_id',
+        'contract_id',
         'created_by',
         'updated_by'
     ];
@@ -93,10 +102,19 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Image::class,'image_id')->select(['id', 'title', 'url']);
     }
 
-
     public function department()
     {
         return $this->hasOne('App\Models\Department', 'id', 'department_id');
+    }
+
+    public function contract()
+    {
+        return $this->hasOne('App\Models\Contract', 'id', 'contract_id');
+    }
+
+    public function position()
+    {
+        return $this->hasOne('App\Models\Position', 'id', 'position_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)

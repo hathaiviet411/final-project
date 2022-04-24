@@ -72,6 +72,15 @@ export default {
                 DELETE_FACILITY_FAILED: 'Delete facility failed.',
             },
 
+            STAFF_MANAGEMENT: {
+                CREATE_STAFF_SUCCESS: 'Create staff successfully.',
+                CREATE_STAFF_FAILED: 'Create staff failed.',
+                UPDATE_STAFF_SUCCESS: 'Update staff successfully.',
+                UPDATE_STAFF_FAILED: 'Update staff failed.',
+                DELETE_STAFF_SUCCESS: 'Delete staff successfully.',
+                DELETE_STAFF_FAILED: 'Delete staff failed.',
+            },
+
             LOGOUT: {
                 SUCCESS: 'You have successfully logged out.',
             },
@@ -114,19 +123,23 @@ export default {
     },
 
     STAFF_MANAGEMENT: {
-        STAFF_CODE: 'User Code',
-        FULL_NAME: 'Full Name',
+        USER_NAME: 'User Name',
+        USER_CODE: 'User Code',
+        PASSWORD: 'Password',
         EMAIL: 'Email',
         DOB: 'Date of Birth',
-        ADDRESS: 'Address',
         PARTICIPATED_DATE: 'Participated Date',
-        DEPARTMENT: 'Department',
-        ROLE: 'Role',
-        POSITION: 'Position',
-        CONTRACT_TYPE: 'Contract Type',
+        ADDRESS: 'Address',
         PHONE_NUMBER: 'Phone Number',
         IS_RETIRED: 'Is Retired',
+        AVATAR: 'Avatar',
+        ROLE: 'Role',
+        DEPARTMENT: 'Department',
+        POSITION: 'Position',
+        CONTRACT: 'Contract',
         NEW_STAFF: 'New Staff',
+        EDIT_STAFF: 'Edit Staff',
+        DELETE_STAFF: 'Delete Staff',
     },
 
     POSITION: {
@@ -254,6 +267,12 @@ export default {
         NEW_FEEDBACK: 'New Feedback',
         EDIT_FEEDBACK: 'Edit Feedback',
         DELETE_FEEDBACK: 'Delete Feedback',
+    },
+
+    ROLE: {
+        ADMIN: 'Admin',
+        MANAGER: 'Manager',
+        STAFF: 'Staff',
     },
 
     PAGE_TITLE: {

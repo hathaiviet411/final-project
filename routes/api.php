@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -12,70 +13,78 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
-    Route::post('auth/login', 'AuthController@login');
+  Route::post('auth/login', 'AuthController@login');
 
-    Route::group(['middleware' => 'auth:api'], function () {
-        Route::group(['prefix' => 'auth'], function () {
-            Route::post('refresh', 'AuthController@refresh');
-            Route::get('user', 'AuthController@user');
-            Route::post('logout', 'AuthController@logout');
-        });
-
-        Route::group(['prefix' => 'department'], function () {
-            Route::get('list', 'DepartmentController@index');
-            Route::post('create', 'DepartmentController@store');
-            Route::get('detail/{id}', 'DepartmentController@show');
-            Route::put('update/{id}', 'DepartmentController@update');
-            Route::delete('delete/{id}', 'DepartmentController@destroy');
-        });
-
-        Route::group(['prefix' => 'task'], function () {
-            Route::get('list', 'TaskController@index');
-            Route::post('create', 'TaskController@store');
-            Route::get('detail/{id}', 'TaskController@show');
-            Route::put('update/{id}', 'TaskController@update');
-            Route::delete('delete/{id}', 'TaskController@destroy');
-        });
-
-        Route::group(['prefix' => 'feedback'], function () {
-            Route::get('list', 'FeedbackController@index');
-            Route::post('create', 'FeedbackController@store');
-            Route::get('detail/{id}', 'FeedbackController@show');
-            Route::put('update/{id}', 'FeedbackController@update');
-            Route::delete('delete/{id}', 'FeedbackController@destroy');
-        });
-
-        Route::group(['prefix' => 'room'], function () {
-            Route::get('list', 'RoomController@index');
-            Route::post('create', 'RoomController@store');
-            Route::get('detail/{id}', 'RoomController@show');
-            Route::put('update/{id}', 'RoomController@update');
-            Route::delete('delete/{id}', 'RoomController@destroy');
-        });
-
-        Route::group(['prefix' => 'facility-maintenance'], function () {
-            Route::get('list', 'FacilityController@index');
-            Route::post('create', 'FacilityController@store');
-            Route::get('detail/{id}', 'FacilityController@show');
-            Route::put('update/{id}', 'FacilityController@update');
-            Route::delete('delete/{id}', 'FacilityController@destroy');
-        });
-
-        Route::group(['prefix' => 'position'], function () {
-            Route::get('list', 'PositionController@index');
-            // Route::post('create', 'PositionController@store');
-            // Route::get('detail/{id}', 'PositionController@show');
-            // Route::put('update/{id}', 'PositionController@update');
-            // Route::delete('delete/{id}', 'PositionController@destroy');
-        });
-
-        Route::group(['prefix' => 'contract'], function () {
-            Route::get('list', 'ContractController@index');
-            // Route::post('create', 'ContractController@store');
-            // Route::get('detail/{id}', 'ContractController@show');
-            // Route::put('update/{id}', 'ContractController@update');
-            // Route::delete('delete/{id}', 'ContractController@destroy');
-        });
+  Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'auth'], function () {
+      Route::post('refresh', 'AuthController@refresh');
+      Route::get('user', 'AuthController@user');
+      Route::post('logout', 'AuthController@logout');
     });
-});
 
+    Route::group(['prefix' => 'users'], function () {
+      Route::get('list', 'UserController@index');
+      Route::get('all', 'UserController@all');
+      Route::post('create', 'UserController@store');
+      Route::get('detail/{id}', 'UserController@show');
+      Route::put('update/{id}', 'UserController@update');
+      Route::delete('delete/{id}', 'UserController@destroy');
+    });
+
+    Route::group(['prefix' => 'department'], function () {
+      Route::get('list', 'DepartmentController@index');
+      Route::post('create', 'DepartmentController@store');
+      Route::get('detail/{id}', 'DepartmentController@show');
+      Route::put('update/{id}', 'DepartmentController@update');
+      Route::delete('delete/{id}', 'DepartmentController@destroy');
+    });
+
+    Route::group(['prefix' => 'task'], function () {
+      Route::get('list', 'TaskController@index');
+      Route::post('create', 'TaskController@store');
+      Route::get('detail/{id}', 'TaskController@show');
+      Route::put('update/{id}', 'TaskController@update');
+      Route::delete('delete/{id}', 'TaskController@destroy');
+    });
+
+    Route::group(['prefix' => 'feedback'], function () {
+      Route::get('list', 'FeedbackController@index');
+      Route::post('create', 'FeedbackController@store');
+      Route::get('detail/{id}', 'FeedbackController@show');
+      Route::put('update/{id}', 'FeedbackController@update');
+      Route::delete('delete/{id}', 'FeedbackController@destroy');
+    });
+
+    Route::group(['prefix' => 'room'], function () {
+      Route::get('list', 'RoomController@index');
+      Route::post('create', 'RoomController@store');
+      Route::get('detail/{id}', 'RoomController@show');
+      Route::put('update/{id}', 'RoomController@update');
+      Route::delete('delete/{id}', 'RoomController@destroy');
+    });
+
+    Route::group(['prefix' => 'facility-maintenance'], function () {
+      Route::get('list', 'FacilityController@index');
+      Route::post('create', 'FacilityController@store');
+      Route::get('detail/{id}', 'FacilityController@show');
+      Route::put('update/{id}', 'FacilityController@update');
+      Route::delete('delete/{id}', 'FacilityController@destroy');
+    });
+
+    Route::group(['prefix' => 'position'], function () {
+      Route::get('list', 'PositionController@index');
+      // Route::post('create', 'PositionController@store');
+      // Route::get('detail/{id}', 'PositionController@show');
+      // Route::put('update/{id}', 'PositionController@update');
+      // Route::delete('delete/{id}', 'PositionController@destroy');
+    });
+
+    Route::group(['prefix' => 'contract'], function () {
+      Route::get('list', 'ContractController@index');
+      // Route::post('create', 'ContractController@store');
+      // Route::get('detail/{id}', 'ContractController@show');
+      // Route::put('update/{id}', 'ContractController@update');
+      // Route::delete('delete/{id}', 'ContractController@destroy');
+    });
+  });
+});
