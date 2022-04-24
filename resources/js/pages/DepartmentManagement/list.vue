@@ -31,7 +31,7 @@
 									</b-col>
 
 									<b-col lg="6" md="12" sm="12" xs="12" class="text-center">
-										<v-btn color="#1e2a55" width="285" dark class="mt-3" @click="registerDialog = true">
+										<v-btn color="#1e2a55" width="285" dark class="mt-3" @click="openRegisterDialog()">
 											<span style="color: #FFFFFF;">{{ $t('DEPARTMENT_MANAGEMENT.NEW_DEPARTMENT') }}</span>
 										</v-btn>
 									</b-col>
@@ -71,7 +71,7 @@
 				</v-row>
 
 				<!-- Register Dialog -->
-				<v-dialog v-model="registerDialog" max-width="500" persistent no-click-animation>
+				<v-dialog v-model="registerDialog" max-width="500" persistent>
 					<v-card>
 						<v-btn elevation="3" block tile class="mb-3 cornflower">
 							<span>{{ $t('DEPARTMENT_MANAGEMENT.NEW_DEPARTMENT') }}</span>
@@ -84,7 +84,7 @@
 									<v-text-field
 										v-model="department.department_name"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_NAME')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -93,7 +93,7 @@
 									<v-text-field
 										v-model="department.department_address"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_ADDRESS')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -102,7 +102,7 @@
 									<v-text-field
 										v-model="department.department_manager"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -118,7 +118,7 @@
 												v-model="department.organized_date"
 												:label="$t('DEPARTMENT_MANAGEMENT.ORGANIZED_DATE')"
 												readonly
-												solo
+												outlined
 												v-bind="attrs"
 												v-on="on"
 											/>
@@ -159,7 +159,7 @@
 				</v-dialog>
 
 				<!-- Edit Dialog -->
-				<v-dialog v-model="editDialog" max-width="500" persistent no-click-animation>
+				<v-dialog v-model="editDialog" max-width="500" persistent>
 					<v-card>
 						<v-btn elevation="3" block tile class="mb-3 cornflower">
 							<span>{{ $t('DEPARTMENT_MANAGEMENT.EDIT_DEPARTMENT') }}</span>
@@ -172,7 +172,7 @@
 									<v-text-field
 										v-model="department.department_name"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_NAME')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -181,7 +181,7 @@
 									<v-text-field
 										v-model="department.department_address"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_ADDRESS')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -190,7 +190,7 @@
 									<v-text-field
 										v-model="department.department_manager"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER')"
-										solo
+										outlined
 									/>
 								</v-col>
 
@@ -206,7 +206,7 @@
 												v-model="department.organized_date"
 												:label="$t('DEPARTMENT_MANAGEMENT.ORGANIZED_DATE')"
 												readonly
-												solo
+												outlined
 												v-bind="attrs"
 												v-on="on"
 											/>
@@ -247,7 +247,7 @@
 				</v-dialog>
 
 				<!-- Delete Dialog -->
-				<v-dialog v-model="deleteDialog" max-width="500" persistent no-click-animation>
+				<v-dialog v-model="deleteDialog" max-width="500" persistent>
 					<v-card>
 						<v-btn elevation="3" block tile class="mb-3 cornflower">
 							<span>{{ $t('DEPARTMENT_MANAGEMENT.DELETE_DEPARTMENT') }}</span>
@@ -288,7 +288,7 @@
 <script>
 import { getAllDepartment, getOneDepartment, createDepartment, updateDepartment, deleteDepartment } from '@/api/modules/department';
 
-import { getYMDFromString } from './helper';
+import { getYMDFromString } from '@/utils/getYMDFromString';
 
 import { MakeToast } from '@/utils/MakeToast';
 
@@ -304,8 +304,6 @@ export default {
     name: 'DepartmentManagementList',
     data() {
         return {
-            DepartmentList: [],
-
             overlay: {
                 show: false,
                 variant: 'light',
@@ -327,7 +325,7 @@ export default {
                 { text: this.$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_NAME'), sortable: false, value: 'department_name' },
                 { text: this.$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_ADDRESS'), sortable: false, value: 'department_address' },
                 { text: this.$t('DEPARTMENT_MANAGEMENT.TOTAL_STAFF'), sortable: false, value: 'total_staff' },
-                { text: this.$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER'), sortable: false, value: 'department_manager' },
+                { text: this.$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER'), sortable: false, value: 'user.user_name' },
                 { text: this.$t('DEPARTMENT_MANAGEMENT.ORGANIZED_DATE'), sortable: false, value: 'organized_date' },
                 { text: this.$t('BUTTON.ACTIONS'), sortable: false, value: 'actions' },
             ],
@@ -351,6 +349,8 @@ export default {
     },
     methods: {
         async getDepartmentList() {
+            this.overlay.show = true;
+
             try {
                 const response = await getAllDepartment(urlAPI.apiGetAllDepartment);
 
@@ -364,6 +364,8 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+
+            this.overlay.show = false;
         },
 
         async getSpecificDepartment(department_id) {
@@ -388,6 +390,17 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+
+        openRegisterDialog() {
+            this.department = {
+                department_name: '',
+                department_address: '',
+                department_manager: '',
+                organized_date: '',
+            };
+
+            this.registerDialog = true;
         },
 
         async doRegisterDepartment() {

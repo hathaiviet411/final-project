@@ -41,7 +41,7 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
 
     public function getPagination(DepartmentRequest $request)
     {
-        $result = $this->paginate($request->per_page);
+        $result = $this->model->with('user')->paginate($request->per_page);
         return $result;
     }
 
@@ -51,7 +51,7 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
         $this->model->create([
           'department_name' => $attribute['department_name'],
           'department_address' => $attribute['department_address'],
-          'department_manager' => $attribute['department_manager'],
+          'user_id' => $attribute['department_manager'],
           'organized_date' => $attribute['organized_date'],
           'created_by' => Auth::id(),
         ]);
@@ -66,7 +66,7 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
             $department = $this->model->where('id',$id)->first();
             $department->department_name = $request['department_name'];
             $department->department_address = $request['department_address'];
-            $department->department_manager = $request['department_manager'];
+            $department->user_id = $request['department_manager'];
             $department->organized_date = $request['organized_date'];
             $department->save();
         });

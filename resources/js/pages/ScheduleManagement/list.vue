@@ -39,7 +39,7 @@
 											style="max-width: 200px !important;"
 											:items="DepartmentList"
 											:label="$t('SCHEDULE_MANAGEMENT.DEPARTMENT')"
-											solo
+											outlined
 										/>
 									</b-col>
 								</b-row>
@@ -156,8 +156,6 @@ export default {
         async getListDepartment() {
             try {
                 const response = await getAllDepartment(urlAPI.apiGetAllDepartment);
-
-                console.log(response);
 
                 if (response.code === 200) {
                     for (let i = 0; i < response.data.length; i++) {

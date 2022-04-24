@@ -68,22 +68,66 @@
 
 .warning-btn {
     min-width: 150px !important;
-    color: $white !important;
+    color: $black !important;
     background-color: $cream-brulee !important;
 
     &:hover {
         opacity: 0.8;
-        color: $cream-brulee !important;
+        color: $black !important;
         background-color: $white !important;
     }
 
     &:active {
-        color: $cream-brulee !important;
+        color: $black !important;
         background-color: $white !important;
     }
 
     &:focus {
-        color: $cream-brulee !important;
+        color: $black !important;
+        background-color: $white !important;
+    }
+}
+
+.info-btn {
+    min-width: 150px !important;
+    color: $white !important;
+    background-color: $medium-purple !important;
+
+    &:hover {
+        opacity: 0.8;
+        color: $black !important;
+        background-color: $white !important;
+    }
+
+    &:active {
+      color: $black !important;
+        background-color: $white !important;
+    }
+
+    &:focus {
+      color: $black !important;
+        background-color: $white !important;
+    }
+}
+
+.success-btn {
+    min-width: 150px !important;
+    color: $white !important;
+    background-color: $cornflower-blue !important;
+
+    &:hover {
+        opacity: 0.8;
+        color: $black !important;
+        background-color: $white !important;
+    }
+
+    &:active {
+        color: $black !important;
+        background-color: $white !important;
+    }
+
+    &:focus {
+        color: $black !important;
         background-color: $white !important;
     }
 }

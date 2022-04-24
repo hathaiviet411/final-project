@@ -20,7 +20,10 @@
 			<b-collapse id="nav-collapse" is-nav>
 				<b-navbar-nav class="ml-auto">
 					<b-nav-item>
-						<vButton style="font-weight: bold;" class="btn-show-emp-name" :text-button="employeeName" />
+						<v-btn class="btn-show-emp-name primary-btn">
+							<v-icon small class="mr-2">fas fa-id-card-alt</v-icon>
+							<span>{{ employeeName }}</span>
+						</v-btn>
 					</b-nav-item>
 
 					<!-- <b-nav-item>
@@ -30,7 +33,10 @@
 					<!-- <DepartmentSelector /> -->
 
 					<b-nav-item>
-						<vButton style="font-weight: bold;" class="btn-logout" :text-button="$t('NAVBAR.LOGOUT')" @click.native="doLogout()" />
+						<v-btn class="btn-logout primary-btn" @click="doLogout()">
+							<v-icon small class="mr-2">fas fa-door-open</v-icon>
+							<span>{{ $t('NAVBAR.LOGOUT') }}</span>
+						</v-btn>
 					</b-nav-item>
 				</b-navbar-nav>
 			</b-collapse>
@@ -39,14 +45,12 @@
 </template>
 
 <script>
-import vButton from '@/components/atoms/vButton';
 // import DepartmentSelector from '../DepartmentSelector/index';
 // import DateSelector from '../DateSelector/index';
 
 export default {
     name: 'Navbar',
     components: {
-        vButton,
         // DepartmentSelector,
         // DateSelector,
     },

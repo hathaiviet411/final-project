@@ -17,7 +17,7 @@
 
 				<v-row class="my-3 mx-3">
 					<v-col cols="12">
-						<v-card elevation="24" min-height="700">
+						<v-card elevation="24">
 							<v-card-title>
 								<b-row>
 									<b-col lg="6" md="12" sm="12" class="text-center">
@@ -31,7 +31,7 @@
 									</b-col>
 
 									<b-col lg="6" md="12" sm="12" class="text-center mt-3">
-										<v-btn dark class="primary-btn" @click="registerDialog = true">
+										<v-btn dark class="primary-btn" @click="openRegisterDialog()">
 											<span>{{ $t('TASK_MANAGEMENT.NEW_TASK') }}</span>
 										</v-btn>
 									</b-col>
@@ -65,15 +65,23 @@
 										</v-col>
 									</v-row>
 								</template>
+
+								<template #[`item.required_position`]="{ item }">
+									<span>{{ convertFromIDToName(item.required_position, PositionList) }}</span>
+								</template>
+
+								<template #[`item.required_contract_type`]="{ item }">
+									<span>{{ convertFromIDToName(item.required_contract_type, ContractType) }}</span>
+								</template>
 							</v-data-table>
 						</v-card>
 					</v-col>
 				</v-row>
 
 				<!-- Register Dialog -->
-				<v-dialog v-model="registerDialog" max-width="500" persistent no-click-animation>
+				<v-dialog v-model="registerDialog" max-width="500" persistent>
 					<v-card>
-						<v-btn elevation="3" block tile class="mb-3 cornflower" @click="registerDialog = true">
+						<v-btn elevation="3" block tile class="mb-3 cornflower">
 							<span>{{ $t('TASK_MANAGEMENT.NEW_TASK') }}</span>
 						</v-btn>
 
@@ -83,34 +91,38 @@
 									<v-text-field
 										v-model="task.task_name"
 										:label="$t('TASK_MANAGEMENT.TASK_NAME')"
-										solo
+										outlined
 									/>
 								</v-col>
 
 								<v-col cols="12">
 									<v-textarea
 										v-model="task.task_description"
-										solo
+										outlined
 										no-resize
 										:label="$t('TASK_MANAGEMENT.TASK_DESCRIPTION')"
 									/>
 								</v-col>
 
 								<v-col cols="12">
-									<v-select
-										v-model="task.required_position"
-										:items="positions"
-										:label="$t('TASK_MANAGEMENT.REQUIRED_POSITION')"
-										solo
-									/>
+									<v-select v-model="task.required_position" :items="PositionList" outlined :label="$t('TASK_MANAGEMENT.REQUIRED_POSITION')">
+										<template #prepend-item>
+											<v-list-item>
+												<v-list-item-content>
+													<v-text-field v-model="search_position" :placeholder="$t('BUTTON.SEARCH')" @input="searchPositions" />
+												</v-list-item-content>
+											</v-list-item>
+											<v-divider class="mt-2" />
+										</template>
+									</v-select>
 								</v-col>
 
 								<v-col cols="12">
 									<v-select
 										v-model="task.required_contract_type"
-										:items="contractTypes"
+										:items="ContractType"
 										:label="$t('TASK_MANAGEMENT.REQUIRED_CONTRACT_TYPE')"
-										solo
+										outlined
 									/>
 								</v-col>
 							</v-row>
@@ -137,7 +149,7 @@
 				</v-dialog>
 
 				<!-- Edit Dialog -->
-				<v-dialog v-model="editDialog" max-width="500" persistent no-click-animation>
+				<v-dialog v-model="editDialog" max-width="500" persistent>
 					<v-card>
 						<v-btn elevation="3" block tile class="mb-3 cornflower" @click="editDialog = true">
 							<span>{{ $t('TASK_MANAGEMENT.EDIT_TASK') }}</span>
@@ -149,34 +161,38 @@
 									<v-text-field
 										v-model="task.task_name"
 										:label="$t('TASK_MANAGEMENT.TASK_NAME')"
-										solo
+										outlined
 									/>
 								</v-col>
 
 								<v-col cols="12">
 									<v-textarea
 										v-model="task.task_description"
-										solo
+										outlined
 										no-resize
 										:label="$t('TASK_MANAGEMENT.TASK_DESCRIPTION')"
 									/>
 								</v-col>
 
 								<v-col cols="12">
-									<v-select
-										v-model="task.required_position"
-										:items="positions"
-										:label="$t('TASK_MANAGEMENT.REQUIRED_POSITION')"
-										solo
-									/>
+									<v-select v-model="task.required_position" :items="PositionList" outlined :label="$t('TASK_MANAGEMENT.REQUIRED_POSITION')">
+										<template #prepend-item>
+											<v-list-item>
+												<v-list-item-content>
+													<v-text-field v-model="search_position" :placeholder="$t('BUTTON.SEARCH')" @input="searchPositions" />
+												</v-list-item-content>
+											</v-list-item>
+											<v-divider class="mt-2" />
+										</template>
+									</v-select>
 								</v-col>
 
 								<v-col cols="12">
 									<v-select
 										v-model="task.required_contract_type"
-										:items="contractTypes"
+										:items="ContractType"
 										:label="$t('TASK_MANAGEMENT.REQUIRED_CONTRACT_TYPE')"
-										solo
+										outlined
 									/>
 								</v-col>
 							</v-row>
@@ -203,7 +219,7 @@
 				</v-dialog>
 
 				<!-- Delete Dialog -->
-				<v-dialog v-model="deleteDialog" max-width="500" persistent no-click-animation>
+				<v-dialog v-model="deleteDialog" max-width="500" persistent>
 					<v-card>
 						<v-btn elevation="3" block tile class="mb-3 cornflower">
 							<span>{{ $t('TASK_MANAGEMENT.DELETE_TASK') }}</span>
@@ -251,10 +267,18 @@ import {
 }
 from '@/api/modules/task';
 
+import { getAllPosition } from '@/api/modules/position';
+
+import { getAllContract } from '@/api/modules/contract';
+
 import { MakeToast } from '@/utils/MakeToast';
+
+import { convertFromIDToName } from '@/utils/convertFromIdToName';
 
 const urlAPI = {
     apiGetAllTask: '/task/list',
+    apiGetAllPosition: '/position/list',
+    apiGetAllContract: '/contract/list',
     apiGetOneTask: '/task/detail/',
     apiCreateTask: '/task/create',
     apiUpdateTask: '/task/update/',
@@ -265,7 +289,17 @@ export default {
     name: 'TaskManagementIndex',
     data() {
         return {
-            TaskList: [],
+            PositionList: [
+                { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
+            ],
+
+            PositionListCopy: [],
+
+            ContractType: [
+                { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
+            ],
+
+            convertFromIDToName: convertFromIDToName,
 
             overlay: {
                 show: false,
@@ -278,8 +312,8 @@ export default {
             task: {
                 task_name: '',
                 task_description: '',
-                required_position: 1,
-                required_contract_type: 1,
+                required_position: null,
+                required_contract_type: null,
             },
 
             headers: [
@@ -294,7 +328,7 @@ export default {
 
             search: '',
 
-            modalOrganizedDate: false,
+            search_position: '',
 
             registerDialog: false,
 
@@ -308,13 +342,15 @@ export default {
     },
     created() {
         this.getTaskList();
+        this.getPositionList();
+        this.getContractType();
     },
     methods: {
         async getTaskList() {
+            this.overlay.show = true;
+
             try {
                 const response = await getAllTask(urlAPI.apiGetAllTask);
-
-                console.log(response);
 
                 if (response.code === 200) {
                     this.items = response.data;
@@ -328,12 +364,50 @@ export default {
             }
         },
 
+        async getPositionList() {
+            try {
+                const response = await getAllPosition(urlAPI.apiGetAllPosition);
+
+                if (response.code === 200) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        this.PositionList.push({
+                            text: this.$t(`POSITION.${response.data[i].position_name}`),
+                            value: response.data[i].id,
+                        });
+                    }
+
+                    this.PositionListCopy = [...this.PositionList];
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async getContractType() {
+            try {
+                const response = await getAllContract(urlAPI.apiGetAllContract);
+
+                if (response.code === 200) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        this.ContractType.push({
+                            text: this.$t(`CONTRACT.${response.data[i].contract_type}`),
+                            value: response.data[i].id,
+                        });
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+            }
+
+            this.overlay.show = false;
+        },
+
         async getSpecificTask(task_id) {
             this.task = {
                 task_name: '',
                 task_description: '',
-                required_position: '',
-                required_contract_type: '',
+                required_position: null,
+                required_contract_type: null,
             };
 
             this.editDialog = true;
@@ -349,6 +423,17 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+
+        openRegisterDialog() {
+            this.task = {
+                task_name: '',
+                task_description: '',
+                required_position: null,
+                required_contract_type: null,
+            };
+
+            this.registerDialog = true;
         },
 
         async doRegisterTask() {
@@ -430,6 +515,16 @@ export default {
 
                 this.deleteDialog = false;
             }
+        },
+
+        searchPositions() {
+            if (!this.search_position) {
+                this.PositionList = this.PositionListCopy;
+            }
+
+            this.PositionList = this.PositionListCopy.filter((position) => {
+                return position.text.toLowerCase().indexOf(this.search_position.toLowerCase()) > -1;
+            });
         },
 
     },

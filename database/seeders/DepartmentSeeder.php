@@ -17,7 +17,7 @@ class DepartmentSeeder extends Seeder
         Department::create([
             'department_name' => 'Ban Lễ Tân',
             'department_address' => 'Toà A',
-            'department_manager' => 0,
+            'user_id' => 0,
             'total_staff' => 0,
             'organized_date' => '2020-01-01',
         ]);
@@ -25,7 +25,7 @@ class DepartmentSeeder extends Seeder
         Department::create([
             'department_name' => 'Ban Quản Lý',
             'department_address' => 'Toà B',
-            'department_manager' => 1,
+            'user_id' => 1,
             'total_staff' => 0,
             'organized_date' => '2020-01-01',
         ]);
@@ -33,7 +33,7 @@ class DepartmentSeeder extends Seeder
         Department::create([
             'department_name' => 'Ban Vệ Sinh',
             'department_address' => 'Toà C',
-            'department_manager' => 2,
+            'user_id' => 2,
             'total_staff' => 0,
             'organized_date' => '2020-01-01',
         ]);

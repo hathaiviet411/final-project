@@ -6,7 +6,7 @@ const taskManagement = {
     redirect: { name: 'TaskManagementList' },
     name: 'TaskManagement',
     meta: {
-        title: 'ROUTER.JOB_MANAGEMENT',
+        title: 'ROUTER.TASK_MANAGEMENT',
         icon: 'fas fa-abacus',
     },
     children: [

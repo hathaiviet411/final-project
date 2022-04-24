@@ -10,19 +10,19 @@
 			<b-row>
 				<b-col>
 					<div :class="{ 'dev__btn-lang': true, 'dev__choose-lang': language === 'en' }">
-						<b-button :disabled="isDisabledEnBtn" @click="setLanguage('en')">
+						<v-btn class="primary-btn" :disabled="isDisabledEnBtn" @click="setLanguage('en')">
 							<b-img class="flag-icon" :src="English" />
 							<span>{{ $t('DEV.ENGLISH') }}</span>
-						</b-button>
+						</v-btn>
 					</div>
 				</b-col>
 
 				<b-col>
 					<div :class="{ 'dev__btn-lang': true, 'dev__choose-lang': language === 'vi' }">
-						<b-button :disabled="isDisabledVnBtn" @click="setLanguage('vi')">
+						<v-btn class="primary-btn" :disabled="isDisabledVnBtn" @click="setLanguage('vi')">
 							<b-img class="flag-icon" :src="Vietnam" />
 							<span>{{ $t('DEV.VIETNAMESE') }}</span>
-						</b-button>
+						</v-btn>
 					</div>
 				</b-col>
 			</b-row>
@@ -49,6 +49,15 @@ export default {
         language() {
             return this.$store.getters.language;
         },
+    },
+    created() {
+        if (this.language === 'en') {
+            this.isDisabledEnBtn = true;
+            this.isDisabledVnBtn = false;
+        } else if (this.language === 'vi') {
+            this.isDisabledEnBtn = false;
+            this.isDisabledVnBtn = true;
+        }
     },
     methods: {
         setLanguage(lang) {
