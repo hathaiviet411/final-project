@@ -131,7 +131,11 @@ export default {
         PARTICIPATED_DATE: 'Ngày tham gia',
         ADDRESS: 'Địa chỉ',
         PHONE_NUMBER: 'Số điện thoại',
-        IS_RETIRED: 'Trạng thái',
+        IS_RETIRED: {
+            TITLE: 'Trạng thái',
+            RETIRED: 'Đã nghỉ việc',
+            WORKING: 'Đang làm việc',
+        },
         AVATAR: 'Ảnh đại diện',
         ROLE: 'Vai trò',
         DEPARTMENT: 'Bộ phận',

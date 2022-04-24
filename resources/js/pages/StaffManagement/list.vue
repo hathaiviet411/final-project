@@ -56,15 +56,11 @@
 							>
 								<template #[`item.actions`]="{ item }">
 									<v-row>
-										<v-col cols="4" class="text-right">
-											<v-icon small class="text-info" @click="detailDialog = true, getSpecificUser(item.id)">fas fa-address-card</v-icon>
-										</v-col>
-
-										<v-col cols="4" class="text-center">
+										<v-col cols="6" class="text-center">
 											<v-icon small class="text-primary" @click="editDialog = true, getSpecificUser(item.id)">fas fa-edit</v-icon>
 										</v-col>
 
-										<v-col cols="4" class="text-left">
+										<v-col cols="6" class="text-left">
 											<v-icon small class="text-danger" @click="deleteDialog = true, deleting_id = item.id">fas fa-trash-alt</v-icon>
 										</v-col>
 									</v-row>
@@ -104,7 +100,7 @@
 								<v-col cols="12">
 									<vAvatarInput
 										v-model="user.avatar"
-										:default-src="'https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=700&quality=85&auto=format&fit=max&s=fa2a6e634973defc13bfcbae1b8e954d'"
+										:default-src="defaultAvatar"
 									/>
 								</v-col>
 
@@ -190,15 +186,36 @@
 
 								<v-col cols="12">
 									<v-select
+										v-model="user.is_retired"
+										:items="RetireList"
+										:label="$t('STAFF_MANAGEMENT.IS_RETIRED.TITLE')"
+										:item-disabled="item => item.value === null"
+										outlined
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-select
+										v-model="user.role_id"
+										:items="RoleList"
+										:item-disabled="item => role !== 'admin' ? item.value === 'admin' : '' || item.value === null"
+										:label="$t('STAFF_MANAGEMENT.ROLE')"
+										outlined
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-select
 										v-model="user.department_id"
 										:items="DepartmentList"
+										:item-disabled="item => item.value === null"
 										:label="$t('STAFF_MANAGEMENT.DEPARTMENT')"
 										outlined
 									/>
 								</v-col>
 
 								<v-col cols="12">
-									<v-select v-model="user.position_id" :items="PositionList" outlined :label="$t('STAFF_MANAGEMENT.POSITION')">
+									<v-select v-model="user.position_id" :items="PositionList" outlined :label="$t('STAFF_MANAGEMENT.POSITION')" :item-disabled="item => item.value === null">
 										<template #prepend-item>
 											<v-list-item>
 												<v-list-item-content>
@@ -213,6 +230,7 @@
 								<v-col cols="12">
 									<v-select
 										v-model="user.contract_id"
+										:item-disabled="item => item.value === null"
 										:items="ContractType"
 										:label="$t('STAFF_MANAGEMENT.CONTRACT')"
 										outlined
@@ -231,7 +249,7 @@
 								</v-col>
 
 								<v-col cols="6" class="text-center">
-									<v-btn class="primary-btn" @click="doRegisterDepartment()">
+									<v-btn class="primary-btn" @click="doRegisterUser()">
 										<v-icon left>fas fa-plus-circle</v-icon>
 										<span>{{ $t('BUTTON.REGISTER') }}</span>
 									</v-btn>
@@ -241,49 +259,146 @@
 					</v-card>
 				</v-dialog>
 
-				<!-- Detail Dialog -->
-				<v-dialog v-model="detailDialog" max-width="500" persistent>
-					<v-card>
-						<v-btn elevation="3" block tile class="mb-3 cornflower">
-							<span>{{ $t('STAFF_MANAGEMENT.DETAIL_STAFF') }}</span>
-						</v-btn>
-
-						<v-card-text>
-							<v-row class="mt-1">
-								<span>Content</span>
-							</v-row>
-						</v-card-text>
-
-						<v-card-actions>
-							<v-row>
-								<v-col cols="6" class="text-center">
-									<v-btn class="danger-btn" @click="registerDialog = false">
-										<v-icon left>mdi-close-box</v-icon>
-										<span>{{ $t('BUTTON.CANCEL') }}</span>
-									</v-btn>
-								</v-col>
-
-								<v-col cols="6" class="text-center">
-									<v-btn class="primary-btn" @click="detailDialog = false, editDialog = true">
-										<v-icon left>fas fa-plus-circle</v-icon>
-										<span>{{ $t('BUTTON.EDIT') }}</span>
-									</v-btn>
-								</v-col>
-							</v-row>
-						</v-card-actions>
-					</v-card>
-				</v-dialog>
-
 				<!-- Edit Dialog -->
-				<v-dialog v-model="editDialog" max-width="500" persistent>
-					<v-card>
+				<v-dialog v-model="editDialog" max-width="500" persistent scrollable>
+					<v-card max-height="600">
 						<v-btn elevation="3" block tile class="mb-3 cornflower">
 							<span>{{ $t('STAFF_MANAGEMENT.EDIT_STAFF') }}</span>
 						</v-btn>
 
 						<v-card-text>
 							<v-row class="mt-1">
-								<span>Content</span>
+								<v-col cols="12">
+									<vAvatarInput
+										v-model="user.avatar"
+										:default-src="defaultAvatar"
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-text-field
+										v-model="user.user_name"
+										:label="$t('STAFF_MANAGEMENT.USER_NAME')"
+										outlined
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-text-field
+										v-model="user.user_code"
+										:label="$t('STAFF_MANAGEMENT.USER_CODE')"
+										:disabled="role === 'staff' ? true : false"
+										outlined
+										type="number"
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-text-field
+										v-model="user.email"
+										:label="$t('STAFF_MANAGEMENT.EMAIL')"
+										outlined
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-dialog
+										v-model="dialogSelectDOB"
+										:scrollable="false"
+										max-width="250"
+									>
+										<template #activator="{ on, attrs }">
+											<v-text-field
+												v-model="user.dob"
+												:label="$t('STAFF_MANAGEMENT.DOB')"
+												readonly
+												outlined
+												v-bind="attrs"
+												v-on="on"
+											/>
+										</template>
+
+										<v-date-picker
+											v-model="user.dob"
+											show-current
+											:locale="language"
+											elevation="24"
+											width="250"
+											color="green lighten-1"
+											@input="dialogSelectDOB = false"
+										/>
+									</v-dialog>
+								</v-col>
+
+								<v-col cols="12">
+									<v-textarea
+										v-model="user.address"
+										:label="$t('STAFF_MANAGEMENT.ADDRESS')"
+										outlined
+										no-resize
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-text-field
+										v-model="user.phone_number"
+										:label="$t('STAFF_MANAGEMENT.PHONE_NUMBER')"
+										outlined
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-select
+										v-model="user.is_retired"
+										:items="RetireList"
+										:label="$t('STAFF_MANAGEMENT.IS_RETIRED.TITLE')"
+										:item-disabled="item => item.value === null"
+										outlined
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-select
+										v-model="user.role_id"
+										:items="RoleList"
+										:item-disabled="item => role !== 'admin' ? item.value === 'admin' : '' || item.value === null"
+										:label="$t('STAFF_MANAGEMENT.ROLE')"
+										outlined
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-select
+										v-model="user.department_id"
+										:items="DepartmentList"
+										:item-disabled="item => item.value === null"
+										:label="$t('STAFF_MANAGEMENT.DEPARTMENT')"
+										outlined
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-select v-model="user.position_id" :items="PositionList" outlined :label="$t('STAFF_MANAGEMENT.POSITION')" :item-disabled="item => item.value === null">
+										<template #prepend-item>
+											<v-list-item>
+												<v-list-item-content>
+													<v-text-field v-model="search_position" :placeholder="$t('BUTTON.SEARCH')" @input="searchPositions()" />
+												</v-list-item-content>
+											</v-list-item>
+											<v-divider class="mt-1" />
+										</template>
+									</v-select>
+								</v-col>
+
+								<v-col cols="12">
+									<v-select
+										v-model="user.contract_id"
+										:item-disabled="item => item.value === null"
+										:items="ContractType"
+										:label="$t('STAFF_MANAGEMENT.CONTRACT')"
+										outlined
+									/>
+								</v-col>
 							</v-row>
 						</v-card-text>
 
@@ -297,9 +412,9 @@
 								</v-col>
 
 								<v-col cols="6" class="text-center">
-									<v-btn class="primary-btn" @click="doUpdateDepartment(department.id)">
+									<v-btn class="primary-btn" @click="doUpdateUser(user.id)">
 										<v-icon left>fas fa-plus-circle</v-icon>
-										<span>{{ $t('BUTTON.SAVE') }}</span>
+										<span>{{ $t('BUTTON.EDIT') }}</span>
 									</v-btn>
 								</v-col>
 							</v-row>
@@ -332,7 +447,7 @@
 								</v-col>
 
 								<v-col cols="6" class="text-center">
-									<v-btn class="danger-btn" @click="doRemoveDepartment(deleting_id)">
+									<v-btn class="danger-btn" @click="doRemoveUser(deleting_id)">
 										<v-icon left>fas fa-eraser</v-icon>
 										<span>{{ $t('MODAL.YES') }}</span>
 									</v-btn>
@@ -366,6 +481,8 @@ import { MakeToast } from '@/utils/MakeToast';
 
 import { convertFromIDToName } from '@/utils/convertFromIdToName';
 
+import { getYMDFromString } from '@/utils/getYMDFromString';
+
 import vAvatarInput from '../../components/atoms/vAvatarInput';
 
 const urlAPI = {
@@ -378,6 +495,9 @@ const urlAPI = {
     apiUpdateUser: '/users/update/',
     apiDeleteUser: '/users/delete/',
 };
+
+import defaultAvatar from '@/assets/images/defaultAvatar.png';
+
 export default {
     name: 'StaffManagementList',
     components: {
@@ -393,7 +513,11 @@ export default {
                 rounded: 'sm',
             },
 
+            defaultAvatar,
+
             convertFromIDToName: convertFromIDToName,
+
+            getYMDFromString: getYMDFromString,
 
             user: {
                 user_name: '',
@@ -403,12 +527,12 @@ export default {
                 participated_date: '',
                 address: '',
                 phone_number: '',
-                is_retired: '',
+                is_retired: null,
                 avatar: '',
-                role_id: '',
-                department_id: '',
-                position_id: '',
-                contract_id: '',
+                role_id: null,
+                department_id: null,
+                position_id: null,
+                contract_id: null,
             },
 
             headers: [
@@ -433,7 +557,22 @@ export default {
                 { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
             ],
 
-            DepartmentList: [],
+            DepartmentList: [
+                { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
+            ],
+
+            RoleList: [
+                { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
+                { value: 1, text: this.$t('ROLE.ADMIN') },
+                { value: 2, text: this.$t('ROLE.MANAGER') },
+                { value: 3, text: this.$t('ROLE.STAFF') },
+            ],
+
+            RetireList: [
+                { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
+                { value: 1, text: this.$t('STAFF_MANAGEMENT.IS_RETIRED.RETIRED') },
+                { value: 2, text: this.$t('STAFF_MANAGEMENT.IS_RETIRED.WORKING') },
+            ],
 
             search: '',
 
@@ -451,15 +590,28 @@ export default {
             dialogSelectDOB: false,
 
             language: this.$store.getters.language,
+
+            role: this.$store.getters.roles[0],
         };
     },
     created() {
-        this.getUserList();
-        this.getPositionList();
-        this.getContractType();
-        this.getDepartmentList();
+        this.getStaffManagementData();
+
+        this.$bus.on('avatarChange', (file) => {
+            this.user.avatar = file.name;
+        });
+    },
+    destroyed() {
+        this.$bus.off('avatarChange');
     },
     methods: {
+        async getStaffManagementData() {
+            await this.getUserList();
+            await this.getPositionList();
+            await this.getContractType();
+            await this.getDepartmentList();
+        },
+
         async getUserList() {
             this.overlay.show = true;
 
@@ -542,12 +694,12 @@ export default {
                 participated_date: '',
                 address: '',
                 phone_number: '',
-                is_retired: '',
+                is_retired: null,
                 avatar: '',
-                role_id: '',
-                department_id: '',
-                position_id: '',
-                contract_id: '',
+                role_id: null,
+                department_id: null,
+                position_id: null,
+                contract_id: null,
             };
 
             const URL = `${urlAPI.apiGetOneUser}${user_id}`;
@@ -557,6 +709,8 @@ export default {
 
                 if (response.code === 200) {
                     this.user = response.data;
+                    this.user.role_id = response.data.roles[0].pivot.role_id;
+                    this.user.dob = getYMDFromString(response.data.dob);
                 }
             } catch (error) {
                 console.log(error);
@@ -572,12 +726,12 @@ export default {
                 participated_date: '',
                 address: '',
                 phone_number: '',
-                is_retired: '',
+                is_retired: null,
                 avatar: '',
-                role_id: '',
-                department_id: '',
-                position_id: '',
-                contract_id: '',
+                role_id: null,
+                department_id: null,
+                position_id: null,
+                contract_id: null,
             };
 
             this.registerDialog = true;
@@ -585,18 +739,19 @@ export default {
 
         async doRegisterUser() {
             try {
+                this.user.participated_date = new Date().toISOString().split('T')[0];
                 const response = await createUser(urlAPI.apiCreateUser, this.user);
 
-                if (response.code === 201) {
-                    await this.getUserList();
+                if (response.code === 200) {
+                    this.registerDialog = false;
+
+                    await this.getStaffManagementData();
 
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
                         content: this.$t('TOAST.CONTENT.STAFF_MANAGEMENT.CREATE_STAFF_SUCCESS'),
                     });
-
-                    this.registerDialog = false;
                 }
             } catch (error) {
                 MakeToast({
@@ -613,18 +768,19 @@ export default {
             const URL = `${urlAPI.apiUpdateUser}${user_id}`;
 
             try {
+                delete this.user.participated_date;
                 const response = await updateUser(URL, this.user);
 
                 if (response.code === 200) {
-                    await this.getUserList();
+                    this.editDialog = false;
+
+                    await this.getStaffManagementData();
 
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
                         content: this.$t('TOAST.CONTENT.STAFF_MANAGEMENT.UPDATE_STAFF_SUCCESS'),
                     });
-
-                    this.editDialog = false;
                 }
             } catch (error) {
                 MakeToast({
@@ -643,15 +799,15 @@ export default {
             try {
                 const response = await deleteUser(URL);
                 if (response.code === 200) {
-                    this.getUserList();
+                    this.deleteDialog = false;
+
+                    this.getStaffManagementData();
 
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
                         content: this.$t('TOAST.CONTENT.STAFF_MANAGEMENT.DELETE_STAFF_SUCCESS'),
                     });
-
-                    this.deleteDialog = false;
                 }
             } catch (error) {
                 MakeToast({

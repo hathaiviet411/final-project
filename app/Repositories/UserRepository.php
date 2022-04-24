@@ -64,6 +64,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
       "users.position_id",
       "users.contract_id",
       "users.user_name",
+      "roles.id as role_id",
       "roles.name as role_name",
       "departments.department_name as departments_name",
       "model_has_roles.model_type"
@@ -107,13 +108,14 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         'phone_number' => $attributes['phone_number'],
         'is_retired' => $attributes['is_retired'],
         'avatar' => $attributes['avatar'],
+        'role_id' => $attributes['role_id'],
         'department_id' => $attributes['department_id'],
         'position_id' => $attributes['position_id'],
         'contract_id' => $attributes['contract_id'],
         'created_by' => Auth::id(),
       ]);
 
-      if ($role = Role::findById($attributes['roles'], 'api')) {
+      if ($role = Role::findById($attributes['role_id'], 'api')) {
         $user->syncRoles($role);
         return true;
       } else {
@@ -128,10 +130,28 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
   {
     $status = DB::transaction(function () use ($request, $id) {
       $user = $this->model->where('id', $id)->first();
-      if (!isset($request['current_password']) || !Hash::check($request['current_password'], $user->password)) {
-        return false;
-      }
+      // if (!isset($request['current_password']) || !Hash::check($request['current_password'], $user->password)) {
+      //   return false;
+      // }
+
       $user->user_name = $request['user_name'];
+      
+      if (isset($request['user_code'])) {
+        $user->user_code = $request['user_code'];
+      }
+
+      $user->email = $request['email'];
+      $user->dob = $request['dob'];
+      $user->address = $request['address'];
+      $user->phone_number = $request['phone_number'];
+      $user->is_retired = $request['is_retired'];
+
+            
+      if (isset($request['avatar'])) {
+        $user->avatar = $request['avatar'];
+      }
+
+      $user->role_id = $request['role_id'];
       $user->department_id = $request['department_id'];
       $user->position_id = $request['position_id'];
       $user->contract_id = $request['contract_id'];
@@ -141,7 +161,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
       }
       $user->save();
 
-      if ($role = Role::findById($request['roles'], 'api')) {
+      if ($role = Role::findById($request['role_id'], 'api')) {
         $user->syncRoles($role);
         return true;
       } else {

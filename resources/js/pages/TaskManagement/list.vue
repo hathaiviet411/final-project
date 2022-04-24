@@ -341,11 +341,15 @@ export default {
         };
     },
     created() {
-        this.getTaskList();
-        this.getPositionList();
-        this.getContractType();
+        this.getTaskManagementData();
     },
     methods: {
+        async getTaskManagementData() {
+            await this.getTaskList();
+            await this.getPositionList();
+            await this.getContractType();
+        },
+
         async getTaskList() {
             this.overlay.show = true;
 
@@ -441,7 +445,7 @@ export default {
                 const response = await createTask(urlAPI.apiCreateTask, this.task);
 
                 if (response.code === 201) {
-                    await this.getTaskList();
+                    await this.getTaskManagementData();
 
                     MakeToast({
                         variant: 'success',
@@ -469,7 +473,7 @@ export default {
                 const response = await updateTask(URL, this.task);
 
                 if (response.code === 200) {
-                    await this.getTaskList();
+                    await this.getTaskManagementData();
 
                     MakeToast({
                         variant: 'success',
@@ -496,7 +500,7 @@ export default {
             try {
                 const response = await deleteTask(URL);
                 if (response.code === 200) {
-                    this.getTaskList();
+                    this.getTaskManagementData();
 
                     MakeToast({
                         variant: 'success',

@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('phone_number')->nullable();
             $table->integer('is_retired')->nullable();
             $table->string('avatar')->nullable();
+            $table->integer('role_id')->nullable();
             $table->integer('department_id')->nullable();
             $table->integer('position_id')->nullable();
             $table->integer('contract_id')->nullable();

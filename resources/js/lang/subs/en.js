@@ -131,7 +131,11 @@ export default {
         PARTICIPATED_DATE: 'Participated Date',
         ADDRESS: 'Address',
         PHONE_NUMBER: 'Phone Number',
-        IS_RETIRED: 'Is Retired',
+        IS_RETIRED: {
+            TITLE: 'Is Retired',
+            RETIRED: 'Retired',
+            WORKING: 'Working',
+        },
         AVATAR: 'Avatar',
         ROLE: 'Role',
         DEPARTMENT: 'Department',
