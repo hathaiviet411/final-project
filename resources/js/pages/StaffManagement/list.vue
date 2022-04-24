@@ -57,11 +57,11 @@
 								<template #[`item.actions`]="{ item }">
 									<v-row>
 										<v-col cols="4" class="text-right">
-											<v-icon small class="text-info" @click="getSpecificTask(item.id)">fas fa-address-card</v-icon>
+											<v-icon small class="text-info" @click="detailDialog = true, getSpecificUser(item.id)">fas fa-address-card</v-icon>
 										</v-col>
 
 										<v-col cols="4" class="text-center">
-											<v-icon small class="text-primary" @click="getSpecificTask(item.id)">fas fa-edit</v-icon>
+											<v-icon small class="text-primary" @click="editDialog = true, getSpecificUser(item.id)">fas fa-edit</v-icon>
 										</v-col>
 
 										<v-col cols="4" class="text-left">
@@ -91,6 +91,256 @@
 						</v-card>
 					</v-col>
 				</v-row>
+
+				<!-- Register Dialog -->
+				<v-dialog v-model="registerDialog" max-width="500" persistent scrollable>
+					<v-card max-height="600">
+						<v-btn elevation="3" block tile class="mb-3 cornflower">
+							<span>{{ $t('STAFF_MANAGEMENT.NEW_STAFF') }}</span>
+						</v-btn>
+
+						<v-card-text>
+							<v-row class="mt-1">
+								<v-col cols="12">
+									<vAvatarInput
+										v-model="user.avatar"
+										:default-src="'https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=700&quality=85&auto=format&fit=max&s=fa2a6e634973defc13bfcbae1b8e954d'"
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-text-field
+										v-model="user.user_name"
+										:label="$t('STAFF_MANAGEMENT.USER_NAME')"
+										outlined
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-text-field
+										v-model="user.user_code"
+										:label="$t('STAFF_MANAGEMENT.USER_CODE')"
+										outlined
+										type="number"
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-text-field
+										v-model="user.password"
+										:label="$t('STAFF_MANAGEMENT.PASSWORD')"
+										outlined
+										type="password"
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-text-field
+										v-model="user.email"
+										:label="$t('STAFF_MANAGEMENT.EMAIL')"
+										outlined
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-dialog
+										v-model="dialogSelectDOB"
+										:scrollable="false"
+										max-width="250"
+									>
+										<template #activator="{ on, attrs }">
+											<v-text-field
+												v-model="user.dob"
+												:label="$t('STAFF_MANAGEMENT.DOB')"
+												readonly
+												outlined
+												v-bind="attrs"
+												v-on="on"
+											/>
+										</template>
+
+										<v-date-picker
+											v-model="user.dob"
+											show-current
+											:locale="language"
+											elevation="24"
+											width="250"
+											color="green lighten-1"
+											@input="dialogSelectDOB = false"
+										/>
+									</v-dialog>
+								</v-col>
+
+								<v-col cols="12">
+									<v-textarea
+										v-model="user.address"
+										:label="$t('STAFF_MANAGEMENT.ADDRESS')"
+										outlined
+										no-resize
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-text-field
+										v-model="user.phone_number"
+										:label="$t('STAFF_MANAGEMENT.PHONE_NUMBER')"
+										outlined
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-select
+										v-model="user.department_id"
+										:items="DepartmentList"
+										:label="$t('STAFF_MANAGEMENT.DEPARTMENT')"
+										outlined
+									/>
+								</v-col>
+
+								<v-col cols="12">
+									<v-select v-model="user.position_id" :items="PositionList" outlined :label="$t('STAFF_MANAGEMENT.POSITION')">
+										<template #prepend-item>
+											<v-list-item>
+												<v-list-item-content>
+													<v-text-field v-model="search_position" :placeholder="$t('BUTTON.SEARCH')" @input="searchPositions()" />
+												</v-list-item-content>
+											</v-list-item>
+											<v-divider class="mt-1" />
+										</template>
+									</v-select>
+								</v-col>
+
+								<v-col cols="12">
+									<v-select
+										v-model="user.contract_id"
+										:items="ContractType"
+										:label="$t('STAFF_MANAGEMENT.CONTRACT')"
+										outlined
+									/>
+								</v-col>
+							</v-row>
+						</v-card-text>
+
+						<v-card-actions>
+							<v-row>
+								<v-col cols="6" class="text-center">
+									<v-btn class="danger-btn" @click="registerDialog = false">
+										<v-icon left>mdi-close-box</v-icon>
+										<span>{{ $t('BUTTON.CANCEL') }}</span>
+									</v-btn>
+								</v-col>
+
+								<v-col cols="6" class="text-center">
+									<v-btn class="primary-btn" @click="doRegisterDepartment()">
+										<v-icon left>fas fa-plus-circle</v-icon>
+										<span>{{ $t('BUTTON.REGISTER') }}</span>
+									</v-btn>
+								</v-col>
+							</v-row>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
+
+				<!-- Detail Dialog -->
+				<v-dialog v-model="detailDialog" max-width="500" persistent>
+					<v-card>
+						<v-btn elevation="3" block tile class="mb-3 cornflower">
+							<span>{{ $t('STAFF_MANAGEMENT.DETAIL_STAFF') }}</span>
+						</v-btn>
+
+						<v-card-text>
+							<v-row class="mt-1">
+								<span>Content</span>
+							</v-row>
+						</v-card-text>
+
+						<v-card-actions>
+							<v-row>
+								<v-col cols="6" class="text-center">
+									<v-btn class="danger-btn" @click="registerDialog = false">
+										<v-icon left>mdi-close-box</v-icon>
+										<span>{{ $t('BUTTON.CANCEL') }}</span>
+									</v-btn>
+								</v-col>
+
+								<v-col cols="6" class="text-center">
+									<v-btn class="primary-btn" @click="detailDialog = false, editDialog = true">
+										<v-icon left>fas fa-plus-circle</v-icon>
+										<span>{{ $t('BUTTON.EDIT') }}</span>
+									</v-btn>
+								</v-col>
+							</v-row>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
+
+				<!-- Edit Dialog -->
+				<v-dialog v-model="editDialog" max-width="500" persistent>
+					<v-card>
+						<v-btn elevation="3" block tile class="mb-3 cornflower">
+							<span>{{ $t('STAFF_MANAGEMENT.EDIT_STAFF') }}</span>
+						</v-btn>
+
+						<v-card-text>
+							<v-row class="mt-1">
+								<span>Content</span>
+							</v-row>
+						</v-card-text>
+
+						<v-card-actions>
+							<v-row>
+								<v-col cols="6" class="text-center">
+									<v-btn class="danger-btn" @click="editDialog = false">
+										<v-icon left>mdi-close-box</v-icon>
+										<span>{{ $t('BUTTON.CANCEL') }}</span>
+									</v-btn>
+								</v-col>
+
+								<v-col cols="6" class="text-center">
+									<v-btn class="primary-btn" @click="doUpdateDepartment(department.id)">
+										<v-icon left>fas fa-plus-circle</v-icon>
+										<span>{{ $t('BUTTON.SAVE') }}</span>
+									</v-btn>
+								</v-col>
+							</v-row>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
+
+				<!-- Delete Dialog -->
+				<v-dialog v-model="deleteDialog" max-width="500" persistent>
+					<v-card>
+						<v-btn elevation="3" block tile class="mb-3 cornflower">
+							<span>{{ $t('STAFF_MANAGEMENT.DELETE_STAFF') }}</span>
+						</v-btn>
+
+						<v-card-text>
+							<v-row class="mt-1">
+								<v-col cols="12" class="text-center">
+									<h5>{{ $t('MODAL.DELETE_CONFIRMATION') }}</h5>
+								</v-col>
+							</v-row>
+						</v-card-text>
+
+						<v-card-actions>
+							<v-row>
+								<v-col cols="6" class="text-center">
+									<v-btn class="primary-btn" @click="deleteDialog = false">
+										<v-icon left>mdi-close-box</v-icon>
+										<span>{{ $t('MODAL.NO') }}</span>
+									</v-btn>
+								</v-col>
+
+								<v-col cols="6" class="text-center">
+									<v-btn class="danger-btn" @click="doRemoveDepartment(deleting_id)">
+										<v-icon left>fas fa-eraser</v-icon>
+										<span>{{ $t('MODAL.YES') }}</span>
+									</v-btn>
+								</v-col>
+							</v-row>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
 			</b-overlay>
 		</v-app>
 	</div>
@@ -116,6 +366,8 @@ import { MakeToast } from '@/utils/MakeToast';
 
 import { convertFromIDToName } from '@/utils/convertFromIdToName';
 
+import vAvatarInput from '../../components/atoms/vAvatarInput';
+
 const urlAPI = {
     apiGetAllUser: '/users/list',
     apiGetAllPosition: '/position/list',
@@ -128,6 +380,9 @@ const urlAPI = {
 };
 export default {
     name: 'StaffManagementList',
+    components: {
+        vAvatarInput,
+    },
     data() {
         return {
             overlay: {
@@ -168,20 +423,32 @@ export default {
 
             items: [],
 
-            PositionList: [],
+            PositionList: [
+                { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
+            ],
 
-            ContractType: [],
+            PositionListCopy: [],
+
+            ContractType: [
+                { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
+            ],
 
             DepartmentList: [],
 
             search: '',
 
+            search_position: '',
+
             registerDialog: false,
+
+            detailDialog: false,
 
             editDialog: false,
 
             deleteDialog: false,
             deleting_id: '',
+
+            dialogSelectDOB: false,
 
             language: this.$store.getters.language,
         };
@@ -222,6 +489,8 @@ export default {
                             value: response.data[i].id,
                         });
                     }
+
+                    this.PositionListCopy = [...this.PositionList];
                 }
             } catch (error) {
                 console.log(error);
@@ -281,8 +550,6 @@ export default {
                 contract_id: '',
             };
 
-            this.editDialog = true;
-
             const URL = `${urlAPI.apiGetOneUser}${user_id}`;
 
             try {
@@ -326,7 +593,7 @@ export default {
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
-                        content: this.$t('TOAST.CONTENT.USER_MANAGEMENT.CREATE_USER_SUCCESS'),
+                        content: this.$t('TOAST.CONTENT.STAFF_MANAGEMENT.CREATE_STAFF_SUCCESS'),
                     });
 
                     this.registerDialog = false;
@@ -335,7 +602,7 @@ export default {
                 MakeToast({
                     variant: 'warning',
                     title: this.$t('TOAST.TITLE.WARNING'),
-                    content: error || this.$t('TOAST.CONTENT.USER_MANAGEMENT.CREATE_USER_FAILED'),
+                    content: error || this.$t('TOAST.CONTENT.STAFF_MANAGEMENT.CREATE_STAFF_FAILED'),
                 });
 
                 this.registerDialog = false;
@@ -354,7 +621,7 @@ export default {
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
-                        content: this.$t('TOAST.CONTENT.USER_MANAGEMENT.UPDATE_USER_SUCCESS'),
+                        content: this.$t('TOAST.CONTENT.STAFF_MANAGEMENT.UPDATE_STAFF_SUCCESS'),
                     });
 
                     this.editDialog = false;
@@ -363,7 +630,7 @@ export default {
                 MakeToast({
                     variant: 'warning',
                     title: this.$t('TOAST.TITLE.WARNING'),
-                    content: error || this.$t('TOAST.CONTENT.USER_MANAGEMENT.UPDATE_USER_FAILED'),
+                    content: error || this.$t('TOAST.CONTENT.STAFF_MANAGEMENT.UPDATE_STAFF_FAILED'),
                 });
 
                 this.editDialog = false;
@@ -381,7 +648,7 @@ export default {
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
-                        content: this.$t('TOAST.CONTENT.USER_MANAGEMENT.DELETE_USER_SUCCESS'),
+                        content: this.$t('TOAST.CONTENT.STAFF_MANAGEMENT.DELETE_STAFF_SUCCESS'),
                     });
 
                     this.deleteDialog = false;
@@ -390,11 +657,21 @@ export default {
                 MakeToast({
                     variant: 'warning',
                     title: this.$t('TOAST.TITLE.WARNING'),
-                    content: error || this.$t('TOAST.CONTENT.USER_MANAGEMENT.DELETE_USER_FAILED'),
+                    content: error || this.$t('TOAST.CONTENT.STAFF_MANAGEMENT.DELETE_STAFF_FAILED'),
                 });
 
                 this.deleteDialog = false;
             }
+        },
+
+        searchPositions() {
+            if (!this.search_position) {
+                this.PositionList = this.PositionListCopy;
+            }
+
+            this.PositionList = this.PositionListCopy.filter((position) => {
+                return position.text.toLowerCase().indexOf(this.search_position.toLowerCase()) > -1;
+            });
         },
     },
 };

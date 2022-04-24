@@ -138,6 +138,7 @@ export default {
         POSITION: 'Position',
         CONTRACT: 'Contract',
         NEW_STAFF: 'New Staff',
+        DETAIL_STAFF: 'Detail Staff',
         EDIT_STAFF: 'Edit Staff',
         DELETE_STAFF: 'Delete Staff',
     },

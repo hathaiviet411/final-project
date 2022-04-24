@@ -362,8 +362,6 @@ export default {
                     content: error || this.$t('TOAST.TITLE.ERROR'),
                 });
             }
-
-            this.overlay.show = false;
         },
 
         async getPositionList() {
@@ -400,6 +398,8 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+
+            this.overlay.show = false;
         },
 
         async getSpecificTask(task_id) {

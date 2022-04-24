@@ -138,6 +138,7 @@ export default {
         POSITION: 'Chức vụ',
         CONTRACT: 'Loại hợp đồng',
         NEW_STAFF: 'Thêm nhân viên mới',
+        DETAIL_STAFF: 'Chi tiết nhân viên',
         EDIT_STAFF: 'Chỉnh sửa thông tin nhân viên',
         DELETE_STAFF: 'Xoá nhân viên',
     },
