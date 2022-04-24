@@ -13,6 +13,7 @@ use Repository\BaseRepository;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use SebastianBergmann\CodeCoverage\Driver\Selector;
 
 class DepartmentRepository extends BaseRepository implements DepartmentRepositoryInterface
 {
@@ -40,7 +41,7 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
     }
 
     public function getPagination(DepartmentRequest $request)
-    {
+    {   
         $result = $this->model->with('user')->paginate($request->per_page);
         return $result;
     }
