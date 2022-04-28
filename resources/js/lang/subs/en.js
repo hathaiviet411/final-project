@@ -135,6 +135,8 @@ export default {
             FEEDBACK: 'Feedback',
         },
         SPENT_TIME: 'Spent Time',
+        LIST_TASK: 'List Task',
+        DATE: 'Date',
     },
 
     DEPARTMENT_MANAGEMENT: {

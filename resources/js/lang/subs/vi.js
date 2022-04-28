@@ -135,6 +135,8 @@ export default {
             FEEDBACK: 'Phản hồi',
         },
         SPENT_TIME: 'Thời gian làm việc',
+        LIST_TASK: 'Danh sách công việc',
+        DATE: 'Ngày',
     },
 
     DEPARTMENT_MANAGEMENT: {

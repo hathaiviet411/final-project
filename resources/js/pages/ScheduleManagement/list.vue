@@ -144,8 +144,9 @@
 
 							<v-divider />
 
+							<!-- Work Place Information -->
 							<b-row>
-								<b-col lg="6" md="12" sm="12">
+								<b-col lg="4" md="12" sm="12">
 									<v-select
 										v-model="schedule.work_place.building"
 										:label="$t('SCHEDULE_MANAGEMENT.BUILDING')"
@@ -155,7 +156,17 @@
 									/>
 								</b-col>
 
-								<b-col lg="6" md="12" sm="12">
+								<b-col lg="4" md="12" sm="12">
+									<v-select
+										v-model="schedule.work_place.room"
+										:label="$t('SCHEDULE_MANAGEMENT.ROOM')"
+										:items="rooms"
+										outlined
+										@input="setLevelByRoomNumber()"
+									/>
+								</b-col>
+
+								<b-col lg="4" md="12" sm="12">
 									<v-text-field
 										v-model="schedule.work_place.level"
 										:label="$t('SCHEDULE_MANAGEMENT.LEVEL')"
@@ -165,23 +176,51 @@
 								</b-col>
 							</b-row>
 
-							<b-row>
-								<b-col cols="12">
-									<v-select
-										v-model="schedule.work_place.room"
-										:label="$t('SCHEDULE_MANAGEMENT.ROOM')"
-										:items="rooms"
-										outlined
-										@input="setLevelByRoomNumber()"
-									/>
-								</b-col>
-							</b-row>
-
-							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.WORKING_TIME_INFORMATION') }}</span>
+							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.TASK_INFORMATION') }}</span>
 
 							<v-divider />
 
+							<!-- Task Information -->
 							<b-row>
+								<b-col lg="6" md="12" sm="12">
+									<v-select
+										v-model="schedule.task.task_name"
+										:items="tasks"
+										:label="$t('TASK_MANAGEMENT.TASK_NAME')"
+										outlined
+										@input="getTaskInfo()"
+									/>
+								</b-col>
+
+								<b-col lg="6">
+									<v-dialog
+										v-model="dialogSelectDate"
+										:scrollable="false"
+										max-width="250"
+									>
+										<template #activator="{ on, attrs }">
+											<v-text-field
+												v-model="schedule.time.date"
+												:label="$t('SCHEDULE_MANAGEMENT.DATE')"
+												readonly
+												outlined
+												v-bind="attrs"
+												v-on="on"
+											/>
+										</template>
+
+										<v-date-picker
+											v-model="schedule.time.date"
+											show-current
+											:locale="language"
+											elevation="24"
+											width="250"
+											color="green lighten-1"
+											@input="dialogSelectDate = false"
+										/>
+									</v-dialog>
+								</b-col>
+
 								<b-col lg="6" md="12" sm="12">
 									<v-dialog
 										ref="dialogSelectStartTime"
@@ -263,33 +302,61 @@
 										</v-time-picker>
 									</v-dialog>
 								</b-col>
-
 							</b-row>
 
-							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.TASK_INFORMATION') }}</span>
-
-							<v-divider />
-
-							<b-row>
-								<b-col lg="12" md="12" sm="12">
-									<v-select
-										v-model="schedule.task.task_name"
-										:items="tasks"
-										:label="$t('TASK_MANAGEMENT.TASK_NAME')"
-										outlined
-										@input="getTaskInfo()"
-									/>
+							<b-row class="mb-3">
+								<b-col cols="2">
+									<v-btn class="primary-btn" @click="addNewTaskInAssignedList()">
+										<v-icon left>mdi-plus</v-icon>
+										<span>{{ $t('BUTTON.ASSIGN_NEW_TASK') }}</span>
+									</v-btn>
 								</b-col>
 							</b-row>
 
-							<b-row>
-								<b-col lg="12" md="12" sm="12">
-									<v-textarea
-										:value="schedule.task.task_description"
-										:placeholder="$t('TASK_MANAGEMENT.TASK_DESCRIPTION')"
-										outlined
-										readonly
-									/>
+							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.LIST_TASK') }}</span>
+
+							<v-divider />
+
+							<!-- List Added Task -->
+							<b-row v-for="(task, index) in listAddedTask" :key="index">
+								<b-col lg="12" md="12" sm="12" class="text-center">
+									<v-btn block>
+										<span>{{ `Task ${index + 1}` }}</span>
+									</v-btn>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="6">
+									<span>Task Name: {{ task.task_name }}</span>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="6">
+									<span>Date: {{ task.date }}</span>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="6">
+									<span>Start Time: {{ task.start_time }}</span>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="6">
+									<span>End Time: {{ task.end_time }}</span>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="6">
+									<span>Building: {{ task.building }}</span>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="6">
+									<span>Level: {{ task.level }}</span>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="6">
+									<span>Room: {{ task.room }}</span>
+								</b-col>
+
+								<b-col lg="12" md="10" sm="10">
+									<v-btn class="danger-btn" @click="removeTaskFromAssignedList(index)">
+										<span>{{ $t('BUTTON.DELETE') }}</span>
+									</v-btn>
 								</b-col>
 							</b-row>
 
@@ -613,7 +680,6 @@ import { getAllPosition } from '@/api/modules/position';
 import { getAllContract } from '@/api/modules/contract';
 
 import { convertFromIDToName } from '@/utils/convertFromIdToName';
-import vTextarea from '../../components/atoms/vTextarea.vue';
 
 // import { MakeToast } from '@/utils/MakeToast';
 
@@ -629,7 +695,6 @@ const urlAPI = {
 
 export default {
     name: 'ScheduleManagementList',
-    components: { vTextarea },
     data() {
         return {
             roles: [
@@ -705,6 +770,7 @@ export default {
                 },
 
                 time: {
+                    date: '',
                     start_time: '',
                     end_time: '',
                 },
@@ -733,6 +799,31 @@ export default {
 
             dialogSelectEndTime: false,
 
+            dialogSelectDate: false,
+
+            listAddedTask: [
+                {
+                    id: 1,
+                    task_name: 'Nhập liệu',
+                    date: '2020-01-01',
+                    start_time: '09:00',
+                    end_time: '18:30',
+                    building: 'Tòa A',
+                    level: '2',
+                    room: '209',
+                },
+                {
+                    id: 1,
+                    task_name: 'Dọn vệ sinh',
+                    date: '2020-01-01',
+                    start_time: '09:00',
+                    end_time: '18:30',
+                    building: 'Tòa D',
+                    level: '6',
+                    room: '621',
+                },
+            ],
+
             headers: [
                 { text: this.$t('SCHEDULE_MANAGEMENT.USER_NAME'), sortable: false, value: 'user_name' },
                 { text: this.$t('SCHEDULE_MANAGEMENT.POSITION'), sortable: false, value: 'position_id' },
@@ -749,6 +840,8 @@ export default {
                 blur: '1rem',
                 rounded: 'sm',
             },
+
+            language: this.$store.getters.language,
         };
     },
 
@@ -804,6 +897,24 @@ export default {
                     }
                 }
             }
+        },
+
+        addNewTaskInAssignedList() {
+            this.listAddedTask.push({
+                id: this.listAddedTask.length + 1,
+                task_name: this.schedule.task.task_name,
+                date: this.schedule.time.date,
+                start_time: this.schedule.time.start_time,
+                end_time: this.schedule.time.end_time,
+                building: this.schedule.work_place.building,
+                level: this.schedule.work_place.level,
+                room: this.schedule.work_place.room,
+            });
+        },
+
+        removeTaskFromAssignedList(index) {
+            console.log(index);
+            this.listAddedTask.splice(index, 1);
         },
 
         getListRoomByBuilding() {
