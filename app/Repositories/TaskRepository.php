@@ -36,7 +36,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 
   public function getAll()
   {
-      return $this->model->select('id', 'task_name')->get();
+      return $this->model->select('id', 'task_name', 'task_description')->get();
   }
 
   public function getPagination(TaskRequest $request)

@@ -18,7 +18,7 @@ class UserController extends BaseController
 
     public function __construct(UserRepository $userRepository)
     {
-        $this->middleware(['role_or_permission:' . ROLE_ADMIN]);
+        // $this->middleware(['role_or_permission:' . ROLE_ADMIN]);
         $this->userRepository = $userRepository;
     }
     /**

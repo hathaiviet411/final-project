@@ -8,6 +8,7 @@ use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Repositories\Contracts\RoleRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Repositories\Contracts\DepartmentRepositoryInterface;
+use App\Repositories\Contracts\BuildingRepositoryInterface;
 use App\Repositories\Contracts\TaskRepositoryInterface;
 use App\Repositories\Contracts\FacilityRepositoryInterface;
 use App\Repositories\Contracts\PositionRepositoryInterface;
@@ -22,6 +23,7 @@ use Repository\BaseRepository;
 use Repository\AuthRepository;
 use Repository\RoleRepository;
 use Repository\DepartmentRepository;
+use Repository\BuildingRepository;
 use Repository\TaskRepository;
 use Repository\FacilityRepository;
 use Repository\PositionRepository;
@@ -53,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
         }
         
         $this->app->bind(DepartmentRepositoryInterface::class, DepartmentRepository::class);
+        $this->app->bind(BuildingRepositoryInterface::class, BuildingRepository::class);
         $this->app->bind(TaskRepositoryInterface::class, TaskRepository::class);
         $this->app->bind(FacilityRepositoryInterface::class, FacilityRepository::class);
         $this->app->bind(FeedbackRepositoryInterface::class, FeedbackRepository::class);

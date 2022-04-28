@@ -21,7 +21,7 @@ class Department extends Model
     protected $fillable = [
         'department_name',
         'department_address',
-        'department_manager',
+        'user_id',
         'organized_date',
     ];
 
@@ -39,5 +39,9 @@ class Department extends Model
     public function user()
     {
         return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
+
+    public function users() {
+      return $this->hasMany('App\Models\User', 'department_id', 'id');
     }
 }

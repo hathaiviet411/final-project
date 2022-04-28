@@ -10,7 +10,7 @@
 				<v-img :src="require('@/assets/images/logo.png')" />
 			</b-navbar-nav>
 
-			<b-navbar-toggle target="nav-collapse">
+			<b-navbar-toggle target="nav-collapse" style="background-color: #1E2A55;">
 				<template #default="{ expanded }">
 					<i v-if="expanded" class="fas fa-angle-up" />
 					<i v-else class="fas fa-angle-down" />

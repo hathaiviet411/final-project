@@ -99,9 +99,11 @@
 
 								<!-- Department Manager -->
 								<v-col cols="12">
-									<v-text-field
+									<v-select
 										v-model="department.department_manager"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER')"
+										:items="UserList"
+										:item-disabled="item => item.value === null"
 										outlined
 									/>
 								</v-col>
@@ -187,9 +189,11 @@
 
 								<!-- Department Manager -->
 								<v-col cols="12">
-									<v-text-field
+									<v-select
 										v-model="department.department_manager"
 										:label="$t('DEPARTMENT_MANAGEMENT.DEPARTMENT_MANAGER')"
+										:items="UserList"
+										:item-disabled="item => item.value === null"
 										outlined
 									/>
 								</v-col>
@@ -288,12 +292,15 @@
 <script>
 import { getAllDepartment, getOneDepartment, createDepartment, updateDepartment, deleteDepartment } from '@/api/modules/department';
 
+import { getAllUser } from '@/api/modules/user';
+
 import { getYMDFromString } from '@/utils/getYMDFromString';
 
 import { MakeToast } from '@/utils/MakeToast';
 
 const urlAPI = {
     apiGetAllDepartment: '/department/list',
+    apiGetAllUser: '/users/all',
     apiGetOneDepartment: '/department/detail/',
     apiCreateDepartment: '/department/create',
     apiUpdateDepartment: '/department/update/',
@@ -332,6 +339,10 @@ export default {
 
             items: [],
 
+            UserList: [
+                { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
+            ],
+
             registerDialog: false,
 
             editDialog: false,
@@ -345,9 +356,14 @@ export default {
         };
     },
     created() {
-        this.getDepartmentList();
+        this.getDepartmentManagementData();
     },
     methods: {
+        async getDepartmentManagementData() {
+            await this.getDepartmentList();
+            await this.getUserList();
+        },
+
         async getDepartmentList() {
             this.overlay.show = true;
 
@@ -360,6 +376,23 @@ export default {
                     }
 
                     this.items = response.data;
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async getUserList() {
+            try {
+                const response = await getAllUser(urlAPI.apiGetAllUser);
+
+                if (response.code === 200) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        this.UserList.push({
+                            value: response.data[i].id,
+                            text: response.data[i].user_name,
+                        });
+                    }
                 }
             } catch (error) {
                 console.log(error);
@@ -386,6 +419,7 @@ export default {
                 if (response.code === 200) {
                     response.data.organized_date = getYMDFromString(response.data.organized_date);
                     this.department = response.data;
+                    this.department.department_manager = response.data.user_id;
                 }
             } catch (error) {
                 console.log(error);
@@ -409,15 +443,15 @@ export default {
                 const response = await createDepartment(urlAPI.apiCreateDepartment, this.department);
 
                 if (response.code === 201) {
-                    await this.getDepartmentList();
+                    this.registerDialog = false;
+
+                    await this.getDepartmentManagementData();
 
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
                         content: this.$t('TOAST.CONTENT.DEPARTMENT_MANAGEMENT.CREATE_DEPARTMENT_SUCCESS'),
                     });
-
-                    this.registerDialog = false;
                 }
             } catch (error) {
                 MakeToast({
@@ -437,15 +471,15 @@ export default {
                 const response = await updateDepartment(URL, this.department);
 
                 if (response.code === 200) {
-                    await this.getDepartmentList();
+                    this.editDialog = false;
+
+                    await this.getDepartmentManagementData();
 
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
                         content: this.$t('TOAST.CONTENT.DEPARTMENT_MANAGEMENT.UPDATE_DEPARTMENT_SUCCESS'),
                     });
-
-                    this.editDialog = false;
                 }
             } catch (error) {
                 MakeToast({
@@ -464,15 +498,15 @@ export default {
             try {
                 const response = await deleteDepartment(URL);
                 if (response.code === 200) {
-                    this.getDepartmentList();
+                    this.deleteDialog = false;
+
+                    this.getDepartmentManagementData();
 
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
                         content: this.$t('TOAST.CONTENT.DEPARTMENT_MANAGEMENT.DELETE_DEPARTMENT_SUCCESS'),
                     });
-
-                    this.deleteDialog = false;
                 }
             } catch (error) {
                 MakeToast({
