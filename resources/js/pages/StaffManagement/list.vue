@@ -414,7 +414,7 @@
 								<v-col cols="6" class="text-center">
 									<v-btn class="primary-btn" @click="doUpdateUser(user.id)">
 										<v-icon left>fas fa-plus-circle</v-icon>
-										<span>{{ $t('BUTTON.EDIT') }}</span>
+										<span>{{ $t('BUTTON.SAVE') }}</span>
 									</v-btn>
 								</v-col>
 							</v-row>

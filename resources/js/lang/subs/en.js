@@ -120,6 +120,21 @@ export default {
         USER_INFORMATION: 'User Information',
         WORKING_PLACE_INFORMATION: 'Working Place Information',
         WORKING_TIME_INFORMATION: 'Working Time Information',
+        TASK_INFORMATION: 'Task Information',
+        LOG_TIME: 'Log Time',
+        APPROVE_STATUS: {
+            TITLE: 'Approve Status',
+            APPROVED: 'Approved',
+            REFUSED: 'Refused',
+        },
+        REMARK: 'Remark',
+        TASK_STATUS: {
+            TITLE: 'Task Status',
+            IN_PROGRESS: 'In Progress',
+            COMPLETED: 'Completed',
+            FEEDBACK: 'Feedback',
+        },
+        SPENT_TIME: 'Spent Time',
     },
 
     DEPARTMENT_MANAGEMENT: {

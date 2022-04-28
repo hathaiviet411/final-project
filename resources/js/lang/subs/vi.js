@@ -120,6 +120,21 @@ export default {
         USER_INFORMATION: 'Thông tin nhân viên',
         WORKING_PLACE_INFORMATION: 'Thông tin địa điểm làm việc',
         WORKING_TIME_INFORMATION: 'Thông tin thời gian làm việc',
+        TASK_INFORMATION: 'Thông tin công việc',
+        LOG_TIME: 'Trạng thái công việc',
+        APPROVE_STATUS: {
+            TITLE: 'Trạng thái duyệt',
+            APPROVED: 'Đã duyệt',
+            REFUSED: 'Từ chối',
+        },
+        REMARK: 'Ghi chú',
+        TASK_STATUS: {
+            TITLE: 'Trạng thái công việc',
+            IN_PROGRESS: 'Đang làm',
+            COMPLETED: 'Đã hoàn thành',
+            FEEDBACK: 'Phản hồi',
+        },
+        SPENT_TIME: 'Thời gian làm việc',
     },
 
     DEPARTMENT_MANAGEMENT: {
