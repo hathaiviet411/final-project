@@ -253,7 +253,7 @@
     updateFeedback,
     deleteFeedback,
 }
-from '@/api/modules/Feedback';
+from '@/api/modules/feedback';
 
 import { MakeToast } from '@/utils/MakeToast';
 
