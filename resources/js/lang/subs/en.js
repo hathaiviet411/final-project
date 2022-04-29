@@ -12,6 +12,13 @@ export default {
         DEV: 'Dev',
     },
 
+    PAGE404: {
+        OOPS: 'Oops!',
+        MESSAGE: `The bodyguard said that you can't enter this page...`,
+        DETAIL: 'Please check that the URL you entered is correct. Please click the button below to return to the homepage or send an error report.',
+        BACK_TO_HOME: 'Back to Home',
+    },
+
     TOAST: {
         TITLE: {
             SUCCESS: 'Success',

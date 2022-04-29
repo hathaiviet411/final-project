@@ -14,6 +14,7 @@ import taskManagement from './modules/taskManagement';
 import staffManagement from './modules/staffManagement';
 import departmentManagement from './modules/departmentManagement';
 import feedbackManagement from './modules/feedbackManagement';
+import ErrorPage from './modules/errorPage';
 import dev from './modules/dev';
 
 export const constantRoutes = [
@@ -23,6 +24,7 @@ export const constantRoutes = [
         hidden: true,
     },
     login,
+    dev,
     dashboard,
     timesheet,
     scheduleManagement,
@@ -32,7 +34,12 @@ export const constantRoutes = [
     staffManagement,
     departmentManagement,
     feedbackManagement,
-    dev,
+    ErrorPage,
+    {
+        path: '*',
+        redirect: { name: 'ErrorPage' },
+        hidden: true,
+    },
 ];
 
 export const asyncRoutes = [];

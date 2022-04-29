@@ -12,6 +12,13 @@ export default {
         DEV: 'Phát triển',
     },
 
+    PAGE404: {
+        OOPS: 'Oops!',
+        MESSAGE: 'Không tìm thấy trang bạn yêu cầu.',
+        DETAIL: 'Xin lỗi, trang bạn yêu cầu không tồn tại.',
+        BACK_TO_HOME: 'Quay lại trang chủ',
+    },
+
     TOAST: {
         TITLE: {
             SUCCESS: 'Thành công',
