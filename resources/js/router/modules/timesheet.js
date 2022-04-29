@@ -16,7 +16,7 @@ const timesheet = {
             meta: {
                 title: 'ROUTER.TIMESHEET',
             },
-            component: () => import(/* webpackChunkName: "TimesheetIndex" */ '@/pages/Timesheet/Index'),
+            component: () => import(/* webpackChunkName: "TimesheetIndex" */ '@/pages/Timesheet/index'),
         },
     ],
 };

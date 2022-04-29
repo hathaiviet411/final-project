@@ -14,7 +14,7 @@ const Notification = {
         {
             path: 'index',
             name: 'notification-index',
-            component: () => import('@/pages/Notification/index.vue'),
+            component: () => import('@/pages/Notification/index'),
             meta: {
                 title: 'ROUTER.NOTIFICATION.INDEX',
             },

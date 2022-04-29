@@ -16,7 +16,7 @@ const staffManagement = {
             meta: {
                 title: 'ROUTER.STAFF_MANAGEMENT',
             },
-            component: () => import(/* webpackChunkName: "StaffManagementList" */ '@/pages/StaffManagement/List'),
+            component: () => import(/* webpackChunkName: "StaffManagementList" */ '@/pages/StaffManagement/list'),
         },
         // {
         //     path: 'edit/:id',

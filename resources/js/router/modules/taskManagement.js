@@ -16,7 +16,7 @@ const taskManagement = {
             meta: {
                 title: 'ROUTER.TASK_MANAGEMENT',
             },
-            component: () => import(/* webpackChunkName: "TaskManagementList" */ '@/pages/TaskManagement/List'),
+            component: () => import(/* webpackChunkName: "TaskManagementList" */ '@/pages/TaskManagement/list'),
         },
     ],
 };

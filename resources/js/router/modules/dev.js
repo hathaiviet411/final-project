@@ -16,7 +16,7 @@ const dev = {
             meta: {
                 title: 'ROUTER.DEV',
             },
-            component: () => import(/* webpackChunkName: "DevIndex" */ '@/pages/Dev/index.vue'),
+            component: () => import(/* webpackChunkName: "DevIndex" */ '@/pages/Dev/index'),
         },
     ],
 };

@@ -16,7 +16,7 @@ const feedbackManagement = {
             meta: {
                 title: 'ROUTER.FEEDBACK_MANAGEMENT',
             },
-            component: () => import(/* webpackChunkName: "FeedbackManagementList" */ '@/pages/FeedbackManagement/List'),
+            component: () => import(/* webpackChunkName: "FeedbackManagementList" */ '@/pages/FeedbackManagement/list'),
         },
     ],
 };

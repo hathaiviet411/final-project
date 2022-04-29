@@ -16,7 +16,7 @@ const dashboard = {
             meta: {
                 title: 'ROUTER.DASHBOARD',
             },
-            component: () => import(/* webpackChunkName: "DashboardIndex" */ '@/pages/Dashboard/Index'),
+            component: () => import(/* webpackChunkName: "DashboardIndex" */ '@/pages/Dashboard/index'),
         },
     ],
 };

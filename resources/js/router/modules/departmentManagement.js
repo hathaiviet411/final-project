@@ -16,7 +16,7 @@ const departmentManagement = {
             meta: {
                 title: 'ROUTER.DEPARTMENT_MANAGEMENT',
             },
-            component: () => import(/* webpackChunkName: "DepartmentManagementList" */ '@/pages/DepartmentManagement/List'),
+            component: () => import(/* webpackChunkName: "DepartmentManagementList" */ '@/pages/DepartmentManagement/list'),
         },
     ],
 };

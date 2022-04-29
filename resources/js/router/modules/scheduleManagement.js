@@ -16,7 +16,7 @@ const scheduleManagement = {
             meta: {
                 title: 'ROUTER.SCHEDULE_MANAGEMENT',
             },
-            component: () => import(/* webpackChunkName: "ScheduleManagementList" */ '@/pages/ScheduleManagement/List'),
+            component: () => import(/* webpackChunkName: "ScheduleManagementList" */ '@/pages/ScheduleManagement/list'),
         },
     ],
 };

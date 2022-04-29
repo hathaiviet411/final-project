@@ -16,7 +16,7 @@ const roomManagement = {
             meta: {
                 title: 'ROUTER.ROOM_MANAGEMENT',
             },
-            component: () => import(/* webpackChunkName: "RoomManagementList" */ '@/pages/RoomManagement/List'),
+            component: () => import(/* webpackChunkName: "RoomManagementList" */ '@/pages/RoomManagement/list'),
         },
     ],
 };

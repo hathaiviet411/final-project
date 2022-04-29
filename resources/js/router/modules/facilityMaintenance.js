@@ -16,7 +16,7 @@ const facilityMaintenance = {
             meta: {
                 title: 'ROUTER.FACILITY_MAINTENANCE',
             },
-            component: () => import(/* webpackChunkName: "FacilityMaintenanceList" */ '@/pages/FacilityMaintenance/List'),
+            component: () => import(/* webpackChunkName: "FacilityMaintenanceList" */ '@/pages/FacilityMaintenance/list'),
         },
     ],
 };
