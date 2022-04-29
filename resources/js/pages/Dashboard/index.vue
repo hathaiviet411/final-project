@@ -1,79 +1,73 @@
 <template>
 	<div class="dashboard">
 		<v-app>
-			<v-row class="mb-3">
+			<v-row>
+				<v-col cols="12">
+					<v-card elevation="12">
+						<v-img :src="require('@/assets/images/footer.png')" />
+					</v-card>
+				</v-col>
+			</v-row>
+
+			<v-row>
+				<v-col cols="3" class="text-center">
+					<v-btn class="primary-btn">
+						<v-icon small class="mr-3">fas fa-building</v-icon>
+						<span>Total Department: 14</span>
+					</v-btn>
+				</v-col>
+
+				<v-col cols="3" class="text-center">
+					<v-btn class="primary-btn">
+						<v-icon small class="mr-3">fas fa-user</v-icon>
+						<span>Total Staff: 2123</span>
+					</v-btn>
+				</v-col>
+
+				<v-col cols="3" class="text-center">
+					<v-btn class="primary-btn">
+						<v-icon small class="mr-3">fas fa-tasks</v-icon>
+						<span>Total Task: 56112</span>
+					</v-btn>
+				</v-col>
+
+				<v-col cols="3" class="text-center">
+					<v-btn class="primary-btn">
+						<v-icon small class="mr-3">fas fa-comment-alt</v-icon>
+						<span>Total Feedback: 4129</span>
+					</v-btn>
+				</v-col>
+			</v-row>
+
+			<v-row class="mb-3" style="height: 800px">
 				<v-col cols="10">
 					<v-row>
-						<v-col cols="4">
-							<v-card elevation="12" style="padding: 15px !important;" rounded="lg">
+						<v-col cols="6">
+							<v-card elevation="12" style="padding: 15px !important;" rounded="lg" height="690">
 								<Bar
 									:chart-options="chartOptions"
-									:chart-data="chartData"
+									:chart-data="chartOneData"
 								/>
 							</v-card>
 						</v-col>
 
-						<v-col cols="4">
-							<v-card elevation="12" style="padding: 30px !important;" rounded="lg">
-								<span>Second Chart</span>
-							</v-card>
-						</v-col>
-
-						<v-col cols="4">
-							<v-card elevation="12" style="padding: 30px !important;" rounded="lg">
-								<span>Third Chart</span>
-							</v-card>
-						</v-col>
-					</v-row>
-
-					<v-row>
-						<v-col cols="4">
-							<v-card elevation="12" style="padding: 30px !important;" rounded="lg">
-								<v-timeline>
-									<v-timeline-item
-										v-for="(year, i) in years"
-										:key="i"
-										:color="year.color"
-										small
-									>
-										<template #opposite>
-											<span
-												:class="`headline font-weight-bold ${year.color}--text`"
-												v-text="year.year"
-											/>
-										</template>
-										<div class="py-4">
-											<h5>{{ year.text }}</h5>
-										</div>
-									</v-timeline-item>
-								</v-timeline>
-							</v-card>
-						</v-col>
-
-						<v-col cols="8">
-							<v-card elevation="12" style="padding: 30px !important;" rounded="lg">
-								<span>Carousel</span>
+						<v-col cols="6">
+							<v-card elevation="12" style="padding: 30px !important;" rounded="lg" height="690">
+								<Bar
+									:chart-options="chartOptions"
+									:chart-data="chartTwoData"
+								/>
 							</v-card>
 						</v-col>
 					</v-row>
 				</v-col>
 
 				<v-col cols="2">
-					<v-card elevation="12" max-width="210px" class="mx-auto py-2 px-2" max-height="700px">
-						<v-img :src="link" class="mx-auto" max-height="690" />
+					<v-card elevation="12" class="mx-auto py-2 px-2" height="690">
+						<v-img :src="link" class="mx-auto" height="670" />
 					</v-card>
 				</v-col>
 			</v-row>
-
-			<v-footer>
-				<v-row>
-					<v-col cols="12">
-						<v-card elevation="12">
-							<v-img :src="require('@/assets/images/footer.png')" />
-						</v-card>
-					</v-col>
-				</v-row>
-			</v-footer>
 		</v-app>
 	</div>
 </template>
@@ -93,7 +87,7 @@ export default {
             img_link: '',
             isMobileMode: false,
 
-            chartData: {
+            chartOneData: {
                 labels: [
                     'Ban Tổ Chức',
                     'Ban An Ninh',
@@ -128,37 +122,44 @@ export default {
                 }],
             },
 
+            chartTwoData: {
+                labels: [
+                    'Nguyễn Văn C',
+                    'NGuyễn Văn D',
+                    'Trần Thanh P',
+                    'Hạ Thanh N',
+                    'Dương Minh A',
+                    'Hoàng Tranh T',
+                    'Trịnh Công M',
+                ],
+                datasets: [{
+                    label: 'Xếp hạng nhân viên',
+                    data: [4, 1, 3, 2, 5, 6, 7],
+                    backgroundColor: [
+                        '#6BCB77',
+                        '#B33030',
+                        '#FFD93D',
+                        '#C69B7B',
+                        '#B667F1',
+                        '#333C83',
+                        '#FAD9E6',
+                    ],
+                    borderColor: [
+                        '#6BCB77',
+                        '#B33030',
+                        '#FFD93D',
+                        '#C69B7B',
+                        '#B667F1',
+                        '#333C83',
+                        '#FAD9E6',
+                    ],
+                    borderWidth: 1,
+                }],
+            },
+
             chartOptions: {
                 responsive: true,
             },
-
-            years: [
-                {
-                    color: 'cyan',
-                    year: '1960',
-                    text: 'Ngày Khởi Không',
-                },
-                {
-                    color: 'green',
-                    year: '1970',
-                    text: 'Ngày Khánh Thành',
-                },
-                {
-                    color: 'pink',
-                    year: '1980',
-                    text: 'Đón Vị Khách Đầu Tiên',
-                },
-                {
-                    color: 'amber',
-                    year: '1990',
-                    text: 'Mở Chi Nhánh Thứ 2 Tại Hà Nội',
-                },
-                {
-                    color: 'orange',
-                    year: '2000',
-                    text: 'Đạt Giải Homestay Đẹp Nhất 2021',
-                },
-            ],
         };
     },
     created() {

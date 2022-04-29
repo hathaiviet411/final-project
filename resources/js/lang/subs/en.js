@@ -111,6 +111,10 @@ export default {
         BUTTON_TEXT: 'Login',
     },
 
+    TIMESHEET_MANAGEMENT: {
+        DETAIL_TIMESHEET: 'Detail Timesheet',
+    },
+
     SCHEDULE_MANAGEMENT: {
         DEPARTMENT: 'Department',
         USER_NAME: 'User Name',

@@ -111,6 +111,10 @@ export default {
         BUTTON_TEXT: 'Đăng nhập',
     },
 
+    TIMESHEET_MANAGEMENT: {
+        DETAIL_TIMESHEET: 'Chi tiết bảng lương',
+    },
+
     SCHEDULE_MANAGEMENT: {
         DEPARTMENT: 'Bộ phận',
         USER_NAME: 'Tên nhân viên',

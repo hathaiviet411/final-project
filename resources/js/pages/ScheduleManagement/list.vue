@@ -449,194 +449,44 @@
 								</b-col>
 							</b-row>
 
-							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.WORKING_PLACE_INFORMATION') }}</span>
+							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.LIST_TASK') }}</span>
 
 							<v-divider />
 
-							<b-row>
-								<b-col lg="6" md="12" sm="12">
-									<v-select
-										v-model="schedule.work_place.building"
-										:label="$t('SCHEDULE_MANAGEMENT.BUILDING')"
-										:items="buildings"
-										outlined
-										disabled
-									/>
+							<!-- List Added Task -->
+							<b-row v-for="(task, index) in listAddedTask" :key="index">
+								<b-col lg="12" md="12" sm="12" class="text-center">
+									<v-btn block>
+										<span>{{ `Task ${index + 1}` }}</span>
+									</v-btn>
 								</b-col>
 
-								<b-col lg="6" md="12" sm="12">
-									<v-select
-										v-model="schedule.work_place.level"
-										:label="$t('SCHEDULE_MANAGEMENT.LEVEL')"
-										:items="levels"
-										outlined
-										disabled
-									/>
-								</b-col>
-							</b-row>
-
-							<b-row>
-								<b-col cols="12">
-									<v-select
-										v-model="schedule.work_place.room"
-										:label="$t('SCHEDULE_MANAGEMENT.ROOM')"
-										:items="rooms"
-										outlined
-										disabled
-									/>
-								</b-col>
-							</b-row>
-
-							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.WORKING_TIME_INFORMATION') }}</span>
-
-							<v-divider />
-
-							<b-row>
-								<b-col lg="6" md="12" sm="12">
-									<v-dialog
-										ref="dialogSelectStartTime"
-										v-model="dialogSelectStartTime"
-										:return-value.sync="schedule.time.start_time"
-										persistent
-										max-width="300"
-									>
-										<template #activator="{ on, attrs }">
-											<v-text-field
-												v-model="schedule.time.start_time"
-												outlined
-												:label="$t('SCHEDULE_MANAGEMENT.START_TIME')"
-												prepend-inner-icon="mdi-clock-time-four-outline"
-												readonly
-												v-bind="attrs"
-												v-on="on"
-											/>
-										</template>
-
-										<v-time-picker
-											v-if="dialogSelectStartTime"
-											v-model="schedule.time.start_time"
-											:max="schedule.time.end_time"
-											width="300"
-										>
-											<v-row>
-												<v-col cols="12" class="text-right">
-													<v-btn text @click="dialogSelectStartTime = false">
-														<span class="text-danger">{{ $t('BUTTON.CANCEL') }}</span>
-													</v-btn>
-
-													<v-btn text @click="$refs.dialogSelectStartTime.save(schedule.time.start_time)">
-														<span class="text-primary">{{ $t('BUTTON.SAVE') }}</span>
-													</v-btn>
-												</v-col>
-											</v-row>
-										</v-time-picker>
-									</v-dialog>
+								<b-col lg="3" md="4" sm="6">
+									<span>Task Name: {{ task.task_name }}</span>
 								</b-col>
 
-								<b-col lg="6" md="12" sm="12">
-									<v-dialog
-										ref="dialogSelectEndTime"
-										v-model="dialogSelectEndTime"
-										:return-value.sync="schedule.time.end_time"
-										persistent
-										max-width="300"
-									>
-										<template #activator="{ on, attrs }">
-											<v-text-field
-												v-model="schedule.time.end_time"
-												outlined
-												:label="$t('SCHEDULE_MANAGEMENT.END_TIME')"
-												prepend-inner-icon="mdi-clock-time-four-outline"
-												readonly
-												v-bind="attrs"
-												v-on="on"
-											/>
-										</template>
-
-										<v-time-picker
-											v-if="dialogSelectEndTime"
-											v-model="schedule.time.end_time"
-											:min="schedule.time.start_time"
-											width="300"
-										>
-											<v-row>
-												<v-col cols="12" class="text-right">
-													<v-btn text @click="dialogSelectEndTime = false">
-														<span class="text-danger">{{ $t('BUTTON.CANCEL') }}</span>
-													</v-btn>
-
-													<v-btn text @click="$refs.dialogSelectEndTime.save(schedule.time.end_time)">
-														<span class="text-primary">{{ $t('BUTTON.SAVE') }}</span>
-													</v-btn>
-												</v-col>
-											</v-row>
-										</v-time-picker>
-									</v-dialog>
-								</b-col>
-							</b-row>
-
-							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.TASK_INFORMATION') }}</span>
-
-							<v-divider />
-
-							<b-row>
-								<b-col lg="6" md="12" sm="12">
-									<v-select
-										v-model="schedule.task.task_name"
-										:items="tasks"
-										:label="$t('TASK_MANAGEMENT.TASK_NAME')"
-										outlined
-									/>
+								<b-col lg="3" md="4" sm="6">
+									<span>Date: {{ task.date }}</span>
 								</b-col>
 
-								<b-col lg="6" md="12" sm="12">
-									<v-text-field
-										v-model="schedule.task.task_description"
-										:label="$t('TASK_MANAGEMENT.TASK_DESCRIPTION')"
-										outlined
-									/>
-								</b-col>
-							</b-row>
-
-							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.LOG_TIME') }}</span>
-
-							<v-divider />
-
-							<b-row>
-								<b-col lg="6" md="12" sm="12">
-									<v-select
-										v-model="schedule.log_time.status"
-										:label="$t('SCHEDULE_MANAGEMENT.TASK_STATUS.TITLE')"
-										:items="taskStatus"
-										outlined
-									/>
+								<b-col lg="3" md="4" sm="6">
+									<span>Start Time: {{ task.start_time }}</span>
 								</b-col>
 
-								<b-col lg="6" md="12" sm="12">
-									<v-text-field
-										v-model="schedule.log_time.spent_time"
-										:label="$t('SCHEDULE_MANAGEMENT.SPENT_TIME')"
-										outlined
-									/>
-								</b-col>
-							</b-row>
-
-							<b-row>
-								<b-col lg="6" md="12" sm="12">
-									<v-text-field
-										v-model="schedule.log_time.remark"
-										:label="$t('SCHEDULE_MANAGEMENT.REMARK')"
-										outlined
-									/>
+								<b-col lg="3" md="4" sm="6">
+									<span>End Time: {{ task.end_time }}</span>
 								</b-col>
 
-								<b-col v-if="role !== 'staff'" lg="6" md="12" sm="12">
-									<v-select
-										v-model="schedule.log_time.approve"
-										:label="$t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.TITLE')"
-										:items="approveStatus"
-										outlined
-									/>
+								<b-col lg="3" md="4" sm="6">
+									<span>Building: {{ task.building }}</span>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="6">
+									<span>Level: {{ task.level }}</span>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="6">
+									<span>Room: {{ task.room }}</span>
 								</b-col>
 							</b-row>
 

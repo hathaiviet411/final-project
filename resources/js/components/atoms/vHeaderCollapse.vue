@@ -1,18 +1,18 @@
 <template>
-	<div class="header-filter">
-		<h6>
-			<slot name="label-filter">
-				<span id="collapsed-show-hide-filter" v-b-toggle.zone-filter>
+	<div class="header-collapse">
+		<p>
+			<slot name="label-collapse">
+				<span id="collapsed-show-hide-collapse" v-b-toggle.zone-collapse>
 					<i class="fas fa-angle-up when-open" />
 					<i class="fas fa-angle-down when-closed" />
-					<span class="filter-title">{{ $t('FILTER.TITLE') }}</span>
+					<span class="collapse-title">{{ textName }}</span>
 				</span>
 			</slot>
-		</h6>
+		</p>
 
-		<div class="show-filter">
-			<b-collapse id="zone-filter">
-				<slot name="zone-filter" />
+		<div class="show-collapse">
+			<b-collapse id="zone-collapse">
+				<slot name="zone-collapse" />
 			</b-collapse>
 		</div>
 	</div>
@@ -20,15 +20,22 @@
 
 <script>
 export default {
-    name: 'VHeaderFilter',
+    name: 'VHeaderCollapse',
+    props: {
+        textName: {
+            type: String,
+            default: '',
+            require: true,
+        },
+    },
 };
 </script>
 
 <style lang="scss" scoped>
     @import '@/scss/variables.scss';
 
-    .header-filter {
-        h6 {
+    .header-collapse {
+        p {
             width: 100%;
             text-indent: 10%;
             border-bottom: 1px solid $black;
@@ -48,10 +55,9 @@ export default {
 
         .show {
             padding-bottom: 17px;
-            border-bottom: 1px solid $black;
         }
 
-        .filter-title:hover {
+        .collapse-title:hover {
           cursor: pointer;
         }
     }
