@@ -19,6 +19,7 @@ class CreateSchedulesTable extends Migration
             $table->string('user_name');
             $table->integer('contract_type');
             $table->integer('department_id');
+            $table->string('schedules');
             $table->softDeletes();
             $table->timestamps();
         });
