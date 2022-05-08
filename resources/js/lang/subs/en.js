@@ -88,6 +88,16 @@ export default {
                 DELETE_STAFF_FAILED: 'Delete staff failed.',
             },
 
+            SCHEDULE_MANAGEMENT: {
+                REQUIRED_TASK_NAME: 'Please enter task name.',
+                REQUIRED_START_DATE: 'Please enter start date.',
+                REQUIRED_START_TIME: 'Please enter start time.',
+                REQUIRED_END_TIME: 'Please enter end time.',
+                REQUIRED_BUILDING: 'Please enter building.',
+                REQUIRED_ROOM: 'Please enter room.',
+                ADD_NEW_TASK_SUCCESS: 'Add new task successfully.',
+            },
+
             LOGOUT: {
                 SUCCESS: 'You have successfully logged out.',
             },
@@ -146,7 +156,7 @@ export default {
             FEEDBACK: 'Feedback',
         },
         SPENT_TIME: 'Spent Time',
-        LIST_TASK: 'List Task',
+        LIST_ASSIGNED_TASK: 'List Assigned Task',
         DATE: 'Date',
     },
 
@@ -344,7 +354,8 @@ export default {
         ACTIONS: 'Actions',
         CANCEL: 'Cancel',
         SCHEDULE_DETAIL: 'Schedule Detail',
-        ASSIGN_NEW_TASK: 'Assign New Task',
+        ASSIGN_TASK: 'Assign Task',
+        REMOVE_TASK: 'Remove Task',
     },
 
     FILTER: {

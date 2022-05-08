@@ -72,6 +72,22 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
       Route::delete('delete/{id}', 'FacilityController@destroy');
     });
 
+    Route::group(['prefix' => 'schedule-management'], function () {
+      // Route::get('list', 'ScheduleController@index');
+      Route::post('create', 'ScheduleController@store');
+      // Route::get('detail/{id}', 'ScheduleController@show');
+      // Route::put('update/{id}', 'ScheduleController@update');
+      // Route::delete('delete/{id}', 'ScheduleController@destroy');
+    });
+
+    Route::group(['prefix' => 'timesheet-management'], function () {
+      Route::get('list', 'TimesheetController@index');
+      // Route::post('create', 'TimesheetController@store');
+      // Route::get('detail/{id}', 'TimesheetController@show');
+      // Route::put('update/{id}', 'TimesheetController@update');
+      // Route::delete('delete/{id}', 'TimesheetController@destroy');
+    });
+
     Route::group(['prefix' => 'position'], function () {
       Route::get('list', 'PositionController@index');
     });

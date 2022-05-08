@@ -88,6 +88,16 @@ export default {
                 DELETE_STAFF_FAILED: 'Xóa nhân viên thất bại.',
             },
 
+            SCHEDULE_MANAGEMENT: {
+                REQUIRED_TASK_NAME: 'Vui lòng chọn tên công việc.',
+                REQUIRED_START_DATE: 'Vui lòng nhập ngày bắt đầu.',
+                REQUIRED_START_TIME: 'Vui lòng nhập thời gian bắt đầu.',
+                REQUIRED_END_TIME: 'Vui lòng nhập thời gian kết thúc.',
+                REQUIRED_BUILDING: 'Vui lòng chọn tòa nhà.',
+                REQUIRED_ROOM: 'Vui lòng chọn phòng.',
+                ADD_NEW_TASK_SUCCESS: 'Thêm công việc mới thành công.',
+            },
+
             LOGOUT: {
                 SUCCESS: 'Đăng xuất thành công',
             },
@@ -121,9 +131,9 @@ export default {
         POSITION: 'Chức vụ',
         ROLE: 'Vai trò',
         CONTRACT_TYPE: 'Loại hợp đồng',
-        BUILDING: 'Building',
-        LEVEL: 'Level',
-        ROOM: 'Room',
+        BUILDING: 'Toà nhà',
+        LEVEL: 'Tầng',
+        ROOM: 'Phòng',
         START_TIME: 'Thời gian bắt đầu',
         END_TIME: 'Thời gian kết thúc',
         NEW_SCHEDULE: 'Thêm lịch làm việc',
@@ -146,7 +156,7 @@ export default {
             FEEDBACK: 'Phản hồi',
         },
         SPENT_TIME: 'Thời gian làm việc',
-        LIST_TASK: 'Danh sách công việc',
+        LIST_ASSIGNED_TASK: 'Danh sách công việc được giao',
         DATE: 'Ngày',
     },
 
@@ -345,7 +355,8 @@ export default {
         ACTIONS: 'Thao tác',
         CANCEL: 'Huỷ bỏ',
         SCHEDULE_DETAIL: 'Chi tiết',
-        ASSIGN_NEW_TASK: 'Giao tác vụ mới',
+        ASSIGN_TASK: 'Tác vụ mới',
+        REMOVE_TASK: 'Xóa tác vụ',
     },
 
     FILTER: {

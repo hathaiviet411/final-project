@@ -15,6 +15,8 @@ use App\Repositories\Contracts\PositionRepositoryInterface;
 use App\Repositories\Contracts\ContractRepositoryInterface;
 use App\Repositories\Contracts\RoomRepositoryInterface;
 use App\Repositories\Contracts\FeedbackRepositoryInterface;
+use App\Repositories\Contracts\ScheduleRepositoryInterface;
+use App\Repositories\Contracts\TimesheetRepositoryInterface;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -30,6 +32,8 @@ use Repository\PositionRepository;
 use Repository\ContractRepository;
 use Repository\RoomRepository;
 use Repository\FeedbackRepository;
+use Repository\ScheduleRepository;
+use Repository\TimesheetRepository;
 use Laravel\Dusk\DuskServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -59,6 +63,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TaskRepositoryInterface::class, TaskRepository::class);
         $this->app->bind(FacilityRepositoryInterface::class, FacilityRepository::class);
         $this->app->bind(FeedbackRepositoryInterface::class, FeedbackRepository::class);
+        $this->app->bind(ScheduleRepositoryInterface::class, ScheduleRepository::class);
+        $this->app->bind(TimesheetRepositoryInterface::class, TimesheetRepository::class);
     }
 
     /**

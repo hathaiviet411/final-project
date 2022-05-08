@@ -45,14 +45,14 @@
 									}"
 								>
 									<template #[`item.schedule_detail_action`]="{ item }">
-										<v-btn fab dark small color="#3F0071">
-											<v-icon small @click="openScheduleDetailDialog(item.id)">fas fa-calendar-day</v-icon>
+										<v-btn fab dark small color="#3F0071" @click="openScheduleDetailDialog(item.id)">
+											<v-icon small>fas fa-calendar-day</v-icon>
 										</v-btn>
 									</template>
 
 									<template #[`item.assign_new_task_action`]="{ item }">
-										<v-btn fab dark small color="#1E2AA5">
-											<v-icon small @click="openAssignNewTaskDialog(item.id)">fas fa-layer-plus</v-icon>
+										<v-btn fab dark small color="#1E2AA5" @click="openAssignNewTaskDialog(item.id)">
+											<v-icon small>fas fa-layer-plus</v-icon>
 										</v-btn>
 									</template>
 
@@ -305,57 +305,66 @@
 							</b-row>
 
 							<b-row class="mb-3">
-								<b-col cols="2">
+								<b-col lg="2" sm="12" md="12">
 									<v-btn class="primary-btn" @click="addNewTaskInAssignedList()">
-										<v-icon left>mdi-plus</v-icon>
-										<span>{{ $t('BUTTON.ASSIGN_NEW_TASK') }}</span>
+										<i class="far fa-plus-square mr-3" />
+										<span>{{ $t('BUTTON.ASSIGN_TASK') }}</span>
 									</v-btn>
 								</b-col>
 							</b-row>
 
-							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.LIST_TASK') }}</span>
+							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.LIST_ASSIGNED_TASK') }}</span>
 
 							<v-divider />
 
 							<!-- List Added Task -->
 							<b-row v-for="(task, index) in listAddedTask" :key="index">
-								<b-col lg="12" md="12" sm="12" class="text-center">
-									<v-btn block>
-										<span>{{ `Task ${index + 1}` }}</span>
-									</v-btn>
+								<b-col lg="12" md="12" sm="12" class="text-left">
+									<i class="fas fa-tasks mr-3" />
+									<span class="font-weight-bold">{{ `TASK ${index + 1}` }}</span>
+								</b-col>
+
+								<v-divider />
+
+								<b-col lg="3" md="4" sm="6">
+									<span>{{ $t('TASK_MANAGEMENT.TASK_NAME') }}</span>
+									<span>{{ task.task_name }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>Task Name: {{ task.task_name }}</span>
+									<span>{{ $t('SCHEDULE_MANAGEMENT.DATE') }}</span>
+									<span>{{ task.date }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>Date: {{ task.date }}</span>
+									<span>{{ $t('SCHEDULE_MANAGEMENT.START_TIME') }}</span>
+									<span>{{ task.start_time }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>Start Time: {{ task.start_time }}</span>
+									<span>{{ $t('SCHEDULE_MANAGEMENT.END_TIME') }}</span>
+									<span>{{ task.end_time }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>End Time: {{ task.end_time }}</span>
+									<span>{{ $t('ROOM_MANAGEMENT.BUILDING') }}</span>
+									<span>{{ task.building }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>Building: {{ task.building }}</span>
+									<span>{{ $t('ROOM_MANAGEMENT.LEVEL') }}</span>
+									<span>{{ task.level }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>Level: {{ task.level }}</span>
-								</b-col>
-
-								<b-col lg="3" md="4" sm="6">
-									<span>Room: {{ task.room }}</span>
+									<span>{{ $t('ROOM_MANAGEMENT.ROOM_NUMBER') }}</span>
+									<span>{{ task.room }}</span>
 								</b-col>
 
 								<b-col lg="12" md="10" sm="10">
 									<v-btn class="danger-btn" @click="removeTaskFromAssignedList(index)">
-										<span>{{ $t('BUTTON.DELETE') }}</span>
+										<i class="far fa-minus-square mr-3" />
+										<span>{{ $t('BUTTON.REMOVE_TASK') }}</span>
 									</v-btn>
 								</b-col>
 							</b-row>
@@ -449,44 +458,54 @@
 								</b-col>
 							</b-row>
 
-							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.LIST_TASK') }}</span>
+							<span class="text-bold h6">{{ $t('SCHEDULE_MANAGEMENT.LIST_ASSIGNED_TASK') }}</span>
 
 							<v-divider />
 
 							<!-- List Added Task -->
 							<b-row v-for="(task, index) in listAddedTask" :key="index">
-								<b-col lg="12" md="12" sm="12" class="text-center">
-									<v-btn block>
-										<span>{{ `Task ${index + 1}` }}</span>
-									</v-btn>
+								<b-col lg="12" md="12" sm="12" class="text-left">
+									<i class="fas fa-tasks mr-3" />
+									<span class="font-weight-bold">{{ `TASK ${index + 1}` }}</span>
+								</b-col>
+
+								<b-col cols="12">
+									<v-divider />
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>Task Name: {{ task.task_name }}</span>
+									<span>{{ $t('TASK_MANAGEMENT.TASK_NAME') }}</span>
+									<span>{{ task.task_name }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>Date: {{ task.date }}</span>
+									<span>{{ $t('SCHEDULE_MANAGEMENT.DATE') }}</span>
+									<span>{{ task.date }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>Start Time: {{ task.start_time }}</span>
+									<span>{{ $t('SCHEDULE_MANAGEMENT.START_TIME') }}</span>
+									<span>{{ task.start_time }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>End Time: {{ task.end_time }}</span>
+									<span>{{ $t('SCHEDULE_MANAGEMENT.END_TIME') }}</span>
+									<span>{{ task.end_time }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>Building: {{ task.building }}</span>
+									<span>{{ $t('ROOM_MANAGEMENT.BUILDING') }}</span>
+									<span>{{ task.building }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>Level: {{ task.level }}</span>
+									<span>{{ $t('ROOM_MANAGEMENT.LEVEL') }}</span>
+									<span>{{ task.level }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="6">
-									<span>Room: {{ task.room }}</span>
+									<span>{{ $t('ROOM_MANAGEMENT.ROOM_NUMBER') }}</span>
+									<span>{{ task.room }}</span>
 								</b-col>
 							</b-row>
 
@@ -531,7 +550,9 @@ import { getAllContract } from '@/api/modules/contract';
 
 import { convertFromIDToName } from '@/utils/convertFromIdToName';
 
-// import { MakeToast } from '@/utils/MakeToast';
+import { MakeToast } from '@/utils/MakeToast';
+
+import { validateAddNewTask } from './validationAddNewTask';
 
 const urlAPI = {
     apiGetAllBuilding: '/building/list',
@@ -680,7 +701,7 @@ export default {
                 { text: this.$t('SCHEDULE_MANAGEMENT.CONTRACT_TYPE'), sortable: false, value: 'contract_id' },
                 { text: this.$t('SCHEDULE_MANAGEMENT.DEPARTMENT'), sortable: false, value: 'department_id' },
                 { text: this.$t('BUTTON.SCHEDULE_DETAIL'), sortable: false, value: 'schedule_detail_action' },
-                { text: this.$t('BUTTON.ASSIGN_NEW_TASK'), sortable: false, value: 'assign_new_task_action' },
+                { text: this.$t('BUTTON.ASSIGN_TASK'), sortable: false, value: 'assign_new_task_action' },
             ],
 
             overlay: {
@@ -750,7 +771,7 @@ export default {
         },
 
         addNewTaskInAssignedList() {
-            this.listAddedTask.push({
+            const DATA = {
                 id: this.listAddedTask.length + 1,
                 task_name: this.schedule.task.task_name,
                 date: this.schedule.time.date,
@@ -759,7 +780,25 @@ export default {
                 building: this.schedule.work_place.building,
                 level: this.schedule.work_place.level,
                 room: this.schedule.work_place.room,
-            });
+            };
+
+            if (validateAddNewTask(DATA) === true) {
+                this.listAddedTask.push(DATA);
+
+                MakeToast({
+                    variant: 'success',
+                    title: this.$t('TOAST.TITLE.SUCCESS'),
+                    content: this.$t('TOAST.CONTENT.SCHEDULE_MANAGEMENT.ADD_NEW_TASK_SUCCESS'),
+                });
+            }
+
+            this.schedule.task.task_name = null;
+            this.schedule.time.date = '';
+            this.schedule.time.start_time = '';
+            this.schedule.time.end_time = '';
+            this.schedule.work_place.building = null;
+            this.schedule.work_place.level = null;
+            this.schedule.work_place.room = null;
         },
 
         removeTaskFromAssignedList(index) {
@@ -906,8 +945,16 @@ export default {
         },
 
         async openAssignNewTaskDialog(id) {
-            console.log(id);
+            this.schedule.task.task_name = null;
+            this.schedule.time.date = '';
+            this.schedule.time.start_time = '';
+            this.schedule.time.end_time = '';
+            this.schedule.work_place.building = null;
+            this.schedule.work_place.level = null;
+            this.schedule.work_place.room = null;
+
             await this.getDetailUserInformation(id);
+
             this.assignNewTaskDialog = true;
         },
     },
