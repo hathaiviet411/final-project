@@ -477,6 +477,8 @@ import { getAllContract } from '@/api/modules/contract';
 
 import { getAllDepartment } from '@/api/modules/department';
 
+import { createSchedule } from '@/api/modules/schedule';
+
 import { MakeToast } from '@/utils/MakeToast';
 
 import { convertFromIDToName } from '@/utils/convertFromIdToName';
@@ -494,6 +496,7 @@ const urlAPI = {
     apiCreateUser: '/users/create',
     apiUpdateUser: '/users/update/',
     apiDeleteUser: '/users/delete/',
+    apiCreateSchedule: '/schedule-management/create',
 };
 
 import defaultAvatar from '@/assets/images/defaultAvatar.png';
@@ -752,6 +755,16 @@ export default {
                         title: this.$t('TOAST.TITLE.SUCCESS'),
                         content: this.$t('TOAST.CONTENT.STAFF_MANAGEMENT.CREATE_STAFF_SUCCESS'),
                     });
+
+                    const SCHEDULE_DATA = {
+                        user_id: null,
+                        user_name: this.user.user_name,
+                        contract_type: this.user.contract_type,
+                        department_id: this.user.department_id,
+                        schedules: [],
+                    };
+
+                    await createSchedule(urlAPI.apiCreateSchedule, SCHEDULE_DATA);
                 }
             } catch (error) {
                 MakeToast({
