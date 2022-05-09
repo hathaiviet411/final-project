@@ -71,8 +71,8 @@ class ScheduleController extends Controller
    */
   public function index(ScheduleRequest $request)
   {
-    $data = $this->scheduleRepository->paginate($request->per_page);
-    return $this->responseJson(200, BaseResource::collection($data));
+    $schedule = $this->scheduleRepository->getPagination($request);
+    return $this->responseJson(200, ScheduleResource::collection($schedule));
   }
 
   /**
@@ -101,10 +101,11 @@ class ScheduleController extends Controller
   public function store(ScheduleRequest $request)
   {
     try {
-      $data = $this->scheduleRepository->create($request->all());
-      return $this->responseJson(200, new ScheduleResource($data));
+      $this->scheduleRepository->create($request->all());
+      return $this->responseJson(201, null, 'Create schedule successfully !');
     } catch (\Exception $e) {
       throw $e;
+      return $this->responseJson(500, null, 'Create schedule failed !');
     }
   }
 
@@ -147,10 +148,11 @@ class ScheduleController extends Controller
   public function show($id)
   {
     try {
-      $department = $this->scheduleRepository->find($id);
-      return $this->responseJson(200, new BaseResource($department));
+      $room = $this->scheduleRepository->getOne($id);
+      return $this->responseJson(200, new ScheduleResource($room));
     } catch (\Exception $e) {
       throw $e;
+      return $this->responseJson(500, null, 'Get detail schedule failed !');
     }
   }
 

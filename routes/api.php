@@ -73,9 +73,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     });
 
     Route::group(['prefix' => 'schedule-management'], function () {
-      // Route::get('list', 'ScheduleController@index');
+      Route::get('list', 'ScheduleController@index');
       Route::post('create', 'ScheduleController@store');
-      // Route::get('detail/{id}', 'ScheduleController@show');
+      Route::get('detail/{id}', 'ScheduleController@show');
       // Route::put('update/{id}', 'ScheduleController@update');
       // Route::delete('delete/{id}', 'ScheduleController@destroy');
     });

@@ -34,18 +34,36 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
     return Schedule::class;
   }
 
+  public function getAll()
+  {
+      return $this->model->select('*')->get();
+  }
+
+  public function getPagination(ScheduleRequest $request)
+  {   
+      $result = $this->paginate($request->per_page);
+      return $result;
+  }
+
   public function create(array $attribute)
   {
     $status = DB::transaction(function () use ($attribute) {
       $this->model->create([
-        'task_name' => $attribute['task_name'],
-        'task_description' => $attribute['task_description'],
-        'required_position' => $attribute['required_position'],
-        'required_contract_type' => $attribute['required_contract_type'],
+        'user_id' => $attribute['user_id'],
+        'user_name' => $attribute['user_name'],
+        'contract_type' => $attribute['contract_type'],
+        'department_id' => $attribute['department_id'],
+        'schedules' => json_encode($attribute['schedules']),
         'created_by' => Auth::id(),
       ]);
     });
 
     return $status;
+  }
+
+  public function getOne($id)
+  {
+      $room = $this->model->find($id);
+      return $room;
   }
 }

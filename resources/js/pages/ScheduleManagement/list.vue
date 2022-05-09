@@ -521,10 +521,10 @@
 								</v-col>
 
 								<v-col cols="6" class="text-center">
-									<v-btn class="primary-btn" @click="doRegisterSchedule()">
+									<!-- <v-btn class="primary-btn" @click="doRegisterSchedule()">
 										<v-icon left>fas fa-plus-circle</v-icon>
 										<span>{{ $t('BUTTON.SAVE') }}</span>
-									</v-btn>
+									</v-btn> -->
 								</v-col>
 							</v-row>
 						</v-card-actions>
@@ -548,6 +548,8 @@ import { getAllPosition } from '@/api/modules/position';
 
 import { getAllContract } from '@/api/modules/contract';
 
+import { getAllSchedule, getOneSchedule, createSchedule } from '@/api/modules/schedule';
+
 import { convertFromIDToName } from '@/utils/convertFromIdToName';
 
 import { MakeToast } from '@/utils/MakeToast';
@@ -562,6 +564,9 @@ const urlAPI = {
     apiGetOneUser: '/users/detail/',
     apiGetAllDepartment: '/department/list',
     apiGetAllTask: '/task/all',
+    apiGetAllSchedule: '/schedule-management/list',
+    apiGetOneSchedule: '/schedule-management/detail',
+    apiCreateSchedule: '/schedule-management/create',
 };
 
 export default {
@@ -622,6 +627,7 @@ export default {
 
             schedule: {
                 user: {
+                    user_id: '',
                     user_name: '',
                     role: '',
                     position: '',
@@ -728,6 +734,7 @@ export default {
 
     methods: {
         async getScheduleManagementData() {
+            await this.getListSchedule();
             await this.getListBuilding();
             await this.getListUser();
             await this.getListDepartment();
@@ -737,9 +744,29 @@ export default {
             await this.getContractType();
         },
 
-        async getListBuilding() {
+        async getListSchedule() {
             this.overlay.show = true;
 
+            try {
+                const response = await getAllSchedule(urlAPI.apiGetAllSchedule);
+
+                if (response.code === 200) {
+                    console.log(response);
+                    // this.ListBuilding = response.data;
+
+                    // for (let i = 0; i < response.data.length; i++) {
+                    //     this.buildings.push({
+                    //         text: response.data[i].building_name,
+                    //         value: response.data[i].id,
+                    //     });
+                    // }
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async getListBuilding() {
             try {
                 const response = await getAllBuilding(urlAPI.apiGetAllBuilding);
 
@@ -790,15 +817,15 @@ export default {
                     title: this.$t('TOAST.TITLE.SUCCESS'),
                     content: this.$t('TOAST.CONTENT.SCHEDULE_MANAGEMENT.ADD_NEW_TASK_SUCCESS'),
                 });
-            }
 
-            this.schedule.task.task_name = null;
-            this.schedule.time.date = '';
-            this.schedule.time.start_time = '';
-            this.schedule.time.end_time = '';
-            this.schedule.work_place.building = null;
-            this.schedule.work_place.level = null;
-            this.schedule.work_place.room = null;
+                this.schedule.task.task_name = null;
+                this.schedule.time.date = '';
+                this.schedule.time.start_time = '';
+                this.schedule.time.end_time = '';
+                this.schedule.work_place.building = null;
+                this.schedule.work_place.level = null;
+                this.schedule.work_place.room = null;
+            }
         },
 
         removeTaskFromAssignedList(index) {
@@ -847,6 +874,7 @@ export default {
                 const response = await getAllUser(`${urlAPI.apiGetOneUser}${user_id}`);
 
                 if (response.code === 200) {
+                    this.schedule.user.user_id = response.data.id;
                     this.schedule.user.user_name = response.data.user_name;
                     this.schedule.user.role = response.data.roles[0].id;
                     this.schedule.user.position = response.data.position_id;
@@ -941,7 +969,6 @@ export default {
 
         openScheduleDetailDialog(id) {
             this.detailScheduleDialog = true;
-            console.log(id);
         },
 
         async openAssignNewTaskDialog(id) {
@@ -956,6 +983,42 @@ export default {
             await this.getDetailUserInformation(id);
 
             this.assignNewTaskDialog = true;
+        },
+
+        async doRegisterSchedule() {
+            const DATA = {
+                user_id: this.schedule.user.user_id,
+                user_name: this.schedule.user.user_name,
+                contract_type: this.schedule.user.contract_type,
+                department_id: this.schedule.user.department,
+                schedules: this.listAddedTask,
+            };
+
+            try {
+                const response = await createSchedule(urlAPI.apiCreateSchedule, DATA);
+
+                if (response.code === 201) {
+                    MakeToast({
+                        variant: 'success',
+                        title: this.$t('TOAST.TITLE.SUCCESS'),
+                        content: this.$t('TOAST.CONTENT.SCHEDULE_MANAGEMENT.CREATE_SCHEDULE_SUCCESS'),
+                    });
+
+                    this.assignNewTaskDialog = false;
+                } else {
+                    MakeToast({
+                        variant: 'warning',
+                        title: this.$t('TOAST.TITLE.WARNING'),
+                        content: this.$t('TOAST.CONTENT.SCHEDULE_MANAGEMENT.CREATE_SCHEDULE_FAILED'),
+                    });
+
+                    this.assignNewTaskDialog = false;
+                }
+            } catch (error) {
+                console.log(error);
+
+                this.assignNewTaskDialog = false;
+            }
         },
     },
 };

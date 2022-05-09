@@ -16,6 +16,16 @@ class ScheduleResource extends BaseResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+          'contract_type' => $this->contract_type,
+          'created_at' => $this->created_at,
+          'deleted_at' => $this->deleted_at,
+          'department_id' => $this->department_id,
+          'id' => $this->id,
+          'schedules' => json_decode($this->schedules),
+          'updated_at' =>  $this->updated_at,
+          'user_id' =>  $this->user_id,
+          'user_name' =>  $this->user_name,
+          ];
     }
 }

@@ -17,7 +17,13 @@ class Schedule extends Model
 
     protected $table = 'schedules';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'user_id',
+        'user_name',
+        'contract_type',
+        'department_id',
+        'schedules',
+    ];
 
     protected $dates = ['deleted_at'];
 

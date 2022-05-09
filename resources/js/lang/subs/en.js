@@ -89,12 +89,12 @@ export default {
             },
 
             SCHEDULE_MANAGEMENT: {
-                REQUIRED_TASK_NAME: 'Please enter task name.',
+                REQUIRED_TASK_NAME: 'Please select task name.',
                 REQUIRED_START_DATE: 'Please enter start date.',
                 REQUIRED_START_TIME: 'Please enter start time.',
                 REQUIRED_END_TIME: 'Please enter end time.',
-                REQUIRED_BUILDING: 'Please enter building.',
-                REQUIRED_ROOM: 'Please enter room.',
+                REQUIRED_BUILDING: 'Please select building.',
+                REQUIRED_ROOM: 'Please select room.',
                 ADD_NEW_TASK_SUCCESS: 'Add new task successfully.',
             },
 
