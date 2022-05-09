@@ -322,50 +322,90 @@
 								<b-col lg="12" md="12" sm="12" class="text-left">
 									<i class="fas fa-tasks mr-3" />
 									<span class="font-weight-bold">{{ `TASK ${index + 1}` }}</span>
+									<i class="far fa-minus-square text-danger float-right" @click="removeTaskFromAssignedList(index)" />
 								</b-col>
 
 								<v-divider />
 
-								<b-col lg="3" md="4" sm="6">
-									<span>{{ $t('TASK_MANAGEMENT.TASK_NAME') }}</span>
-									<span>{{ task.task_name }}</span>
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('TASK_MANAGEMENT.TASK_NAME') }}:</span>
+									<span>{{ convertFromIDToName(task.task_name, tasks) }}</span>
 								</b-col>
 
-								<b-col lg="3" md="4" sm="6">
-									<span>{{ $t('SCHEDULE_MANAGEMENT.DATE') }}</span>
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.DATE') }}:</span>
 									<span>{{ task.date }}</span>
 								</b-col>
 
-								<b-col lg="3" md="4" sm="6">
-									<span>{{ $t('SCHEDULE_MANAGEMENT.START_TIME') }}</span>
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.START_TIME') }}:</span>
 									<span>{{ task.start_time }}</span>
 								</b-col>
 
-								<b-col lg="3" md="4" sm="6">
-									<span>{{ $t('SCHEDULE_MANAGEMENT.END_TIME') }}</span>
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.END_TIME') }}:</span>
 									<span>{{ task.end_time }}</span>
 								</b-col>
 
-								<b-col lg="3" md="4" sm="6">
-									<span>{{ $t('ROOM_MANAGEMENT.BUILDING') }}</span>
-									<span>{{ task.building }}</span>
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('ROOM_MANAGEMENT.BUILDING') }}:</span>
+									<span>{{ convertFromIDToName(task.building, buildings) }}</span>
 								</b-col>
 
-								<b-col lg="3" md="4" sm="6">
-									<span>{{ $t('ROOM_MANAGEMENT.LEVEL') }}</span>
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('ROOM_MANAGEMENT.LEVEL') }}:</span>
 									<span>{{ task.level }}</span>
 								</b-col>
 
-								<b-col lg="3" md="4" sm="6">
-									<span>{{ $t('ROOM_MANAGEMENT.ROOM_NUMBER') }}</span>
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('ROOM_MANAGEMENT.ROOM_NUMBER') }}:</span>
 									<span>{{ task.room }}</span>
 								</b-col>
 
-								<b-col lg="12" md="10" sm="10">
-									<v-btn class="danger-btn" @click="removeTaskFromAssignedList(index)">
-										<i class="far fa-minus-square mr-3" />
-										<span>{{ $t('BUTTON.REMOVE_TASK') }}</span>
-									</v-btn>
+								<b-col lg="12" md="12" sm="12" class="text-left">
+									<span class="font-weight-bold">{{ $t('SCHEDULE_MANAGEMENT.LOG_TIME') }}</span>
+								</b-col>
+
+								<v-divider />
+
+								<b-col cols="6">
+									<v-select
+										v-model="schedule.log_time.status"
+										:items="taskStatus"
+										:label="$t('SCHEDULE_MANAGEMENT.TASK_STATUS.TITLE')"
+										outlined
+										@input="getTaskInfo()"
+									/>
+								</b-col>
+
+								<b-col cols="6">
+									<v-select
+										v-model="schedule.log_time.approve"
+										:items="approveStatus"
+										:label="$t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.TITLE')"
+										outlined
+										@input="getTaskInfo()"
+									/>
+								</b-col>
+
+								<b-col cols="12">
+									<v-text-field
+										v-model="schedule.log_time.spent_time"
+										outlined
+										type="number"
+										min="0"
+										max="24"
+										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
+										:label="$t('SCHEDULE_MANAGEMENT.SPENT_TIME')"
+									/>
+								</b-col>
+
+								<b-col v-if="schedule.log_time.status === 3" cols="12">
+									<v-text-field
+										v-model="schedule.log_time.remark"
+										outlined
+										:label="$t('SCHEDULE_MANAGEMENT.REMARK')"
+									/>
 								</b-col>
 							</b-row>
 
@@ -612,9 +652,11 @@ export default {
 
             taskStatus: [
                 { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
-                { value: 1, text: this.$t('SCHEDULE_MANAGEMENT.TASK_STATUS.IN_PROGRESS') },
-                { value: 2, text: this.$t('SCHEDULE_MANAGEMENT.TASK_STATUS.COMPLETED') },
-                { value: 3, text: this.$t('SCHEDULE_MANAGEMENT.TASK_STATUS.FEEDBACK') },
+                { value: 1, text: this.$t('SCHEDULE_MANAGEMENT.TASK_STATUS.PENDING') },
+                { value: 2, text: this.$t('SCHEDULE_MANAGEMENT.TASK_STATUS.IN_PROGRESS') },
+                { value: 3, text: this.$t('SCHEDULE_MANAGEMENT.TASK_STATUS.COMPLETED') },
+                { value: 4, text: this.$t('SCHEDULE_MANAGEMENT.TASK_STATUS.FEEDBACK') },
+                { value: 5, text: this.$t('SCHEDULE_MANAGEMENT.TASK_STATUS.ABORTED') },
             ],
 
             approveStatus: [
@@ -1048,6 +1090,10 @@ export default {
         text-align: center !important;
       }
     }
+  }
+
+  .fa-minus-square:hover {
+      cursor: pointer;
   }
 
   @media (max-width: 768px) {

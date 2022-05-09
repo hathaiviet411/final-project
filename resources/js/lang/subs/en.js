@@ -89,6 +89,8 @@ export default {
             },
 
             SCHEDULE_MANAGEMENT: {
+                CREATE_SCHEDULE_SUCCESS: 'Create schedule successfully.',
+                CREATE_SCHEDULE_FAILED: 'Create schedule failed.',
                 REQUIRED_TASK_NAME: 'Please select task name.',
                 REQUIRED_START_DATE: 'Please enter start date.',
                 REQUIRED_START_TIME: 'Please enter start time.',
@@ -151,13 +153,15 @@ export default {
         REMARK: 'Remark',
         TASK_STATUS: {
             TITLE: 'Task Status',
+            PENDING: 'Pending',
             IN_PROGRESS: 'In Progress',
             COMPLETED: 'Completed',
             FEEDBACK: 'Feedback',
+            ABORTED: 'Aborted',
         },
         SPENT_TIME: 'Spent Time',
         LIST_ASSIGNED_TASK: 'List Assigned Task',
-        DATE: 'Date',
+        DATE: 'Start Date',
     },
 
     DEPARTMENT_MANAGEMENT: {

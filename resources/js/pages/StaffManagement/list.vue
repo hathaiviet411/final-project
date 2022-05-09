@@ -134,6 +134,7 @@
 									<v-text-field
 										v-model="user.email"
 										:label="$t('STAFF_MANAGEMENT.EMAIL')"
+										:rules="[rules.email]"
 										outlined
 									/>
 								</v-col>
@@ -194,7 +195,7 @@
 									/>
 								</v-col>
 
-								<v-col cols="12">
+								<v-col cols="6">
 									<v-select
 										v-model="user.role_id"
 										:items="RoleList"
@@ -204,7 +205,7 @@
 									/>
 								</v-col>
 
-								<v-col cols="12">
+								<v-col cols="6">
 									<v-select
 										v-model="user.department_id"
 										:items="DepartmentList"
@@ -516,6 +517,13 @@ export default {
                 rounded: 'sm',
             },
 
+            rules: {
+                email: value => {
+                    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return pattern.test(value) || 'Invalid email address.';
+                },
+            },
+
             defaultAvatar,
 
             convertFromIDToName: convertFromIDToName,
@@ -759,7 +767,7 @@ export default {
                     const SCHEDULE_DATA = {
                         user_id: null,
                         user_name: this.user.user_name,
-                        contract_type: this.user.contract_type,
+                        contract_type: this.user.contract_id,
                         department_id: this.user.department_id,
                         schedules: [],
                     };

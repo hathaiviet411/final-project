@@ -89,6 +89,8 @@ export default {
             },
 
             SCHEDULE_MANAGEMENT: {
+                CREATE_SCHEDULE_SUCCESS: 'Thêm lịch thành công.',
+                CREATE_SCHEDULE_FAILED: 'Thêm lịch thất bại.',
                 REQUIRED_TASK_NAME: 'Vui lòng chọn tên công việc.',
                 REQUIRED_START_DATE: 'Vui lòng nhập ngày bắt đầu.',
                 REQUIRED_START_TIME: 'Vui lòng nhập thời gian bắt đầu.',
@@ -151,13 +153,15 @@ export default {
         REMARK: 'Ghi chú',
         TASK_STATUS: {
             TITLE: 'Trạng thái công việc',
+            PENDING: 'Chờ xử lí',
             IN_PROGRESS: 'Đang làm',
             COMPLETED: 'Đã hoàn thành',
             FEEDBACK: 'Phản hồi',
+            ABORTED: 'Đã hủy',
         },
         SPENT_TIME: 'Thời gian làm việc',
         LIST_ASSIGNED_TASK: 'Danh sách công việc được giao',
-        DATE: 'Ngày',
+        DATE: 'Ngày bắt đầu',
     },
 
     DEPARTMENT_MANAGEMENT: {

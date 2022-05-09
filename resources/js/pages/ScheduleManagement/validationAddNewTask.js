@@ -12,14 +12,6 @@ export function validateAddNewTask(DATA = {}) {
             title: i18n.t('TOAST.TITLE.WARNING'),
             content: i18n.t('TOAST.CONTENT.SCHEDULE_MANAGEMENT.REQUIRED_BUILDING'),
         });
-    } else if (DATA.room === null) {
-        isPassValidation = false;
-
-        MakeToast({
-            variant: 'warning',
-            title: i18n.t('TOAST.TITLE.WARNING'),
-            content: i18n.t('TOAST.CONTENT.SCHEDULE_MANAGEMENT.REQUIRED_ROOM'),
-        });
     } else if (DATA.task_name === null) {
         isPassValidation = false;
 
