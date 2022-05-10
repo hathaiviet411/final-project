@@ -168,6 +168,11 @@ export default {
         MINUTE: 'Phút',
         MINUTES: 'Phút',
         INVALID_TIME: 'Thời gian không hợp lệ',
+        FILTER: {
+            DEPARTMENT: 'Bộ phận',
+            POSITION: 'Chức vụ',
+            CONTRACT_TYPE: 'Loại hợp đồng',
+        },
     },
 
     DEPARTMENT_MANAGEMENT: {

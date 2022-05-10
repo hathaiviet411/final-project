@@ -21,6 +21,59 @@
 							<v-card-title>
 								<b-row>
 									<b-col cols="12">
+										<vHeaderFilter class="mt-3 filter-area">
+											<template #zone-filter>
+												<b-row>
+													<b-col cols="12">
+														<span style="font-size: 16px !important;" class="text-underline cursor-pointer text-bold" @click="doClearFilter()">{{ $t('BUTTON.CLEAR_ALL') }}</span>
+													</b-col>
+												</b-row>
+
+												<b-row>
+													<!-- Department -->
+													<b-col cols="12" class="mt-1">
+														<vSelectGroup
+															v-model="filter.department.value"
+															:text-prepend="$t('SCHEDULE_MANAGEMENT.FILTER.DEPARTMENT')"
+															:is-check="filter.department.status"
+															:data-options="departments"
+														/>
+													</b-col>
+
+													<!-- Position -->
+													<b-col cols="12" class="mt-1">
+														<vSelectGroup
+															v-model="filter.position.value"
+															:text-prepend="$t('SCHEDULE_MANAGEMENT.FILTER.POSITION')"
+															:is-check="filter.position.status"
+															:data-options="positions"
+														/>
+													</b-col>
+
+													<!-- Contract Type -->
+													<b-col cols="12" class="mt-1">
+														<vSelectGroup
+															v-model="filter.contract_type.value"
+															:text-prepend="$t('SCHEDULE_MANAGEMENT.FILTER.CONTRACT_TYPE')"
+															:is-check="filter.contract_type.status"
+															:data-options="contract_type"
+														/>
+													</b-col>
+												</b-row>
+
+												<b-row class="my-3">
+													<b-col cols="12">
+														<v-btn class="primary-btn" @click="doApplyFilter()">
+															<i class="fas fa-filter mr-3 text-white" />
+															<span>{{ $t('BUTTON.APPLY') }}</span>
+														</v-btn>
+													</b-col>
+												</b-row>
+											</template>
+										</vHeaderFilter>
+									</b-col>
+
+									<b-col cols="12">
 										<v-text-field
 											v-model="search"
 											append-icon="mdi-magnify"
@@ -64,8 +117,8 @@
 										<span>{{ convertFromIDToName(item.position_id, positions) }}</span>
 									</template>
 
-									<template #[`item.contract_id`]="{ item }">
-										<span>{{ convertFromIDToName(item.contract_id, contract_type) }}</span>
+									<template #[`item.contract_type`]="{ item }">
+										<span>{{ convertFromIDToName(item.contract_type, contract_type) }}</span>
 									</template>
 								</v-data-table>
 							</v-card-text>
@@ -675,6 +728,14 @@ import { MakeToast } from '@/utils/MakeToast';
 
 import { validateAddNewTask } from './validationAddNewTask';
 
+import { cleanObj } from '@/utils/handleObj';
+
+import { obj2Path } from '@/utils/obj2Path';
+
+import vHeaderFilter from '@/components/atoms/vHeaderFilter';
+
+import vSelectGroup from '@/components/atoms/vSelectGroup';
+
 const urlAPI = {
     apiGetAllBuilding: '/building/list',
     apiGetAllPosition: '/position/list',
@@ -688,6 +749,10 @@ const urlAPI = {
 
 export default {
     name: 'ScheduleManagementList',
+    components: {
+        vHeaderFilter,
+        vSelectGroup,
+    },
     data() {
         return {
             roles: [
@@ -743,6 +808,21 @@ export default {
 
             ScheduleList: [],
 
+            filter: {
+                department: {
+                    status: false,
+                    value: null,
+                },
+                position: {
+                    status: false,
+                    value: null,
+                },
+                contract_type: {
+                    status: false,
+                    value: null,
+                },
+            },
+
             schedule: {
                 user: {
                     user_id: '',
@@ -783,6 +863,11 @@ export default {
                     remark: '',
                     approve: 1,
                 },
+            },
+
+            filterQuery: {
+                order_column: '',
+                order_type: '',
             },
 
             convertFromIDToName: convertFromIDToName,
@@ -844,19 +929,36 @@ export default {
     methods: {
         async getScheduleManagementData() {
             await this.getListSchedule();
+
+            this.overlay.show = true;
+
             await this.getListBuilding();
             await this.getListDepartment();
             await this.getListDepartment();
             await this.getListTask();
             await this.getPositionList();
             await this.getContractType();
+
+            this.overlay.show = false;
         },
 
         async getListSchedule() {
             this.overlay.show = true;
 
             try {
-                const response = await getAllSchedule(urlAPI.apiGetAllSchedule);
+                let QUERY = {
+                    department: this.filter.department.value,
+                    position: this.filter.position.value,
+                    contract: this.filter.contract_type.value,
+                    sortby: this.filterQuery['order_column'],
+                    sorttype: this.filterQuery['order_type'],
+                };
+
+                QUERY = cleanObj(QUERY);
+
+                const URL = `${urlAPI.apiGetAllSchedule}?${obj2Path(QUERY)}`;
+
+                const response = await getAllSchedule(URL);
 
                 if (response.code === 200) {
                     this.ScheduleList = response.data;
@@ -864,6 +966,8 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+
+            this.overlay.show = false;
         },
 
         async getListBuilding() {
@@ -1045,8 +1149,6 @@ export default {
             } catch (error) {
                 console.log(error);
             }
-
-            this.overlay.show = false;
         },
 
         openScheduleDetailDialog(id) {
@@ -1122,6 +1224,27 @@ export default {
             }
 
             this.listAddedTask = [];
+        },
+
+        doApplyFilter() {
+            this.getListSchedule();
+        },
+
+        doClearFilter() {
+            this.filter = {
+                department: {
+                    status: false,
+                    value: null,
+                },
+                position: {
+                    status: false,
+                    value: null,
+                },
+                contract_type: {
+                    status: false,
+                    value: null,
+                },
+            };
         },
     },
 };

@@ -1,16 +1,16 @@
 <template>
 	<b-input-group>
 		<b-input-group-prepend is-text>
-			<input v-model="isChecked" class="chk_filter" type="checkbox">
+			<b-form-checkbox v-model="isChecked" size="lg" class="chk_filter" :dusk="id" />
 		</b-input-group-prepend>
 		<b-input-group-prepend is-text>
-			<span style="min-width: 125px;">{{ textPrepend }}</span>
+			<span :class="labelClass" style="min-width: 125px;">{{ textPrepend }}</span>
 		</b-input-group-prepend>
 		<vSelect
 			:id="id"
 			v-model="data"
 			:name="name"
-			:class="className"
+			:class="[className, 'filter-select']"
 			:style="styleEl"
 			:data-options="dataOptions"
 			:placeholder="placeholder"
@@ -44,7 +44,7 @@ export default {
             default: '',
         },
         value: {
-            type: [String, Number],
+            type: [String, Number, Array, Object],
             require: true,
             default: null,
         },
@@ -79,6 +79,13 @@ export default {
                 return [
                     { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
                 ];
+            },
+        },
+        labelClass: {
+            type: String,
+            require: false,
+            default: function() {
+                return 'label-text-class';
             },
         },
     },
@@ -130,3 +137,9 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+    .filter-select {
+        min-height: 44px !important;
+    }
+</style>

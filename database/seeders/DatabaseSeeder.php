@@ -25,5 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PositionSeeder::class);
         $this->call(ContractSeeder::class);
         $this->call(RoomSeeder::class);
+        $this->call(ScheduleSeeder::class);
     }
 }

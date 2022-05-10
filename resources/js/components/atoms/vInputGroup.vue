@@ -1,17 +1,17 @@
 <template>
 	<b-input-group>
 		<b-input-group-prepend is-text>
-			<input v-model="isChecked" class="chk_filter" type="checkbox">
+			<b-form-checkbox v-model="isChecked" size="lg" class="chk_filter" :dusk="id" />
 		</b-input-group-prepend>
 		<b-input-group-prepend is-text>
-			<span style="min-width: 125px;">{{ textPrepend }}</span>
+			<span :class="labelClass" style="min-width: 125px;">{{ textPrepend }}</span>
 		</b-input-group-prepend>
 		<vInput
 			:id="id"
 			v-model="data"
 			:name="name"
 			:type="type"
-			:class="className"
+			:class="[className, 'filter-input']"
 			:style="styleEl"
 			:placeholder="placeholder"
 			:validate="validate"
@@ -86,6 +86,13 @@ export default {
                 return false;
             },
         },
+        labelClass: {
+            type: String,
+            require: false,
+            default: function() {
+                return 'label-text-class';
+            },
+        },
     },
     data() {
         return {
@@ -135,3 +142,9 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+    .filter-input {
+        min-height: 44px !important;
+    }
+</style>

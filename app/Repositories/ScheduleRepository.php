@@ -14,6 +14,7 @@ use Repository\BaseRepository;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 
 class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInterface
 {
@@ -29,6 +30,18 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
    * @param Schedule $model
    */
 
+  const SORT_BY = [
+    'department' => 'department',
+    'position' => 'position',
+    'contract' => 'contract',
+  ];
+
+  const SORT_TYPE = [
+    '0' => 'desc',
+    '1' => 'asc'
+  ];
+
+
   public function model()
   {
     return Schedule::class;
@@ -36,13 +49,45 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
 
   public function getAll()
   {
-      return $this->model->select('*')->get();
+    return $this->model->select('*')->get();
   }
 
   public function getPagination(ScheduleRequest $request)
-  {   
-      $result = $this->paginate($request->per_page);
-      return $result;
+  {
+    // $result = $this->paginate($request->per_page);
+    // return $result;
+
+    $query = $this->model;
+    $sorttype = Arr::get($request->all(), 'sorttype', null);
+    $sortby = Arr::get($request->all(), 'sortby', null);
+    $department = Arr::get($request->all(), 'department', null);
+    $position = Arr::get($request->all(), 'position', null);
+    $contract = Arr::get($request->all(), 'contract', null);
+    $sorted = false;
+
+    if (isset(self::SORT_BY[$sortby]) && isset(self::SORT_TYPE[$sorttype])) {
+      $query = $query->orderBy(self::SORT_BY[$sortby], self::SORT_TYPE[$sorttype]);
+      $sorted = true;
+    }
+
+    if ($department || $department === "0") {
+      $query = $query->where('department_id', 'like', "%{$department}%");
+    }
+
+    if ($position || $position === "0") {
+      $query = $query->where('position_id', 'like', "%{$position}%");
+    }
+
+    if ($contract || $contract === "0") {
+      $query = $query->where('contract_type', 'like', "%{$contract}%");
+    }
+
+    if ($sorted == false) {
+        $query = $query->orderBy('user_name', 'DESC');
+    }
+
+    $result = $query->paginate($request->per_page);
+    return $result;
   }
 
   public function create(array $attribute)
@@ -65,18 +110,18 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
 
   public function update(array $request, $id)
   {
-      $status = DB::transaction(function () use ($request, $id) {
-          $schedule = $this->model->where('id', $id)->first();
-          $schedule->schedules = $request['schedules'];
-          $schedule->save();
-      });
+    $status = DB::transaction(function () use ($request, $id) {
+      $schedule = $this->model->where('id', $id)->first();
+      $schedule->schedules = $request['schedules'];
+      $schedule->save();
+    });
 
-      return $status;
+    return $status;
   }
 
   public function getOne($id)
   {
-      $schedule = $this->model->find($id);
-      return $schedule;
+    $schedule = $this->model->find($id);
+    return $schedule;
   }
 }

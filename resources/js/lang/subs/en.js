@@ -168,6 +168,11 @@ export default {
         MINUTE: 'Minute',
         MINUTES: 'Minutes',
         INVALID_TIME: 'Invalid time',
+        FILTER: {
+            DEPARTMENT: 'Department',
+            POSITION: 'Position',
+            CONTRACT_TYPE: 'Contract Type',
+        },
     },
 
     DEPARTMENT_MANAGEMENT: {
