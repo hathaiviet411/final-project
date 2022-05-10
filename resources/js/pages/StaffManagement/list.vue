@@ -118,6 +118,7 @@
 										:label="$t('STAFF_MANAGEMENT.USER_CODE')"
 										outlined
 										type="number"
+										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
 									/>
 								</v-col>
 
@@ -143,7 +144,7 @@
 									<v-dialog
 										v-model="dialogSelectDOB"
 										:scrollable="false"
-										max-width="250"
+										max-width="350"
 									>
 										<template #activator="{ on, attrs }">
 											<v-text-field
@@ -161,7 +162,7 @@
 											show-current
 											:locale="language"
 											elevation="24"
-											width="250"
+											width="350"
 											color="green lighten-1"
 											@input="dialogSelectDOB = false"
 										/>
@@ -182,6 +183,7 @@
 										v-model="user.phone_number"
 										:label="$t('STAFF_MANAGEMENT.PHONE_NUMBER')"
 										outlined
+										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
 									/>
 								</v-col>
 
@@ -520,7 +522,7 @@ export default {
             rules: {
                 email: value => {
                     const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    return pattern.test(value) || 'Invalid email address.';
+                    return pattern.test(value) || this.$t('STAFF_MANAGEMENT.EMAIL_FORMAT_ERROR');
                 },
             },
 
@@ -769,6 +771,8 @@ export default {
                         user_name: this.user.user_name,
                         contract_type: this.user.contract_id,
                         department_id: this.user.department_id,
+                        position_id: this.user.position_id,
+                        role_id: this.user.role_id,
                         schedules: [],
                     };
 

@@ -12,9 +12,9 @@ export function createSchedule(url, data) {
     return RequestApi.postOne(url, data);
 }
 
-// export function updateSchedule(url, data) {
-//     return RequestApi.putOne(url, data);
-// }
+export function updateSchedule(url, data) {
+    return RequestApi.putOne(url, data);
+}
 
 // export function deleteSchedule(url, Schedule_id) {
 //     return RequestApi.deleteOne(url, Schedule_id);

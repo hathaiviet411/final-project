@@ -22,6 +22,8 @@ class Schedule extends Model
         'user_name',
         'contract_type',
         'department_id',
+        'position_id',
+        'role_id',
         'schedules',
     ];
 

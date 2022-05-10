@@ -53,6 +53,8 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
         'user_name' => $attribute['user_name'],
         'contract_type' => $attribute['contract_type'],
         'department_id' => $attribute['department_id'],
+        'position_id' => $attribute['position_id'],
+        'role_id' => $attribute['role_id'],
         'schedules' => json_encode($attribute['schedules']),
         'created_by' => Auth::id(),
       ]);
@@ -61,9 +63,20 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
     return $status;
   }
 
+  public function update(array $request, $id)
+  {
+      $status = DB::transaction(function () use ($request, $id) {
+          $schedule = $this->model->where('id', $id)->first();
+          $schedule->schedules = $request['schedules'];
+          $schedule->save();
+      });
+
+      return $status;
+  }
+
   public function getOne($id)
   {
-      $room = $this->model->find($id);
-      return $room;
+      $schedule = $this->model->find($id);
+      return $schedule;
   }
 }

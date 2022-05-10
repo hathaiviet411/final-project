@@ -89,8 +89,8 @@ export default {
             },
 
             SCHEDULE_MANAGEMENT: {
-                CREATE_SCHEDULE_SUCCESS: 'Thêm lịch thành công.',
-                CREATE_SCHEDULE_FAILED: 'Thêm lịch thất bại.',
+                UPDATE_SCHEDULE_SUCCESS: 'Cập nhật lịch thành công.',
+                UPDATE_SCHEDULE_FAILED: 'Cập nhật lịch thất bại.',
                 REQUIRED_TASK_NAME: 'Vui lòng chọn tên công việc.',
                 REQUIRED_START_DATE: 'Vui lòng nhập ngày bắt đầu.',
                 REQUIRED_START_TIME: 'Vui lòng nhập thời gian bắt đầu.',
@@ -160,8 +160,14 @@ export default {
             ABORTED: 'Đã hủy',
         },
         SPENT_TIME: 'Thời gian làm việc',
+        ESTIMATE_TIME: 'Thời gian dự kiến',
         LIST_ASSIGNED_TASK: 'Danh sách công việc được giao',
         DATE: 'Ngày bắt đầu',
+        HOUR: 'Giờ',
+        HOURS: 'Giờ',
+        MINUTE: 'Phút',
+        MINUTES: 'Phút',
+        INVALID_TIME: 'Thời gian không hợp lệ',
     },
 
     DEPARTMENT_MANAGEMENT: {
@@ -198,6 +204,7 @@ export default {
         DETAIL_STAFF: 'Chi tiết nhân viên',
         EDIT_STAFF: 'Chỉnh sửa thông tin nhân viên',
         DELETE_STAFF: 'Xoá nhân viên',
+        EMAIL_FORMAT_ERROR: 'Định dạng email không đúng',
     },
 
     POSITION: {

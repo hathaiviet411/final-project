@@ -18,7 +18,9 @@ class CreateSchedulesTable extends Migration
             $table->integer('user_id')->nullable();
             $table->string('user_name');
             $table->integer('contract_type');
+            $table->integer('role_id');
             $table->integer('department_id');
+            $table->integer('position_id');
             $table->json('schedules');
             $table->softDeletes();
             $table->timestamps();

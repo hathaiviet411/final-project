@@ -21,6 +21,8 @@ class ScheduleResource extends BaseResource
           'created_at' => $this->created_at,
           'deleted_at' => $this->deleted_at,
           'department_id' => $this->department_id,
+          'position_id' => $this->position_id,
+          'role_id' => $this->role_id,
           'id' => $this->id,
           'schedules' => json_decode($this->schedules),
           'updated_at' =>  $this->updated_at,

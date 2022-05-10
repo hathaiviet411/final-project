@@ -89,8 +89,8 @@ export default {
             },
 
             SCHEDULE_MANAGEMENT: {
-                CREATE_SCHEDULE_SUCCESS: 'Create schedule successfully.',
-                CREATE_SCHEDULE_FAILED: 'Create schedule failed.',
+                UPDATE_SCHEDULE_SUCCESS: 'Update schedule successfully.',
+                UPDATE_SCHEDULE_FAILED: 'Update schedule failed.',
                 REQUIRED_TASK_NAME: 'Please select task name.',
                 REQUIRED_START_DATE: 'Please enter start date.',
                 REQUIRED_START_TIME: 'Please enter start time.',
@@ -160,8 +160,14 @@ export default {
             ABORTED: 'Aborted',
         },
         SPENT_TIME: 'Spent Time',
+        ESTIMATE_TIME: 'Estimate Time',
         LIST_ASSIGNED_TASK: 'List Assigned Task',
         DATE: 'Start Date',
+        HOUR: 'Hour',
+        HOURS: 'Hours',
+        MINUTE: 'Minute',
+        MINUTES: 'Minutes',
+        INVALID_TIME: 'Invalid time',
     },
 
     DEPARTMENT_MANAGEMENT: {
@@ -198,6 +204,7 @@ export default {
         DETAIL_STAFF: 'Detail Staff',
         EDIT_STAFF: 'Edit Staff',
         DELETE_STAFF: 'Delete Staff',
+        EMAIL_FORMAT_ERROR: 'Email format is not correct.',
     },
 
     POSITION: {

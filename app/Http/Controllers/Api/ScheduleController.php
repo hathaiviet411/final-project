@@ -148,8 +148,8 @@ class ScheduleController extends Controller
   public function show($id)
   {
     try {
-      $room = $this->scheduleRepository->getOne($id);
-      return $this->responseJson(200, new ScheduleResource($room));
+      $schedule = $this->scheduleRepository->getOne($id);
+      return $this->responseJson(200, new ScheduleResource($schedule));
     } catch (\Exception $e) {
       throw $e;
       return $this->responseJson(500, null, 'Get detail schedule failed !');
@@ -207,9 +207,12 @@ class ScheduleController extends Controller
    */
   public function update(ScheduleRequest $request, $id)
   {
-    $attributes = $request->except([]);
-    $data = $this->scheduleRepository->update($attributes, $id);
-    return $this->responseJson(200, new BaseResource($data));
+    if (isset($request)) {
+      $this->scheduleRepository->update($request->all(), $id);
+      return $this->responseJson(200, null, 'Update schedule successfully !');
+    } else {
+      return $this->responseJson(403, null, 'Update schedule failed !');
+    }
   }
 
   /**

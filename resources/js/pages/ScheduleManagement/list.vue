@@ -196,7 +196,7 @@
 									<v-dialog
 										v-model="dialogSelectDate"
 										:scrollable="false"
-										max-width="250"
+										max-width="350"
 									>
 										<template #activator="{ on, attrs }">
 											<v-text-field
@@ -214,7 +214,7 @@
 											show-current
 											:locale="language"
 											elevation="24"
-											width="250"
+											width="350"
 											color="green lighten-1"
 											@input="dialogSelectDate = false"
 										/>
@@ -246,6 +246,9 @@
 											v-model="schedule.time.start_time"
 											:max="schedule.time.end_time"
 											width="300"
+											format="24hr"
+											scrollable
+											color="green lighten-1"
 										>
 											<v-row>
 												<v-col cols="12" class="text-right">
@@ -287,6 +290,9 @@
 											v-model="schedule.time.end_time"
 											:min="schedule.time.start_time"
 											width="300"
+											format="24hr"
+											color="green lighten-1"
+											scrollable
 										>
 											<v-row>
 												<v-col cols="12" class="text-right">
@@ -301,6 +307,84 @@
 											</v-row>
 										</v-time-picker>
 									</v-dialog>
+								</b-col>
+
+								<b-col lg="12" md="12" sm="12" class="text-left">
+									<span class="font-weight-bold">{{ $t('SCHEDULE_MANAGEMENT.LOG_TIME') }}</span>
+								</b-col>
+
+								<v-divider />
+
+								<b-col cols="6">
+									<v-select
+										v-model="schedule.log_time.status"
+										:items="taskStatus"
+										:label="$t('SCHEDULE_MANAGEMENT.TASK_STATUS.TITLE')"
+										outlined
+										@input="getTaskInfo()"
+									/>
+								</b-col>
+
+								<b-col cols="6">
+									<v-select
+										v-model="schedule.log_time.approve"
+										:items="approveStatus"
+										:label="$t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.TITLE')"
+										outlined
+										@input="getTaskInfo()"
+									/>
+								</b-col>
+
+								<b-col cols="6">
+									<v-text-field
+										v-model="schedule.log_time.estimate_time.hour"
+										outlined
+										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
+										:label="$t('SCHEDULE_MANAGEMENT.ESTIMATE_TIME')"
+										:suffix="schedule.log_time.estimate_time.hour <= 1 ? $t('SCHEDULE_MANAGEMENT.HOUR') : $t('SCHEDULE_MANAGEMENT.HOURS')"
+										:rules="[rules.workingHour]"
+									/>
+								</b-col>
+
+								<b-col cols="6">
+									<v-text-field
+										v-model="schedule.log_time.estimate_time.minute"
+										outlined
+										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
+										:label="$t('SCHEDULE_MANAGEMENT.ESTIMATE_TIME')"
+										:suffix="schedule.log_time.estimate_time.minute <= 1 ? $t('SCHEDULE_MANAGEMENT.MINUTE') : $t('SCHEDULE_MANAGEMENT.MINUTES')"
+										:rules="[rules.workingMinute]"
+									/>
+								</b-col>
+
+								<b-col cols="6">
+									<v-text-field
+										v-model="schedule.log_time.spent_time.hour"
+										outlined
+										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
+										:label="$t('SCHEDULE_MANAGEMENT.SPENT_TIME')"
+										:suffix="schedule.log_time.estimate_time.hour <= 1 ? $t('SCHEDULE_MANAGEMENT.HOUR') : $t('SCHEDULE_MANAGEMENT.HOURS')"
+										:rules="[rules.workingHour]"
+									/>
+								</b-col>
+
+								<b-col cols="6">
+									<v-text-field
+										v-model="schedule.log_time.spent_time.minute"
+										outlined
+										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
+										:label="$t('SCHEDULE_MANAGEMENT.SPENT_TIME')"
+										:suffix="schedule.log_time.estimate_time.minute <= 1 ? $t('SCHEDULE_MANAGEMENT.MINUTE') : $t('SCHEDULE_MANAGEMENT.MINUTES')"
+										:rules="[rules.workingMinute]"
+									/>
+								</b-col>
+
+								<b-col cols="12">
+									<v-text-field
+										v-model="schedule.log_time.remark"
+										outlined
+										:label="$t('SCHEDULE_MANAGEMENT.REMARK')"
+									/>
 								</b-col>
 							</b-row>
 
@@ -362,50 +446,29 @@
 									<span>{{ task.room }}</span>
 								</b-col>
 
-								<b-col lg="12" md="12" sm="12" class="text-left">
-									<span class="font-weight-bold">{{ $t('SCHEDULE_MANAGEMENT.LOG_TIME') }}</span>
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.TASK_STATUS.TITLE') }}:</span>
+									<span>{{ convertFromIDToName(task.task_status, taskStatus) }}</span>
 								</b-col>
 
-								<v-divider />
-
-								<b-col cols="6">
-									<v-select
-										v-model="schedule.log_time.status"
-										:items="taskStatus"
-										:label="$t('SCHEDULE_MANAGEMENT.TASK_STATUS.TITLE')"
-										outlined
-										@input="getTaskInfo()"
-									/>
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.TITLE') }}:</span>
+									<span>{{ convertFromIDToName(task.approve_status, approveStatus) }}</span>
 								</b-col>
 
-								<b-col cols="6">
-									<v-select
-										v-model="schedule.log_time.approve"
-										:items="approveStatus"
-										:label="$t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.TITLE')"
-										outlined
-										@input="getTaskInfo()"
-									/>
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.SPENT_TIME') }}:</span>
+									<span>{{ task.spent_time }}</span>
 								</b-col>
 
-								<b-col cols="12">
-									<v-text-field
-										v-model="schedule.log_time.spent_time"
-										outlined
-										type="number"
-										min="0"
-										max="24"
-										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
-										:label="$t('SCHEDULE_MANAGEMENT.SPENT_TIME')"
-									/>
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.ESTIMATE_TIME') }}:</span>
+									<span>{{ task.estimate_time }}</span>
 								</b-col>
 
-								<b-col v-if="schedule.log_time.status === 3" cols="12">
-									<v-text-field
-										v-model="schedule.log_time.remark"
-										outlined
-										:label="$t('SCHEDULE_MANAGEMENT.REMARK')"
-									/>
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.REMARK') }}:</span>
+									<span>{{ task.remark }}</span>
 								</b-col>
 							</b-row>
 
@@ -421,7 +484,7 @@
 								</v-col>
 
 								<v-col cols="6" class="text-center">
-									<v-btn class="primary-btn" @click="doRegisterSchedule()">
+									<v-btn class="primary-btn" @click="doUpdateSchedule()">
 										<v-icon left>fas fa-plus-circle</v-icon>
 										<span>{{ $t('BUTTON.REGISTER') }}</span>
 									</v-btn>
@@ -489,7 +552,7 @@
 							<b-row>
 								<b-col cols="12">
 									<v-select
-										v-model="schedule.user.contract"
+										v-model="schedule.user.contract_type"
 										:label="$t('SCHEDULE_MANAGEMENT.CONTRACT_TYPE')"
 										:items="roles"
 										outlined
@@ -547,24 +610,42 @@
 									<span>{{ $t('ROOM_MANAGEMENT.ROOM_NUMBER') }}</span>
 									<span>{{ task.room }}</span>
 								</b-col>
+
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.TASK_STATUS.TITLE') }}:</span>
+									<span>{{ convertFromIDToName(task.task_status, taskStatus) }}</span>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.TITLE') }}:</span>
+									<span>{{ convertFromIDToName(task.approve_status, approveStatus) }}</span>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.SPENT_TIME') }}:</span>
+									<span>{{ task.spent_time }}</span>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.ESTIMATE_TIME') }}:</span>
+									<span>{{ task.estimate_time }}</span>
+								</b-col>
+
+								<b-col lg="3" md="4" sm="12">
+									<span>{{ $t('SCHEDULE_MANAGEMENT.REMARK') }}:</span>
+									<span>{{ task.remark }}</span>
+								</b-col>
 							</b-row>
 
 						</v-card-text>
 
 						<v-card-actions>
 							<v-row>
-								<v-col cols="6" class="text-center">
+								<v-col cols="12" class="text-left">
 									<v-btn class="danger-btn" @click="detailScheduleDialog = false">
 										<v-icon left>mdi-close-box</v-icon>
 										<span>{{ $t('BUTTON.CANCEL') }}</span>
 									</v-btn>
-								</v-col>
-
-								<v-col cols="6" class="text-center">
-									<!-- <v-btn class="primary-btn" @click="doRegisterSchedule()">
-										<v-icon left>fas fa-plus-circle</v-icon>
-										<span>{{ $t('BUTTON.SAVE') }}</span>
-									</v-btn> -->
 								</v-col>
 							</v-row>
 						</v-card-actions>
@@ -578,8 +659,6 @@
 <script>
 import { getAllBuilding } from '@/api/modules/building';
 
-import { getAllUser } from '@/api/modules/user';
-
 import { getAllDepartment } from '@/api/modules/department';
 
 import { getAllTask } from '@/api/modules/task';
@@ -588,7 +667,7 @@ import { getAllPosition } from '@/api/modules/position';
 
 import { getAllContract } from '@/api/modules/contract';
 
-import { getAllSchedule, getOneSchedule, createSchedule } from '@/api/modules/schedule';
+import { getAllSchedule, getOneSchedule, updateSchedule } from '@/api/modules/schedule';
 
 import { convertFromIDToName } from '@/utils/convertFromIdToName';
 
@@ -600,13 +679,11 @@ const urlAPI = {
     apiGetAllBuilding: '/building/list',
     apiGetAllPosition: '/position/list',
     apiGetAllContract: '/contract/list',
-    apiGetAllUser: '/users/all',
-    apiGetOneUser: '/users/detail/',
     apiGetAllDepartment: '/department/list',
     apiGetAllTask: '/task/all',
     apiGetAllSchedule: '/schedule-management/list',
     apiGetOneSchedule: '/schedule-management/detail',
-    apiCreateSchedule: '/schedule-management/create',
+    apiUpdateSchedule: '/schedule-management/update',
 };
 
 export default {
@@ -651,7 +728,6 @@ export default {
             ],
 
             taskStatus: [
-                { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
                 { value: 1, text: this.$t('SCHEDULE_MANAGEMENT.TASK_STATUS.PENDING') },
                 { value: 2, text: this.$t('SCHEDULE_MANAGEMENT.TASK_STATUS.IN_PROGRESS') },
                 { value: 3, text: this.$t('SCHEDULE_MANAGEMENT.TASK_STATUS.COMPLETED') },
@@ -660,9 +736,9 @@ export default {
             ],
 
             approveStatus: [
-                { value: null, text: this.$t('PLACE_HOLDER.PLEASE_SELECT') },
-                { value: 1, text: this.$t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.APPROVED') },
-                { value: 2, text: this.$t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.REFUSED') },
+                { value: 1, text: this.$t('SCHEDULE_MANAGEMENT.TASK_STATUS.PENDING') },
+                { value: 2, text: this.$t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.APPROVED') },
+                { value: 3, text: this.$t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.REFUSED') },
             ],
 
             ScheduleList: [],
@@ -695,10 +771,17 @@ export default {
                 },
 
                 log_time: {
-                    status: null,
-                    spent_time: '',
+                    status: 1,
+                    spent_time: {
+                        hour: '00',
+                        minute: '00',
+                    },
+                    estimate_time: {
+                        hour: '00',
+                        minute: '00',
+                    },
                     remark: '',
-                    approve: null,
+                    approve: 1,
                 },
             },
 
@@ -720,33 +803,12 @@ export default {
 
             dialogSelectDate: false,
 
-            listAddedTask: [
-                {
-                    id: 1,
-                    task_name: 'Nhập liệu',
-                    date: '2020-01-01',
-                    start_time: '09:00',
-                    end_time: '18:30',
-                    building: 'Tòa A',
-                    level: '2',
-                    room: '209',
-                },
-                {
-                    id: 1,
-                    task_name: 'Dọn vệ sinh',
-                    date: '2020-01-01',
-                    start_time: '09:00',
-                    end_time: '18:30',
-                    building: 'Tòa D',
-                    level: '6',
-                    room: '621',
-                },
-            ],
+            listAddedTask: [],
 
             headers: [
                 { text: this.$t('SCHEDULE_MANAGEMENT.USER_NAME'), sortable: false, value: 'user_name' },
                 { text: this.$t('SCHEDULE_MANAGEMENT.POSITION'), sortable: false, value: 'position_id' },
-                { text: this.$t('SCHEDULE_MANAGEMENT.CONTRACT_TYPE'), sortable: false, value: 'contract_id' },
+                { text: this.$t('SCHEDULE_MANAGEMENT.CONTRACT_TYPE'), sortable: false, value: 'contract_type' },
                 { text: this.$t('SCHEDULE_MANAGEMENT.DEPARTMENT'), sortable: false, value: 'department_id' },
                 { text: this.$t('BUTTON.SCHEDULE_DETAIL'), sortable: false, value: 'schedule_detail_action' },
                 { text: this.$t('BUTTON.ASSIGN_TASK'), sortable: false, value: 'assign_new_task_action' },
@@ -761,6 +823,11 @@ export default {
             },
 
             language: this.$store.getters.language,
+
+            rules: {
+                workingHour: value => (value >= 0 && value <= 23) || this.$t('SCHEDULE_MANAGEMENT.INVALID_TIME'),
+                workingMinute: value => (value >= 0 && value <= 59) || this.$t('SCHEDULE_MANAGEMENT.INVALID_TIME'),
+            },
         };
     },
 
@@ -778,7 +845,6 @@ export default {
         async getScheduleManagementData() {
             await this.getListSchedule();
             await this.getListBuilding();
-            await this.getListUser();
             await this.getListDepartment();
             await this.getListDepartment();
             await this.getListTask();
@@ -793,15 +859,7 @@ export default {
                 const response = await getAllSchedule(urlAPI.apiGetAllSchedule);
 
                 if (response.code === 200) {
-                    console.log(response);
-                    // this.ListBuilding = response.data;
-
-                    // for (let i = 0; i < response.data.length; i++) {
-                    //     this.buildings.push({
-                    //         text: response.data[i].building_name,
-                    //         value: response.data[i].id,
-                    //     });
-                    // }
+                    this.ScheduleList = response.data;
                 }
             } catch (error) {
                 console.log(error);
@@ -849,6 +907,11 @@ export default {
                 building: this.schedule.work_place.building,
                 level: this.schedule.work_place.level,
                 room: this.schedule.work_place.room,
+                task_status: this.schedule.log_time.status,
+                approve_status: this.schedule.log_time.approve,
+                spent_time: `${this.schedule.log_time.spent_time.hour}:${this.schedule.log_time.spent_time.minute}`,
+                estimate_time: `${this.schedule.log_time.estimate_time.hour}:${this.schedule.log_time.estimate_time.minute}`,
+                remark: this.schedule.log_time.remark,
             };
 
             if (validateAddNewTask(DATA) === true) {
@@ -867,6 +930,13 @@ export default {
                 this.schedule.work_place.building = null;
                 this.schedule.work_place.level = null;
                 this.schedule.work_place.room = null;
+                this.schedule.log_time.status = 1;
+                this.schedule.log_time.approve = 1;
+                this.schedule.log_time.spent_time.hour = '00';
+                this.schedule.log_time.spent_time.minute = '00';
+                this.schedule.log_time.estimate_time.hour = '00';
+                this.schedule.log_time.estimate_time.minute = '00';
+                this.schedule.log_time.remark = '';
             }
         },
 
@@ -896,35 +966,6 @@ export default {
                         });
                     }
                 }
-            }
-        },
-
-        async getListUser() {
-            try {
-                const response = await getAllUser(urlAPI.apiGetAllUser);
-
-                if (response.code === 200) {
-                    this.ScheduleList = response.data;
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        },
-
-        async getDetailUserInformation(user_id) {
-            try {
-                const response = await getAllUser(`${urlAPI.apiGetOneUser}${user_id}`);
-
-                if (response.code === 200) {
-                    this.schedule.user.user_id = response.data.id;
-                    this.schedule.user.user_name = response.data.user_name;
-                    this.schedule.user.role = response.data.roles[0].id;
-                    this.schedule.user.position = response.data.position_id;
-                    this.schedule.user.department = response.data.department_id;
-                    this.schedule.user.contract_type = response.data.contract_id;
-                }
-            } catch (error) {
-                console.log(error);
             }
         },
 
@@ -968,7 +1009,6 @@ export default {
             for (let i = 0; i < this.tasks.length; i++) {
                 if (this.tasks[i].value === task_id) {
                     this.schedule.task.task_description = this.tasks[i].description;
-                    console.log(this.schedule.task.task_description);
                 }
             }
         },
@@ -1011,6 +1051,8 @@ export default {
 
         openScheduleDetailDialog(id) {
             this.detailScheduleDialog = true;
+
+            this.getDetailScheduleInformation(id);
         },
 
         async openAssignNewTaskDialog(id) {
@@ -1022,28 +1064,45 @@ export default {
             this.schedule.work_place.level = null;
             this.schedule.work_place.room = null;
 
-            await this.getDetailUserInformation(id);
+            await this.getDetailScheduleInformation(id);
 
             this.assignNewTaskDialog = true;
         },
 
-        async doRegisterSchedule() {
+        async getDetailScheduleInformation(id) {
+            try {
+                const URL = `${urlAPI.apiGetOneSchedule}/${id}`;
+                const response = await getOneSchedule(URL);
+
+                if (response.code === 200) {
+                    this.listAddedTask = response.data.schedules;
+                    this.schedule.user.user_id = response.data.id;
+                    this.schedule.user.user_name = response.data.user_name;
+                    this.schedule.user.role = response.data.role_id;
+                    this.schedule.user.position = response.data.position_id;
+                    this.schedule.user.department = response.data.department_id;
+                    this.schedule.user.contract_type = response.data.contract_type;
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async doUpdateSchedule() {
             const DATA = {
-                user_id: this.schedule.user.user_id,
-                user_name: this.schedule.user.user_name,
-                contract_type: this.schedule.user.contract_type,
-                department_id: this.schedule.user.department,
                 schedules: this.listAddedTask,
             };
 
             try {
-                const response = await createSchedule(urlAPI.apiCreateSchedule, DATA);
+                const URL = `${urlAPI.apiUpdateSchedule}/${this.schedule.user.user_id}`;
 
-                if (response.code === 201) {
+                const response = await updateSchedule(URL, DATA);
+
+                if (response.code === 200) {
                     MakeToast({
                         variant: 'success',
                         title: this.$t('TOAST.TITLE.SUCCESS'),
-                        content: this.$t('TOAST.CONTENT.SCHEDULE_MANAGEMENT.CREATE_SCHEDULE_SUCCESS'),
+                        content: this.$t('TOAST.CONTENT.SCHEDULE_MANAGEMENT.UPDATE_SCHEDULE_SUCCESS'),
                     });
 
                     this.assignNewTaskDialog = false;
@@ -1051,7 +1110,7 @@ export default {
                     MakeToast({
                         variant: 'warning',
                         title: this.$t('TOAST.TITLE.WARNING'),
-                        content: this.$t('TOAST.CONTENT.SCHEDULE_MANAGEMENT.CREATE_SCHEDULE_FAILED'),
+                        content: this.$t('TOAST.CONTENT.SCHEDULE_MANAGEMENT.UPDATE_SCHEDULE_FAILED'),
                     });
 
                     this.assignNewTaskDialog = false;
@@ -1061,6 +1120,8 @@ export default {
 
                 this.assignNewTaskDialog = false;
             }
+
+            this.listAddedTask = [];
         },
     },
 };
