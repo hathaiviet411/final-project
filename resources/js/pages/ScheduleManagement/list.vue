@@ -369,42 +369,6 @@
 										</v-time-picker>
 									</v-dialog>
 								</b-col>
-
-								<b-col lg="12" md="12" sm="12" class="text-left">
-									<span class="font-weight-bold">{{ $t('SCHEDULE_MANAGEMENT.LOG_TIME') }}</span>
-								</b-col>
-
-								<v-divider />
-
-								<b-col cols="6">
-									<v-text-field
-										v-model="schedule.log_time.estimate_time.hour"
-										outlined
-										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
-										:label="$t('SCHEDULE_MANAGEMENT.ESTIMATE_TIME')"
-										:suffix="schedule.log_time.estimate_time.hour <= 1 ? $t('SCHEDULE_MANAGEMENT.HOUR') : $t('SCHEDULE_MANAGEMENT.HOURS')"
-										:rules="[rules.workingHour]"
-									/>
-								</b-col>
-
-								<b-col cols="6">
-									<v-text-field
-										v-model="schedule.log_time.estimate_time.minute"
-										outlined
-										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
-										:label="$t('SCHEDULE_MANAGEMENT.ESTIMATE_TIME')"
-										:suffix="schedule.log_time.estimate_time.minute <= 1 ? $t('SCHEDULE_MANAGEMENT.MINUTE') : $t('SCHEDULE_MANAGEMENT.MINUTES')"
-										:rules="[rules.workingMinute]"
-									/>
-								</b-col>
-
-								<b-col cols="12">
-									<v-text-field
-										v-model="schedule.log_time.remark"
-										outlined
-										:label="$t('SCHEDULE_MANAGEMENT.REMARK')"
-									/>
-								</b-col>
 							</b-row>
 
 							<b-row class="mb-3">
@@ -481,11 +445,6 @@
 								<b-col lg="3" md="4" sm="12">
 									<span>{{ $t('SCHEDULE_MANAGEMENT.SPENT_TIME') }}:</span>
 									<span>{{ task.spent_time }}</span>
-								</b-col>
-
-								<b-col lg="3" md="4" sm="12">
-									<span>{{ $t('SCHEDULE_MANAGEMENT.ESTIMATE_TIME') }}:</span>
-									<span>{{ task.estimate_time }}</span>
 								</b-col>
 
 								<b-col lg="3" md="4" sm="12">
@@ -633,31 +592,6 @@
 									<span>{{ task.room }}</span>
 								</b-col>
 
-								<b-col lg="3" md="4" sm="12">
-									<span>{{ $t('SCHEDULE_MANAGEMENT.TASK_STATUS.TITLE') }}:</span>
-									<span>{{ convertFromIDToName(task.task_status, taskStatus) }}</span>
-								</b-col>
-
-								<b-col lg="3" md="4" sm="12">
-									<span>{{ $t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.TITLE') }}:</span>
-									<span>{{ convertFromIDToName(task.approve_status, approveStatus) }}</span>
-								</b-col>
-
-								<b-col lg="3" md="4" sm="12">
-									<span>{{ $t('SCHEDULE_MANAGEMENT.SPENT_TIME') }}:</span>
-									<span>{{ task.spent_time }}</span>
-								</b-col>
-
-								<b-col lg="3" md="4" sm="12">
-									<span>{{ $t('SCHEDULE_MANAGEMENT.ESTIMATE_TIME') }}:</span>
-									<span>{{ task.estimate_time }}</span>
-								</b-col>
-
-								<b-col lg="3" md="4" sm="12">
-									<span>{{ $t('SCHEDULE_MANAGEMENT.REMARK') }}:</span>
-									<span>{{ task.remark }}</span>
-								</b-col>
-
 								<b-col v-if="listAddedTask.length > 0" cols="12">
 									<b-row>
 										<b-col cols="6">
@@ -667,6 +601,8 @@
 												onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
 												:label="$t('SCHEDULE_MANAGEMENT.SPENT_TIME')"
 												:suffix="task.spent_time_hour <= 1 ? $t('SCHEDULE_MANAGEMENT.HOUR') : $t('SCHEDULE_MANAGEMENT.HOURS')"
+												:rules="[rules.workingHour]"
+												:disabled="!isDisabled"
 											/>
 										</b-col>
 
@@ -677,6 +613,8 @@
 												onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
 												:label="$t('SCHEDULE_MANAGEMENT.SPENT_TIME')"
 												:suffix="task.spent_time_minute <= 1 ? $t('SCHEDULE_MANAGEMENT.MINUTE') : $t('SCHEDULE_MANAGEMENT.MINUTES')"
+												:rules="[rules.workingMinute]"
+												:disabled="!isDisabled"
 											/>
 										</b-col>
 
@@ -686,7 +624,7 @@
 												:items="taskStatus"
 												:label="$t('SCHEDULE_MANAGEMENT.TASK_STATUS.TITLE')"
 												outlined
-												:item-disabled="item => item.value === 4 || item.value === 5"
+												:item-disabled="item => role === 'staff' ? (item.value === 4 || item.value === 5) : ''"
 												@input="getTaskInfo()"
 											/>
 										</b-col>
@@ -697,6 +635,7 @@
 												:items="approveStatus"
 												:label="$t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.TITLE')"
 												outlined
+												:disabled="isDisabled"
 												@input="getTaskInfo()"
 											/>
 										</b-col>
@@ -885,10 +824,6 @@ export default {
                         hour: '00',
                         minute: '00',
                     },
-                    estimate_time: {
-                        hour: '00',
-                        minute: '00',
-                    },
                     remark: '',
                     approve: 1,
                 },
@@ -1059,7 +994,6 @@ export default {
                 task_status: this.schedule.log_time.status,
                 approve_status: this.schedule.log_time.approve,
                 spent_time: `${this.schedule.log_time.spent_time.hour}:${this.schedule.log_time.spent_time.minute}`,
-                estimate_time: `${this.schedule.log_time.estimate_time.hour}:${this.schedule.log_time.estimate_time.minute}`,
                 remark: this.schedule.log_time.remark,
             };
 
@@ -1083,8 +1017,6 @@ export default {
                 this.schedule.log_time.approve = 1;
                 this.schedule.log_time.spent_time.hour = '00';
                 this.schedule.log_time.spent_time.minute = '00';
-                this.schedule.log_time.estimate_time.hour = '00';
-                this.schedule.log_time.estimate_time.minute = '00';
                 this.schedule.log_time.remark = '';
             }
         },
