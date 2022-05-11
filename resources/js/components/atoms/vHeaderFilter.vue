@@ -3,8 +3,8 @@
 		<h6>
 			<slot name="label-filter">
 				<span id="collapsed-show-hide-filter" v-b-toggle.zone-filter>
-					<i class="fas fa-angle-up when-open" />
-					<i class="fas fa-angle-down when-closed" />
+					<i class="fas fa-sort-shapes-down-alt when-open" />
+					<i class="fas fa-sort-shapes-up when-closed" />
 					<span class="filter-title cursor-pointer text-bold">{{ $t('FILTER.TITLE') }}</span>
 				</span>
 			</slot>

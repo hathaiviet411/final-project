@@ -173,6 +173,11 @@ export default {
             POSITION: 'Position',
             CONTRACT_TYPE: 'Contract Type',
         },
+        ASSIGN_STATUS: {
+            TITLE: 'Status',
+            ASSIGNED: 'Assigned',
+            UNASSIGNED: 'Unassigned',
+        },
     },
 
     DEPARTMENT_MANAGEMENT: {

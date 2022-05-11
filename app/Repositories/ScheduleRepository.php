@@ -63,6 +63,7 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
     $department = Arr::get($request->all(), 'department', null);
     $position = Arr::get($request->all(), 'position', null);
     $contract = Arr::get($request->all(), 'contract', null);
+    $user_id = Arr::get($request->all(), 'user_id', null);
     $sorted = false;
 
     if (isset(self::SORT_BY[$sortby]) && isset(self::SORT_TYPE[$sorttype])) {
@@ -80,6 +81,10 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
 
     if ($contract || $contract === "0") {
       $query = $query->where('contract_type', 'like', "%{$contract}%");
+    }
+
+    if ($user_id || $user_id === "0") {
+      $query = $query->where('id', 'like', "%{$user_id}%");
     }
 
     if ($sorted == false) {

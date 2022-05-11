@@ -37,6 +37,7 @@
 															:text-prepend="$t('SCHEDULE_MANAGEMENT.FILTER.DEPARTMENT')"
 															:is-check="filter.department.status"
 															:data-options="departments"
+															@isChecked="getIsCheckFilterDepartment"
 														/>
 													</b-col>
 
@@ -47,6 +48,7 @@
 															:text-prepend="$t('SCHEDULE_MANAGEMENT.FILTER.POSITION')"
 															:is-check="filter.position.status"
 															:data-options="positions"
+															@isChecked="getIsCheckFilterPosition"
 														/>
 													</b-col>
 
@@ -57,6 +59,7 @@
 															:text-prepend="$t('SCHEDULE_MANAGEMENT.FILTER.CONTRACT_TYPE')"
 															:is-check="filter.contract_type.status"
 															:data-options="contract_type"
+															@isChecked="getIsCheckFilterContractType"
 														/>
 													</b-col>
 												</b-row>
@@ -119,6 +122,11 @@
 
 									<template #[`item.contract_type`]="{ item }">
 										<span>{{ convertFromIDToName(item.contract_type, contract_type) }}</span>
+									</template>
+
+									<template #[`item.schedules`]="{ item }">
+										<span v-if="item.schedules.length === 0" class="text-danger">{{ $t('SCHEDULE_MANAGEMENT.ASSIGN_STATUS.UNASSIGNED') }}</span>
+										<span v-else class="text-success">{{ $t('SCHEDULE_MANAGEMENT.ASSIGN_STATUS.ASSIGNED') }}</span>
 									</template>
 								</v-data-table>
 							</v-card-text>
@@ -369,26 +377,6 @@
 								<v-divider />
 
 								<b-col cols="6">
-									<v-select
-										v-model="schedule.log_time.status"
-										:items="taskStatus"
-										:label="$t('SCHEDULE_MANAGEMENT.TASK_STATUS.TITLE')"
-										outlined
-										@input="getTaskInfo()"
-									/>
-								</b-col>
-
-								<b-col cols="6">
-									<v-select
-										v-model="schedule.log_time.approve"
-										:items="approveStatus"
-										:label="$t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.TITLE')"
-										outlined
-										@input="getTaskInfo()"
-									/>
-								</b-col>
-
-								<b-col cols="6">
 									<v-text-field
 										v-model="schedule.log_time.estimate_time.hour"
 										outlined
@@ -405,28 +393,6 @@
 										outlined
 										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
 										:label="$t('SCHEDULE_MANAGEMENT.ESTIMATE_TIME')"
-										:suffix="schedule.log_time.estimate_time.minute <= 1 ? $t('SCHEDULE_MANAGEMENT.MINUTE') : $t('SCHEDULE_MANAGEMENT.MINUTES')"
-										:rules="[rules.workingMinute]"
-									/>
-								</b-col>
-
-								<b-col cols="6">
-									<v-text-field
-										v-model="schedule.log_time.spent_time.hour"
-										outlined
-										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
-										:label="$t('SCHEDULE_MANAGEMENT.SPENT_TIME')"
-										:suffix="schedule.log_time.estimate_time.hour <= 1 ? $t('SCHEDULE_MANAGEMENT.HOUR') : $t('SCHEDULE_MANAGEMENT.HOURS')"
-										:rules="[rules.workingHour]"
-									/>
-								</b-col>
-
-								<b-col cols="6">
-									<v-text-field
-										v-model="schedule.log_time.spent_time.minute"
-										outlined
-										onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
-										:label="$t('SCHEDULE_MANAGEMENT.SPENT_TIME')"
 										:suffix="schedule.log_time.estimate_time.minute <= 1 ? $t('SCHEDULE_MANAGEMENT.MINUTE') : $t('SCHEDULE_MANAGEMENT.MINUTES')"
 										:rules="[rules.workingMinute]"
 									/>
@@ -459,7 +425,10 @@
 								<b-col lg="12" md="12" sm="12" class="text-left">
 									<i class="fas fa-tasks mr-3" />
 									<span class="font-weight-bold">{{ `TASK ${index + 1}` }}</span>
-									<i class="far fa-minus-square text-danger float-right" @click="removeTaskFromAssignedList(index)" />
+									<i
+										class="far fa-minus-square text-danger float-right"
+										@click="removeTaskFromAssignedList(index)"
+									/>
 								</b-col>
 
 								<v-divider />
@@ -688,6 +657,66 @@
 									<span>{{ $t('SCHEDULE_MANAGEMENT.REMARK') }}:</span>
 									<span>{{ task.remark }}</span>
 								</b-col>
+
+								<b-col v-if="listAddedTask.length > 0" cols="12">
+									<b-row>
+										<b-col cols="6">
+											<v-text-field
+												v-model="task.spent_time_hour"
+												outlined
+												onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
+												:label="$t('SCHEDULE_MANAGEMENT.SPENT_TIME')"
+												:suffix="task.spent_time_hour <= 1 ? $t('SCHEDULE_MANAGEMENT.HOUR') : $t('SCHEDULE_MANAGEMENT.HOURS')"
+											/>
+										</b-col>
+
+										<b-col cols="6">
+											<v-text-field
+												v-model="task.spent_time_minute"
+												outlined
+												onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
+												:label="$t('SCHEDULE_MANAGEMENT.SPENT_TIME')"
+												:suffix="task.spent_time_minute <= 1 ? $t('SCHEDULE_MANAGEMENT.MINUTE') : $t('SCHEDULE_MANAGEMENT.MINUTES')"
+											/>
+										</b-col>
+
+										<b-col cols="6">
+											<v-select
+												v-model="task.task_status"
+												:items="taskStatus"
+												:label="$t('SCHEDULE_MANAGEMENT.TASK_STATUS.TITLE')"
+												outlined
+												:item-disabled="item => item.value === 4 || item.value === 5"
+												@input="getTaskInfo()"
+											/>
+										</b-col>
+
+										<b-col cols="6">
+											<v-select
+												v-model="schedule.log_time.approve"
+												:items="approveStatus"
+												:label="$t('SCHEDULE_MANAGEMENT.APPROVE_STATUS.TITLE')"
+												outlined
+												@input="getTaskInfo()"
+											/>
+										</b-col>
+
+										<b-col cols="12">
+											<v-textarea
+												v-model="task.remark"
+												outlined
+												:label="$t('SCHEDULE_MANAGEMENT.REMARK')"
+											/>
+										</b-col>
+
+										<b-col cols="12" class="text-left">
+											<v-btn text class="text-primary text-underline" @click="updateTask(task.id, task.spent_time_hour, task.spent_time_minute, task.task_status, task.remark)">
+												<i class="fas fa-feather-alt" />
+												<span>{{ $t('BUTTON.SAVE') }}</span>
+											</v-btn>
+										</b-col>
+									</b-row>
+								</b-col>
 							</b-row>
 
 						</v-card-text>
@@ -895,6 +924,7 @@ export default {
                 { text: this.$t('SCHEDULE_MANAGEMENT.POSITION'), sortable: false, value: 'position_id' },
                 { text: this.$t('SCHEDULE_MANAGEMENT.CONTRACT_TYPE'), sortable: false, value: 'contract_type' },
                 { text: this.$t('SCHEDULE_MANAGEMENT.DEPARTMENT'), sortable: false, value: 'department_id' },
+                { text: this.$t('SCHEDULE_MANAGEMENT.ASSIGN_STATUS.TITLE'), sortable: true, value: 'schedules' },
                 { text: this.$t('BUTTON.SCHEDULE_DETAIL'), sortable: false, value: 'schedule_detail_action' },
                 { text: this.$t('BUTTON.ASSIGN_TASK'), sortable: false, value: 'assign_new_task_action' },
             ],
@@ -913,12 +943,18 @@ export default {
                 workingHour: value => (value >= 0 && value <= 23) || this.$t('SCHEDULE_MANAGEMENT.INVALID_TIME'),
                 workingMinute: value => (value >= 0 && value <= 59) || this.$t('SCHEDULE_MANAGEMENT.INVALID_TIME'),
             },
+
+            temporary_id: '',
         };
     },
 
     computed: {
         role() {
             return this.$store.getters.roles[0];
+        },
+
+        isDisabled() {
+            return !((this.role === 'admin' || this.role === 'manager'));
         },
     },
 
@@ -950,9 +986,16 @@ export default {
                     department: this.filter.department.value,
                     position: this.filter.position.value,
                     contract: this.filter.contract_type.value,
+                    user_id: '',
                     sortby: this.filterQuery['order_column'],
                     sorttype: this.filterQuery['order_type'],
                 };
+
+                if (this.role === 'admin' || this.role === 'manager') {
+                    QUERY.user_id = '';
+                } else {
+                    QUERY.user_id = this.$store.getters.userId;
+                }
 
                 QUERY = cleanObj(QUERY);
 
@@ -1011,6 +1054,8 @@ export default {
                 building: this.schedule.work_place.building,
                 level: this.schedule.work_place.level,
                 room: this.schedule.work_place.room,
+                spent_time_hour: this.schedule.log_time.spent_time.hour,
+                spent_time_minute: this.schedule.log_time.spent_time.minute,
                 task_status: this.schedule.log_time.status,
                 approve_status: this.schedule.log_time.approve,
                 spent_time: `${this.schedule.log_time.spent_time.hour}:${this.schedule.log_time.spent_time.minute}`,
@@ -1042,6 +1087,20 @@ export default {
                 this.schedule.log_time.estimate_time.minute = '00';
                 this.schedule.log_time.remark = '';
             }
+        },
+
+        async updateTask(id, spent_time_hour, spent_time_minute, task_status, remark) {
+            for (let i = 0; i < this.listAddedTask.length; i++) {
+                if (this.listAddedTask[i].id === id) {
+                    this.listAddedTask[i].spent_time = `${spent_time_hour}:${spent_time_minute}`;
+                    this.listAddedTask[i].task_status = task_status;
+                    this.listAddedTask[i].remark = remark;
+                }
+            }
+
+            await this.doUpdateSchedule();
+
+            await this.getDetailScheduleInformation(this.temporary_id);
         },
 
         removeTaskFromAssignedList(index) {
@@ -1154,6 +1213,8 @@ export default {
         openScheduleDetailDialog(id) {
             this.detailScheduleDialog = true;
 
+            this.temporary_id = id;
+
             this.getDetailScheduleInformation(id);
         },
 
@@ -1207,6 +1268,8 @@ export default {
                         content: this.$t('TOAST.CONTENT.SCHEDULE_MANAGEMENT.UPDATE_SCHEDULE_SUCCESS'),
                     });
 
+                    await this.getListSchedule();
+
                     this.assignNewTaskDialog = false;
                 } else {
                     MakeToast({
@@ -1246,6 +1309,18 @@ export default {
                 },
             };
         },
+
+        getIsCheckFilterDepartment(value) {
+            this.filter.department.status = value;
+        },
+
+        getIsCheckFilterPosition(value) {
+            this.filter.position.status = value;
+        },
+
+        getIsCheckFilterContractType(value) {
+            this.filter.contract_type.status = value;
+        },
     },
 };
 </script>
@@ -1278,6 +1353,10 @@ export default {
 
   .fa-minus-square:hover {
       cursor: pointer;
+  }
+
+  ::v-deep .v-data-table-header__icon {
+      color: $white !important;
   }
 
   @media (max-width: 768px) {

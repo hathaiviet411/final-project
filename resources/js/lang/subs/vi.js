@@ -173,6 +173,11 @@ export default {
             POSITION: 'Chức vụ',
             CONTRACT_TYPE: 'Loại hợp đồng',
         },
+        ASSIGN_STATUS: {
+            TITLE: 'Trạng thái',
+            ASSIGNED: 'Đã giao',
+            UNASSIGNED: 'Chưa giao',
+        },
     },
 
     DEPARTMENT_MANAGEMENT: {
