@@ -1,10 +1,7 @@
 export default {
     USER_NOT_FOUND: {
-        code: 403,
-        message: 'errors.access_denied',
-        message_content: 'User is not logged in.',
-        message_internal: null,
-        data_error: null,
+        code: 404,
+        message: 'user not found',
     },
     PROFILE: {
         id: '',

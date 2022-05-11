@@ -403,12 +403,12 @@ export default {
 
     PLACE_HOLDER: {
         PLEASE_SELECT: '-- Please Select --',
-        USER_ROLE: 'Please Select User Role',
-        DEPARTMENT: 'Please Select Department',
-        USER_ID: 'Please Enter User ID',
-        USER_NAME: 'Please Enter User Name',
-        PWD: 'Please Enter Password',
-        NEW_PWD: 'Please Enter New Password',
+        USER_ROLE: 'Please select user role',
+        DEPARTMENT: 'Please select department',
+        USER_ID: 'Please enter user ID',
+        USER_NAME: 'Please enter user name',
+        PWD: 'Please enter password',
+        NEW_PWD: 'Please enter new password',
     },
 
     DATE: {
@@ -437,4 +437,9 @@ export default {
     },
 
     TEXT_COLLAPSE: 'Collapse',
+
+    SESSION_TIMEOUT: {
+        TITLE: 'Session timeout',
+        MESSAGE: 'Your session has expired',
+    },
 };

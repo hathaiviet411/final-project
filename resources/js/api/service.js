@@ -38,16 +38,22 @@ service.interceptors.response.use(
     response => {
         const USER_NOT_FOUND = CONST_AUTH.USER_NOT_FOUND;
 
-        if (JSON.stringify(USER_NOT_FOUND) === JSON.stringify(response.data)) {
+        if (USER_NOT_FOUND.code === 404 && response.data.code === 404) {
             store.dispatch('user/doLogout')
                 .then(() => {
                     router.push('/login');
+
+                    MakeToast({
+                        variant: 'danger',
+                        title: i18n.t('SESSION_TIMEOUT.TITLE'),
+                        content: i18n.t('SESSION_TIMEOUT.MESSAGE'),
+                    });
                 })
                 .catch(() => {
                     MakeToast({
                         variant: 'danger',
                         title: i18n.$t('TOAST.TITLE.ERROR'),
-                        content: i18n.$t('TOAST.OTHER.ERROR'),
+                        content: i18n.t('TOAST.CONTENT.OTHER.ERROR'),
                     });
                 });
         }
@@ -55,31 +61,26 @@ service.interceptors.response.use(
         return response.data;
     },
     error => {
-        const isCheckTitle = i18n.te(error.response.data.title);
-        const isCheckContent = i18n.te(error.response.data.message);
-
         const USER_NOT_FOUND = CONST_AUTH.USER_NOT_FOUND;
 
-        if (JSON.stringify(USER_NOT_FOUND) === JSON.stringify(error.response.data)) {
+        if (USER_NOT_FOUND.code === 404 && error.response.data.code === 404) {
             store.dispatch('user/doLogout')
                 .then(() => {
                     router.push('/login');
+
+                    MakeToast({
+                        variant: 'danger',
+                        title: i18n.t('SESSION_TIMEOUT.TITLE'),
+                        content: i18n.t('SESSION_TIMEOUT.MESSAGE'),
+                    });
                 })
                 .catch(() => {
                     MakeToast({
                         variant: 'danger',
                         title: i18n.$t('TOAST.TITLE.ERROR'),
-                        content: i18n.$t('TOAST.OTHER.ERROR'),
+                        content: i18n.t('TOAST.CONTENT.OTHER.ERROR'),
                     });
                 });
-        } else {
-            if (isCheckTitle && isCheckContent) {
-                MakeToast({
-                    variant: 'warning',
-                    title: i18n.t(error.response.data.title),
-                    content: i18n.t(error.response.data.message),
-                });
-            }
         }
 
         return Promise.reject(error);

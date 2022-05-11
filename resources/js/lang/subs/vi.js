@@ -438,4 +438,9 @@ export default {
     },
 
     TEXT_COLLAPSE: 'Thu gọn',
+
+    SESSION_TIMEOUT: {
+        TITLE: 'Phiên làm việc đã hết hạn',
+        MESSAGE: 'Phiên làm việc đã hết hạn, vui lòng đăng nhập lại',
+    },
 };

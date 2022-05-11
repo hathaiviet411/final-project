@@ -86,70 +86,10 @@ export default {
                             id: PROFILE.id || '',
                             name: PROFILE.user_name || '',
                             department_id: PROFILE.department_id || '',
-                            current_year: PROFILE.current_year || '',
-                            current_year_month: PROFILE.current_year_month || '',
                             expToken: EXP_TOKEN.exp || '',
                             roles: ROLES || [],
                             permissions: PERMISSIONS || [],
                         };
-
-                        // await this.$store.dispatch('time/setListYearOrYearMonth').then(async() => {
-                        //     const PRESENT_YEAR = new Date().getFullYear();
-                        //     const LIST_YEAR = this.$store.getters.listYear;
-
-                        //     var DEFAULT_DISPLAY_YEAR = '';
-
-                        //     if (LIST_YEAR.includes['PRESENT_YEAR']) {
-                        //         DEFAULT_DISPLAY_YEAR = PRESENT_YEAR;
-                        //     } else {
-                        //         DEFAULT_DISPLAY_YEAR = LIST_YEAR[0].value;
-                        //     }
-
-                        //     await this.$store.dispatch('time/setCurrentYear', parseInt(DEFAULT_DISPLAY_YEAR));
-
-                        //     const PRESENT_MONTH = new Date().getMonth();
-                        //     const PRESENT_YEAR_MONTH = `${PRESENT_YEAR}-${PRESENT_MONTH}`;
-                        //     const LIST_YEAR_MONTH = this.$store.getters.listYearMonth;
-
-                        //     var DEFAULT_DISPLAY_YEAR_MONTH = '';
-
-                        //     if (LIST_YEAR_MONTH.includes['PRESENT_YEAR']) {
-                        //         DEFAULT_DISPLAY_YEAR_MONTH = PRESENT_YEAR_MONTH;
-                        //     } else {
-                        //         DEFAULT_DISPLAY_YEAR_MONTH = LIST_YEAR_MONTH[0].value;
-                        //     }
-
-                        //     await this.$store.dispatch('time/setCurrentYearMonth', DEFAULT_DISPLAY_YEAR_MONTH);
-                        // });
-
-                        // await this.$store.dispatch('department/setListDepartment').then(async() => {
-                        //     const USER_DEPARTMENT_ID = this.$store.getters.profile.department_id;
-                        //     const LIST_DEPARTMENT = this.$store.getters.listDepartment;
-                        //     var DEPARTMENT = [];
-
-                        //     if (USER_DEPARTMENT_ID) {
-                        //         const USER_DEPARTMENT_NAME = LIST_DEPARTMENT.filter(
-                        //             department => {
-                        //                 if (department.department_id === LIST_DEPARTMENT.department_id) {
-                        //                     return department.department_name;
-                        //                 } else {
-                        //                     return '[Error]';
-                        //                 }
-                        //             }
-                        //         );
-
-                        //         DEPARTMENT = {
-                        //             department_id: USER_DEPARTMENT_ID,
-                        //             department_name: USER_DEPARTMENT_NAME[0].department_name,
-                        //         };
-                        //     } else {
-                        //         DEPARTMENT = {
-                        //             department_id: LIST_DEPARTMENT[0].department_id,
-                        //             department_name: LIST_DEPARTMENT[0].department_name,
-                        //         };
-                        //     }
-                        //     await this.$store.dispatch('department/setDepartment', DEPARTMENT);
-                        // });
 
                         await this.$store.dispatch('user/saveLogin', { USER, TOKEN })
                             .then(async() => {
