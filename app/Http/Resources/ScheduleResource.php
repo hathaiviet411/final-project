@@ -26,6 +26,7 @@ class ScheduleResource extends BaseResource
           'id' => $this->id,
           'schedules' => json_decode($this->schedules),
           'updated_at' =>  $this->updated_at,
+          'user_code' =>  $this->user_code,
           'user_id' =>  $this->user_id,
           'user_name' =>  $this->user_name,
           ];

@@ -690,6 +690,8 @@ import { getAllContract } from '@/api/modules/contract';
 
 import { getAllSchedule, getOneSchedule, updateSchedule } from '@/api/modules/schedule';
 
+import { updateTimesheet } from '@/api/modules/timesheet';
+
 import { convertFromIDToName } from '@/utils/convertFromIdToName';
 
 import { MakeToast } from '@/utils/MakeToast';
@@ -713,6 +715,7 @@ const urlAPI = {
     apiGetAllSchedule: '/schedule-management/list',
     apiGetOneSchedule: '/schedule-management/detail',
     apiUpdateSchedule: '/schedule-management/update',
+    apiUpdateTimesheetSchedule: '/timesheet-management/update',
 };
 
 export default {
@@ -794,6 +797,7 @@ export default {
             schedule: {
                 user: {
                     user_id: '',
+                    user_code: '',
                     user_name: '',
                     role: '',
                     position: '',
@@ -1172,6 +1176,8 @@ export default {
                 if (response.code === 200) {
                     this.listAddedTask = response.data.schedules;
                     this.schedule.user.user_id = response.data.id;
+                    this.schedule.user.user_code = response.data.user_code;
+                    console.log(this.schedule.user.user_code);
                     this.schedule.user.user_name = response.data.user_name;
                     this.schedule.user.role = response.data.role_id;
                     this.schedule.user.position = response.data.position_id;
@@ -1184,14 +1190,22 @@ export default {
         },
 
         async doUpdateSchedule() {
-            const DATA = {
+            const DATA_SCHEDULE = {
                 schedules: this.listAddedTask,
+            };
+
+            const DATA_TIMESHEET = {
+                schedule: this.listAddedTask,
             };
 
             try {
                 const URL = `${urlAPI.apiUpdateSchedule}/${this.schedule.user.user_id}`;
 
-                const response = await updateSchedule(URL, DATA);
+                const response = await updateSchedule(URL, DATA_SCHEDULE);
+
+                const URL_TIMESHEET = `${urlAPI.apiUpdateTimesheetSchedule}/${this.schedule.user.user_code}`;
+
+                await updateTimesheet(URL_TIMESHEET, DATA_TIMESHEET);
 
                 if (response.code === 200) {
                     MakeToast({

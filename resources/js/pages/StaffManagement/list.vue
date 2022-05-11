@@ -482,6 +482,8 @@ import { getAllDepartment } from '@/api/modules/department';
 
 import { createSchedule } from '@/api/modules/schedule';
 
+import { createTimesheet } from '@/api/modules/timesheet';
+
 import { MakeToast } from '@/utils/MakeToast';
 
 import { convertFromIDToName } from '@/utils/convertFromIdToName';
@@ -500,6 +502,7 @@ const urlAPI = {
     apiUpdateUser: '/users/update/',
     apiDeleteUser: '/users/delete/',
     apiCreateSchedule: '/schedule-management/create',
+    apiCreateTimesheet: '/timesheet-management/create',
 };
 
 import defaultAvatar from '@/assets/images/defaultAvatar.png';
@@ -768,6 +771,7 @@ export default {
 
                     const SCHEDULE_DATA = {
                         user_id: null,
+                        user_code: this.user.user_code,
                         user_name: this.user.user_name,
                         contract_type: this.user.contract_id,
                         department_id: this.user.department_id,
@@ -776,7 +780,21 @@ export default {
                         schedules: [],
                     };
 
+                    const TIMESHEET_DATA = {
+                        user_id: null,
+                        user_code: this.user.user_code,
+                        user_name: this.user.user_name,
+                        role_id: this.user.role_id,
+                        department_id: this.user.department_id,
+                        position_id: this.user.position_id,
+                        contract_type: this.user.contract_id,
+                        timesheet: [],
+                        schedule: [],
+                    };
+
                     await createSchedule(urlAPI.apiCreateSchedule, SCHEDULE_DATA);
+
+                    await createTimesheet(urlAPI.apiCreateTimesheet, TIMESHEET_DATA);
                 }
             } catch (error) {
                 MakeToast({

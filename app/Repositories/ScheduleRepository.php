@@ -54,9 +54,6 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
 
   public function getPagination(ScheduleRequest $request)
   {
-    // $result = $this->paginate($request->per_page);
-    // return $result;
-
     $query = $this->model;
     $sorttype = Arr::get($request->all(), 'sorttype', null);
     $sortby = Arr::get($request->all(), 'sortby', null);
@@ -100,6 +97,7 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
     $status = DB::transaction(function () use ($attribute) {
       $this->model->create([
         'user_id' => $attribute['user_id'],
+        'user_code' => $attribute['user_code'],
         'user_name' => $attribute['user_name'],
         'contract_type' => $attribute['contract_type'],
         'department_id' => $attribute['department_id'],

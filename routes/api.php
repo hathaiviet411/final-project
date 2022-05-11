@@ -82,9 +82,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
 
     Route::group(['prefix' => 'timesheet-management'], function () {
       Route::get('list', 'TimesheetController@index');
-      // Route::post('create', 'TimesheetController@store');
-      // Route::get('detail/{id}', 'TimesheetController@show');
-      // Route::put('update/{id}', 'TimesheetController@update');
+      Route::post('create', 'TimesheetController@store');
+      Route::get('detail/{id}', 'TimesheetController@show');
+      Route::put('update/{id}', 'TimesheetController@update');
       // Route::delete('delete/{id}', 'TimesheetController@destroy');
     });
 

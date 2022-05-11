@@ -17,7 +17,17 @@ class Timesheet extends Model
 
     protected $table = 'timesheets';
 
-    protected $fillable = [];
+    protected $fillable = [
+      'user_id',
+      'user_code',
+      'user_name',
+      'role_id',
+      'department_id',
+      'position_id',
+      'contract_type',
+      'timesheet',
+      'schedule',
+    ];
 
     protected $dates = ['deleted_at'];
 
