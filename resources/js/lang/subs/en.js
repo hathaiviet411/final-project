@@ -100,6 +100,12 @@ export default {
                 ADD_NEW_TASK_SUCCESS: 'Add new task successfully.',
             },
 
+            TIMESHEET_MANAGEMENT: {
+                REQUIRED_DEDUCTION_REASON: 'Please enter deduction reason.',
+                UPDATE_TIMESHEET_SUCCESS: 'Update timesheet successfully.',
+                UPDATE_TIMESHEET_FAILED: 'Update timesheet failed.',
+            },
+
             LOGOUT: {
                 SUCCESS: 'You have successfully logged out.',
             },

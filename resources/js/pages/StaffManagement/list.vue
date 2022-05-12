@@ -792,7 +792,7 @@ export default {
                         total_salary: 0,
                         deduction: 0,
                         deduction_reason: '',
-                        payroll_status: null,
+                        payroll_status: 1,
                         schedule: [],
                     };
 

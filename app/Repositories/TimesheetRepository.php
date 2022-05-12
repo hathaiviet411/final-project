@@ -127,7 +127,6 @@ class TimesheetRepository extends BaseRepository implements TimesheetRepositoryI
   {
     $status = DB::transaction(function () use ($request, $code) {
       $timesheet = $this->model->where('user_code', $code)->first();
-      $timesheet->schedule = $request['schedule'];
 
       if(isset($request['deduction'])) {
         $timesheet->deduction = $request['deduction'];
@@ -135,9 +134,11 @@ class TimesheetRepository extends BaseRepository implements TimesheetRepositoryI
         $timesheet->deduction_reason = $request['deduction_reason'];
       } else if (isset($request['payroll_status'])) {
         $timesheet->payroll_status = $request['payroll_status'];
+      } else if (isset($request['schedule'])) {
+        $timesheet->schedule = $request['schedule'];
       }
 
-      $list_schedule = $request['schedule'];
+      $list_schedule = json_decode($timesheet->schedule, true);
       $total_salary = 0;
 
       $full_time = 1;
@@ -171,8 +172,6 @@ class TimesheetRepository extends BaseRepository implements TimesheetRepositoryI
           }
         }
 
-        // dd($working_day_count);
-
         // Step 2: Calculate total_salary by staff role.
         if ($role === $manager) {
           $total_salary = $working_day_count * $salary_per_day_manager;
@@ -187,14 +186,26 @@ class TimesheetRepository extends BaseRepository implements TimesheetRepositoryI
           }
         }
 
-        // Step 2: Transform working minutes to hours.
+        // Step 3: Transform working minutes to hours.
         $working_time_hours += $working_time_minutes / 60;
 
-        // Step 3: Calculate total_salary by staff role.
+        // Step 4: Calculate total_salary by staff role.
         if ($role === $manager) {
           $total_salary = $working_time_hours * $salary_per_hour_manager;
         } else if ($role === $staff) {
           $total_salary = $working_time_hours * $salary_per_hour_staff;
+        }
+      }
+
+      // Step 5: Check if have deduction.
+      if (isset($request['deduction'])) {
+        $total_salary -= $request['deduction'];
+      }
+
+      // Step 6: Check if payroll status is valid.
+      if (isset($request['payroll_status'])) {
+        if ($request['payroll_status'] === 1 || $request['payroll_status'] === 3) {
+          $total_salary = 0;
         }
       }
 

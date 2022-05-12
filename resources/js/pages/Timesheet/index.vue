@@ -20,7 +20,63 @@
 						<v-card elevation="24">
 							<v-card-title>
 								<b-row>
-									<b-col lg="12" md="12" sm="12" class="text-center">
+									<b-col v-if="role !== 'staff'" cols="12">
+										<vHeaderFilter class="mt-3 filter-area">
+											<template #zone-filter>
+												<b-row>
+													<b-col cols="12">
+														<span style="font-size: 16px !important;" class="text-underline cursor-pointer text-bold" @click="doClearFilter()">{{ $t('BUTTON.CLEAR_ALL') }}</span>
+													</b-col>
+												</b-row>
+
+												<b-row>
+													<!-- Department -->
+													<b-col cols="12" class="mt-1">
+														<vSelectGroup
+															v-model="filter.department.value"
+															:text-prepend="$t('SCHEDULE_MANAGEMENT.FILTER.DEPARTMENT')"
+															:is-check="filter.department.status"
+															:data-options="DepartmentList"
+															@isChecked="getIsCheckFilterDepartment"
+														/>
+													</b-col>
+
+													<!-- Position -->
+													<b-col cols="12" class="mt-1">
+														<vSelectGroup
+															v-model="filter.position.value"
+															:text-prepend="$t('SCHEDULE_MANAGEMENT.FILTER.POSITION')"
+															:is-check="filter.position.status"
+															:data-options="PositionList"
+															@isChecked="getIsCheckFilterPosition"
+														/>
+													</b-col>
+
+													<!-- Contract Type -->
+													<b-col cols="12" class="mt-1">
+														<vSelectGroup
+															v-model="filter.contract_type.value"
+															:text-prepend="$t('SCHEDULE_MANAGEMENT.FILTER.CONTRACT_TYPE')"
+															:is-check="filter.contract_type.status"
+															:data-options="ContractType"
+															@isChecked="getIsCheckFilterContractType"
+														/>
+													</b-col>
+												</b-row>
+
+												<b-row class="my-3">
+													<b-col cols="12">
+														<v-btn class="primary-btn" @click="doApplyFilter()">
+															<i class="fas fa-filter mr-3 text-white" />
+															<span>{{ $t('BUTTON.APPLY') }}</span>
+														</v-btn>
+													</b-col>
+												</b-row>
+											</template>
+										</vHeaderFilter>
+									</b-col>
+
+									<b-col v-if="role !== 'staff'" lg="12" md="12" sm="12" class="text-center">
 										<v-text-field
 											v-model="search"
 											append-icon="mdi-magnify"
@@ -119,6 +175,7 @@
 										type="text"
 										outlined
 										:label="'Deduction Reason'"
+										:disabled="timesheet_detail_information.deduction === 0 ? true : false"
 									/>
 								</b-col>
 
@@ -149,7 +206,7 @@
 								</b-col>
 
 								<b-col cols="12">
-									<span v-if="role === 'staff'" :class="[timesheet_detail_information.payroll === 'Approved' ? 'text-danger' : 'text-success', 'font-weight-bold']">Payroll Status: {{ timesheet_detail_information.payroll_status }}</span>
+									<span v-if="role === 'staff'" :class="[timesheet_detail_information.payroll === 'Approved' ? 'text-danger' : 'text-success', 'font-weight-bold']">Payroll Status: {{ timesheet_detail_information.approve_status }}</span>
 
 									<v-select
 										v-else
@@ -251,7 +308,7 @@
 								</v-col>
 
 								<v-col cols="6" class="text-center">
-									<v-btn class="primary-btn" @click="updateTimesheet()">
+									<v-btn class="primary-btn" @click="editTimesheet()">
 										<v-icon left>mdi-content-save</v-icon>
 										<span>{{ $t('BUTTON.SAVE') }}</span>
 									</v-btn>
@@ -266,7 +323,7 @@
 </template>
 
 <script>
-import { getAllTimesheet, getOneTimesheet } from '@/api/modules/timesheet';
+import { getAllTimesheet, getOneTimesheet, updateTimesheet } from '@/api/modules/timesheet';
 
 import { getAllPosition } from '@/api/modules/position';
 
@@ -278,13 +335,22 @@ import { getAllBuilding } from '@/api/modules/building';
 
 import { getAllTask } from '@/api/modules/task';
 
-// import { MakeToast } from '@/utils/MakeToast';
+import { MakeToast } from '@/utils/MakeToast';
 
 import { convertFromIDToName } from '@/utils/convertFromIdToName';
+
+import { cleanObj } from '@/utils/handleObj';
+
+import { obj2Path } from '@/utils/obj2Path';
+
+import vHeaderFilter from '@/components/atoms/vHeaderFilter';
+
+import vSelectGroup from '@/components/atoms/vSelectGroup';
 
 const urlAPI = {
     apiGetAllTimesheet: '/timesheet-management/list',
     apiGetOneTimesheet: '/timesheet-management/detail',
+    apiUpdateTimesheetSchedule: '/timesheet-management/update',
     apiGetAllPosition: '/position/list',
     apiGetAllContract: '/contract/list',
     apiGetAllDepartment: '/department/list',
@@ -294,6 +360,10 @@ const urlAPI = {
 
 export default {
     name: 'TimesheetManagement',
+    components: {
+        vHeaderFilter,
+        vSelectGroup,
+    },
     data() {
         return {
             overlay: {
@@ -368,15 +438,37 @@ export default {
             detailTimesheetDialog: '',
 
             timesheet_detail_information: {
-                start_date: '2020-01-01',
-                total_salary: 7500000,
-                deduction: 500000,
-                deduction_reason: 'Working Late',
-                insurance_fee: 213000,
-                personal_income_tax: 124000,
-                payroll_status: 'Approved',
-                final_salary: 6663000,
+                start_date: '',
+                total_salary: '',
+                deduction: '',
+                deduction_reason: '',
+                insurance_fee: '',
+                personal_income_tax: '',
+                approve_status: null,
+                final_salary: '',
             },
+
+            filterQuery: {
+                order_column: '',
+                order_type: '',
+            },
+
+            filter: {
+                department: {
+                    status: false,
+                    value: null,
+                },
+                position: {
+                    status: false,
+                    value: null,
+                },
+                contract_type: {
+                    status: false,
+                    value: null,
+                },
+            },
+
+            user_code: '',
 
             DetailSchedule: [],
         };
@@ -414,7 +506,26 @@ export default {
 
         async getTimesheet() {
             try {
-                const response = await getAllTimesheet(urlAPI.apiGetAllTimesheet);
+                let QUERY = {
+                    department: this.filter.department.value,
+                    position: this.filter.position.value,
+                    contract: this.filter.contract_type.value,
+                    user_id: '',
+                    sortby: this.filterQuery['order_column'],
+                    sorttype: this.filterQuery['order_type'],
+                };
+
+                if (this.role === 'admin' || this.role === 'manager') {
+                    QUERY.user_id = '';
+                } else {
+                    QUERY.user_id = parseInt(this.$store.getters.userId - 3);
+                }
+
+                QUERY = cleanObj(QUERY);
+
+                const URL = `${urlAPI.apiGetAllTimesheet}?${obj2Path(QUERY)}`;
+
+                const response = await getAllTimesheet(URL);
 
                 if (response.code === 200) {
                     this.items = response.data;
@@ -519,6 +630,15 @@ export default {
 
                 if (response.code === 200) {
                     this.DetailSchedule = response.data.schedule;
+
+                    this.user_code = response.data.user_code;
+
+                    this.timesheet_detail_information = {
+                        total_salary: response.data.total_salary,
+                        deduction: response.data.deduction,
+                        deduction_reason: response.data.deduction_reason,
+                        approve_status: response.data.payroll_status,
+                    };
                 }
             } catch (error) {
                 console.log(error);
@@ -531,8 +651,69 @@ export default {
             this.getDetaiLTimesheetInformation(user_id);
         },
 
-        async updateTimesheet() {
-            // ..
+        async editTimesheet() {
+            const URL = `${urlAPI.apiUpdateTimesheetSchedule}/${this.user_code}`;
+
+            const DATA = {
+                deduction: this.timesheet_detail_information.deduction,
+                deduction_reason: this.timesheet_detail_information.deduction_reason,
+                payroll_status: this.timesheet_detail_information.approve_status,
+            };
+
+            try {
+                const response = await updateTimesheet(URL, DATA);
+
+                if (response.code === 200) {
+                    MakeToast({
+                        variant: 'success',
+                        title: this.$t('TOAST.TITLE.SUCCESS'),
+                        content: this.$t('TOAST.CONTENT.TIMESHEET_MANAGEMENT.UPDATE_TIMESHEET_SUCCESS'),
+                    });
+                } else {
+                    MakeToast({
+                        variant: 'warning',
+                        title: this.$t('TOAST.TITLE.WARNING'),
+                        content: this.$t('TOAST.CONTENT.TIMESHEET_MANAGEMENT.UPDATE_TIMESHEET_FAILED'),
+                    });
+                }
+            } catch (error) {
+                console.log(error);
+            }
+
+            this.detailTimesheetDialog = false;
+        },
+
+        doApplyFilter() {
+            this.getTimesheet();
+        },
+
+        doClearFilter() {
+            this.filter = {
+                department: {
+                    status: false,
+                    value: null,
+                },
+                position: {
+                    status: false,
+                    value: null,
+                },
+                contract_type: {
+                    status: false,
+                    value: null,
+                },
+            };
+        },
+
+        getIsCheckFilterDepartment(value) {
+            this.filter.department.status = value;
+        },
+
+        getIsCheckFilterPosition(value) {
+            this.filter.position.status = value;
+        },
+
+        getIsCheckFilterContractType(value) {
+            this.filter.contract_type.status = value;
         },
     },
 };

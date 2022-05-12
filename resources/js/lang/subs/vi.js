@@ -100,6 +100,12 @@ export default {
                 ADD_NEW_TASK_SUCCESS: 'Thêm công việc mới thành công.',
             },
 
+            TIMESHEET_MANAGEMENT: {
+                REQUIRED_DEDUCTION_REASON: 'Vui lòng nhập lý do trừ tiền.',
+                UPDATE_TIMESHEET_SUCCESS: 'Cập nhật bảng lương thành công.',
+                UPDATE_TIMESHEET_FAILED: 'Cập nhật bảng lương thất bại.',
+            },
+
             LOGOUT: {
                 SUCCESS: 'Đăng xuất thành công',
             },
