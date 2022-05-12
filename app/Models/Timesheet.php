@@ -26,6 +26,10 @@ class Timesheet extends Model
       'position_id',
       'contract_type',
       'timesheet',
+      'total_salary',
+      'deduction',
+      'deduction_reason',
+      'payroll_status',
       'schedule',
     ];
 

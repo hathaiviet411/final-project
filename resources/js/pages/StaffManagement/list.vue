@@ -789,6 +789,10 @@ export default {
                         position_id: this.user.position_id,
                         contract_type: this.user.contract_id,
                         timesheet: [],
+                        total_salary: 0,
+                        deduction: 0,
+                        deduction_reason: '',
+                        payroll_status: null,
                         schedule: [],
                     };
 

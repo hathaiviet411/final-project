@@ -86,24 +86,24 @@
 
 							<b-row>
 								<b-col cols="12" class="mt-3">
-									<span v-if="role === 'staff'">Total Salary: {{ timesheet.total_salary }}</span>
+									<span v-if="role === 'staff'">Total Salary: {{ timesheet_detail_information.total_salary }}</span>
 
 									<v-text-field
 										v-else
-										v-model="timesheet.total_salary"
+										v-model="timesheet_detail_information.total_salary"
 										type="number"
-										readonly
+										disabled
 										outlined
 										:label="'Total Salary'"
 									/>
 								</b-col>
 
 								<b-col cols="12">
-									<span v-if="role === 'staff'">Deduction: {{ timesheet.deduction }}</span>
+									<span v-if="role === 'staff'">Deduction: {{ timesheet_detail_information.deduction }}</span>
 
 									<v-text-field
 										v-else
-										v-model="timesheet.deduction"
+										v-model="timesheet_detail_information.deduction"
 										type="number"
 										outlined
 										:label="'Deduction'"
@@ -111,11 +111,11 @@
 								</b-col>
 
 								<b-col cols="12">
-									<span v-if="role === 'staff'">Deduction Reason: {{ timesheet.deduction_reason }}</span>
+									<span v-if="role === 'staff'">Deduction Reason: {{ timesheet_detail_information.deduction_reason }}</span>
 
 									<v-text-field
 										v-else
-										v-model="timesheet.deduction_reason"
+										v-model="timesheet_detail_information.deduction_reason"
 										type="text"
 										outlined
 										:label="'Deduction Reason'"
@@ -123,53 +123,52 @@
 								</b-col>
 
 								<b-col cols="12">
-									<span v-if="role === 'staff'">Insurance Fee: {{ timesheet.insurance_fee }}</span>
+									<span v-if="role === 'staff'">Insurance Fee: {{ timesheet_detail_information.insurance_fee }}</span>
 
 									<v-text-field
 										v-else
-										v-model="timesheet.insurance_fee"
+										v-model="timesheet_detail_information.insurance_fee"
 										type="number"
 										outlined
-										readonly
+										disabled
 										:label="'Insurance Fee'"
 									/>
 								</b-col>
 
 								<b-col cols="12">
-									<span v-if="role === 'staff'">PIT (Personal Income Tax): {{ timesheet.personal_income_tax }}</span>
+									<span v-if="role === 'staff'">PIT (Personal Income Tax): {{ timesheet_detail_information.personal_income_tax }}</span>
 
 									<v-text-field
 										v-else
-										v-model="timesheet.insurance_fee"
+										v-model="timesheet_detail_information.insurance_fee"
 										type="number"
 										outlined
-										readonly
+										disabled
 										:label="'PIT  (Personal Income Tax)'"
 									/>
 								</b-col>
 
 								<b-col cols="12">
-									<span v-if="role === 'staff'" :class="[timesheet.payroll === 'Approved' ? 'text-danger' : 'text-success', 'font-weight-bold']">Payroll Status: {{ timesheet.payroll_status }}</span>
+									<span v-if="role === 'staff'" :class="[timesheet_detail_information.payroll === 'Approved' ? 'text-danger' : 'text-success', 'font-weight-bold']">Payroll Status: {{ timesheet_detail_information.payroll_status }}</span>
 
-									<v-text-field
+									<v-select
 										v-else
-										v-model="timesheet.final_salary"
-										type="number"
+										v-model="timesheet_detail_information.approve_status"
+										:items="ApproveStatus"
 										outlined
-										readonly
-										:label="'Final Amount'"
+										:label="'Payroll Status'"
 									/>
 								</b-col>
 
 								<b-col cols="12">
-									<span v-if="role === 'staff'">Final Amount: {{ timesheet.final_salary }}</span>
+									<span v-if="role === 'staff'">Final Amount: {{ timesheet_detail_information.final_salary }}</span>
 
 									<v-text-field
 										v-else
-										v-model="timesheet.final_salary"
+										v-model="timesheet_detail_information.final_salary"
 										type="number"
 										outlined
-										readonly
+										disabled
 										:label="'Final Amount'"
 									/>
 								</b-col>
@@ -244,10 +243,17 @@
 
 						<v-card-actions>
 							<v-row>
-								<v-col cols="12" class="text-left">
+								<v-col cols="6" class="text-center">
 									<v-btn class="danger-btn" @click="detailTimesheetDialog = false">
 										<v-icon left>mdi-close-box</v-icon>
 										<span>{{ $t('BUTTON.CANCEL') }}</span>
+									</v-btn>
+								</v-col>
+
+								<v-col cols="6" class="text-center">
+									<v-btn class="primary-btn" @click="updateTimesheet()">
+										<v-icon left>mdi-content-save</v-icon>
+										<span>{{ $t('BUTTON.SAVE') }}</span>
 									</v-btn>
 								</v-col>
 							</v-row>
@@ -379,15 +385,16 @@ export default {
         role() {
             return this.$store.getters.roles[0];
         },
+
+        isChangeDeduction() {
+            return this.timesheet_detail_information.deduction;
+        },
     },
     watch: {
-        timesheet_detail_information: {
-            handler: function() {
-                this.timesheet_detail_information.total_salary = this.timesheet_detail_information.total_salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                this.timesheet_detail_information.final_salary -= this.timesheet_detail_information.deduction -= this.timesheet.insurance_fee -= this.timesheet.personal_income_tax;
-                this.timesheet_detail_information.final_salary = this.timesheet_detail_information.final_salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            },
-            deep: true,
+        isChangeDeduction() {
+            console.log(this.timesheet_detail_information.deduction);
+
+            this.timesheet_detail_information.final_salary = this.timesheet_detail_information.total_salary - this.timesheet_detail_information.deduction;
         },
     },
     created() {
@@ -512,7 +519,6 @@ export default {
 
                 if (response.code === 200) {
                     this.DetailSchedule = response.data.schedule;
-                    console.log(this.DetailSchedule);
                 }
             } catch (error) {
                 console.log(error);
@@ -523,6 +529,10 @@ export default {
             this.detailTimesheetDialog = true;
 
             this.getDetaiLTimesheetInformation(user_id);
+        },
+
+        async updateTimesheet() {
+            // ..
         },
     },
 };

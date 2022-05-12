@@ -20,7 +20,7 @@
 						<v-card elevation="24">
 							<v-card-title>
 								<b-row>
-									<b-col cols="12">
+									<b-col v-if="role !== 'staff'" cols="12">
 										<vHeaderFilter class="mt-3 filter-area">
 											<template #zone-filter>
 												<b-row>
@@ -76,7 +76,7 @@
 										</vHeaderFilter>
 									</b-col>
 
-									<b-col cols="12">
+									<b-col v-if="role !== 'staff'" cols="12">
 										<v-text-field
 											v-model="search"
 											append-icon="mdi-magnify"
@@ -107,7 +107,7 @@
 									</template>
 
 									<template #[`item.assign_new_task_action`]="{ item }">
-										<v-btn fab dark small color="#1E2AA5" @click="openAssignNewTaskDialog(item.id)">
+										<v-btn v-if="role !== 'staff'" fab dark small color="#1E2AA5" @click="openAssignNewTaskDialog(item.id)">
 											<v-icon small>fas fa-layer-plus</v-icon>
 										</v-btn>
 									</template>
@@ -933,7 +933,7 @@ export default {
                 if (this.role === 'admin' || this.role === 'manager') {
                     QUERY.user_id = '';
                 } else {
-                    QUERY.user_id = this.$store.getters.userId;
+                    QUERY.user_id = parseInt(this.$store.getters.userId - 3);
                 }
 
                 QUERY = cleanObj(QUERY);

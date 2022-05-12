@@ -15,6 +15,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
 
 class TimesheetRepository extends BaseRepository implements TimesheetRepositoryInterface
 {
@@ -90,7 +92,7 @@ class TimesheetRepository extends BaseRepository implements TimesheetRepositoryI
     }
 
     if ($sorted == false) {
-        $query = $query->orderBy('user_name', 'DESC');
+      $query = $query->orderBy('user_name', 'DESC');
     }
 
     $result = $query->paginate($request->per_page);
@@ -109,6 +111,10 @@ class TimesheetRepository extends BaseRepository implements TimesheetRepositoryI
         'position_id' => $attribute['position_id'],
         'contract_type' => $attribute['contract_type'],
         'timesheet' => json_encode($attribute['timesheet']),
+        'total_salary' => $attribute['total_salary'],
+        'deduction' => $attribute['deduction'],
+        'deduction_reason' => $attribute['deduction_reason'],
+        'payroll_status' => $attribute['payroll_status'],
         'schedule' => json_encode($attribute['schedule']),
         'created_by' => Auth::id(),
       ]);
@@ -122,6 +128,78 @@ class TimesheetRepository extends BaseRepository implements TimesheetRepositoryI
     $status = DB::transaction(function () use ($request, $code) {
       $timesheet = $this->model->where('user_code', $code)->first();
       $timesheet->schedule = $request['schedule'];
+
+      if(isset($request['deduction'])) {
+        $timesheet->deduction = $request['deduction'];
+      } else if (isset($request['deduction_reason'])) {
+        $timesheet->deduction_reason = $request['deduction_reason'];
+      } else if (isset($request['payroll_status'])) {
+        $timesheet->payroll_status = $request['payroll_status'];
+      }
+
+      $list_schedule = $request['schedule'];
+      $total_salary = 0;
+
+      $full_time = 1;
+      $part_time = 2;
+
+      $admin = 1;
+      $manager = 2;
+      $staff = 3;
+
+      $salary_per_hour_manager = 140000;
+      $salary_per_hour_staff = 70000;
+
+      $basic_salary_manager = 30000000;
+      $salary_per_day_manager = 1200000;
+
+      $basic_salary_staff = 15000000;
+      $salary_per_day_staff = 600000;
+
+      $working_day_count = 0;
+      $working_time_hours = 0;
+      $working_time_minutes = 0;
+
+      $contract_type = $timesheet->contract_type;
+      $role = $timesheet->role_id;
+
+      // Step 1: Check if user is full time or part time.
+      if ($contract_type === $full_time) {
+        foreach ($list_schedule as $schedule) {
+          if ($schedule['approve_status'] === 1) {
+            $working_day_count += 1;
+          }
+        }
+
+        // dd($working_day_count);
+
+        // Step 2: Calculate total_salary by staff role.
+        if ($role === $manager) {
+          $total_salary = $working_day_count * $salary_per_day_manager;
+        } else if ($role === $staff) {
+          $total_salary = $working_day_count * $salary_per_day_staff;
+        }
+      } else if ($contract_type === $part_time) {
+        foreach ($list_schedule as $schedule) {
+          if ($schedule['approve_status'] === 1) {
+            $working_time_hours += (int)$schedule['spent_time_hour'];
+            $working_time_minutes += (int)$schedule['spent_time_minute'];
+          }
+        }
+
+        // Step 2: Transform working minutes to hours.
+        $working_time_hours += $working_time_minutes / 60;
+
+        // Step 3: Calculate total_salary by staff role.
+        if ($role === $manager) {
+          $total_salary = $working_time_hours * $salary_per_hour_manager;
+        } else if ($role === $staff) {
+          $total_salary = $working_time_hours * $salary_per_hour_staff;
+        }
+      }
+
+      $timesheet->total_salary = $total_salary;
+
       $timesheet->save();
     });
 

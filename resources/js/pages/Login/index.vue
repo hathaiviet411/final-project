@@ -84,6 +84,7 @@ export default {
 
                         const USER = {
                             id: PROFILE.id || '',
+                            user_code: this.Account.id,
                             name: PROFILE.user_name || '',
                             department_id: PROFILE.department_id || '',
                             expToken: EXP_TOKEN.exp || '',

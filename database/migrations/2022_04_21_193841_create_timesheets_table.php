@@ -23,6 +23,10 @@ class CreateTimesheetsTable extends Migration
             $table->integer('position_id');
             $table->integer('contract_type');
             $table->json('timesheet');
+            $table->bigInteger('total_salary')->nullable();
+            $table->bigInteger('deduction')->nullable();
+            $table->string('deduction_reason')->nullable();
+            $table->integer('payroll_status')->nullable();
             $table->json('schedule');
             $table->softDeletes();
             $table->timestamps();

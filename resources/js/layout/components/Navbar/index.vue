@@ -91,9 +91,6 @@ export default {
                         content: this.$t('TOAST.OTHER.ERROR'),
                     });
                 });
-            await this.$store.dispatch('department/setClearDate');
-            await this.$store.dispatch('time/setClearDate');
-            await this.$store.dispatch('permissions/setClearDate');
         },
     },
 };
