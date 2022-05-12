@@ -9,6 +9,7 @@ const departmentManagement = {
         title: 'ROUTER.DEPARTMENT_MANAGEMENT',
         icon: 'fas fa-building',
     },
+    isHidden: 'staff',
     children: [
         {
             path: 'list',

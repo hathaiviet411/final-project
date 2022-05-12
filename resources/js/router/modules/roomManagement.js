@@ -9,6 +9,7 @@ const roomManagement = {
         title: 'ROUTER.ROOM_MANAGEMENT',
         icon: 'fas fa-door-open',
     },
+    isHidden: 'staff',
     children: [
         {
             path: 'index',

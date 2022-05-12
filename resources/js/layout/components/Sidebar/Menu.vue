@@ -6,7 +6,7 @@
 				:key="indexRouter"
 				:to="itemRouter.path"
 			>
-				<li :class="`item router-item-${itemRouter.meta.title}`">
+				<li :class="[`item router-item-${itemRouter.meta.title}`, itemRouter.isHidden === role ? 'd-none' : '']">
 					<div>
 						<i :class="itemRouter.meta.icon" />
 						<span>{{ $t(itemRouter.meta.title) }}</span>
@@ -44,6 +44,14 @@ export default {
             require: true,
             default: true,
         },
+    },
+    computed: {
+        role() {
+            return this.$store.getters.roles[0];
+        },
+    },
+    mounted() {
+        console.log(this.routes);
     },
 };
 </script>

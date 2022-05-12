@@ -9,6 +9,7 @@ const staffManagement = {
         title: 'ROUTER.STAFF_MANAGEMENT',
         icon: 'fas fa-users',
     },
+    isHidden: 'staff',
     children: [
         {
             path: 'list',

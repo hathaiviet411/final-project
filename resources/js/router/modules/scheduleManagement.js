@@ -9,6 +9,7 @@ const scheduleManagement = {
         title: 'ROUTER.SCHEDULE_MANAGEMENT',
         icon: 'fas fa-clipboard-list',
     },
+    isHidden: '',
     children: [
         {
             path: 'list',

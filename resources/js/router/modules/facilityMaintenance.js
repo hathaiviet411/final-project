@@ -9,6 +9,7 @@ const facilityMaintenance = {
         title: 'ROUTER.FACILITY_MAINTENANCE',
         icon: 'fas fa-hand-receiving',
     },
+    isHidden: 'staff',
     children: [
         {
             path: 'list',

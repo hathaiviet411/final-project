@@ -9,6 +9,7 @@ const feedbackManagement = {
         title: 'ROUTER.FEEDBACK_MANAGEMENT',
         icon: 'fas fa-comment-alt-dots',
     },
+    isHidden: '',
     children: [
         {
             path: 'list',

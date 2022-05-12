@@ -9,6 +9,7 @@ const timesheet = {
         title: 'ROUTER.TIMESHEET',
         icon: 'fas fa-table',
     },
+    isHidden: '',
     children: [
         {
             path: 'index',

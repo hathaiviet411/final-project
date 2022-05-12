@@ -9,6 +9,7 @@ const taskManagement = {
         title: 'ROUTER.TASK_MANAGEMENT',
         icon: 'fas fa-abacus',
     },
+    isHidden: 'staff',
     children: [
         {
             path: 'index',

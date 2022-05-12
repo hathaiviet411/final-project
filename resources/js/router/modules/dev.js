@@ -7,6 +7,7 @@ const dev = {
         title: 'ROUTER.DEV',
         icon: 'fab fa-dev',
     },
+    isHidden: 'staff',
     component: Layout,
     redirect: { name: 'DevIndex' },
     children: [

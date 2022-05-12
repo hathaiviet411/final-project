@@ -7,6 +7,7 @@ const dashboard = {
         title: 'ROUTER.DASHBOARD',
         icon: 'fas fa-chart-pie',
     },
+    isHidden: 'staff',
     component: Layout,
     redirect: { name: 'DashboardIndex' },
     children: [
